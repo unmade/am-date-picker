@@ -1,0 +1,105 @@
+<div style="outline-style: none;">
+    <!-- Date picker input -->
+    <div>
+        <md-input-container class="md-icon-float md-icon-right">
+            <label>{{ amDatePicker.inputLabel }}</label>
+            <md-icon ng-show="amDatePicker.showInputIcon"
+                     md-svg-icon="{{ amDatePicker.calendarIcon }}"
+                     class="am-date-picker__calendar-icon"></md-icon>
+            <input ng-model="amDatePicker.ngModelMomentFormatted"
+                   ng-click="amDatePicker.openPicker($event)"
+                   class="am-date-picker__input"
+                   type="text"
+                   readonly="readonly">
+            <md-icon ng-show="amDatePicker.allowClear"
+                     ng-click="amDatePicker.clearDate()"
+                     md-svg-icon="{{ amDatePicker.clearIcon }}"
+                     class="am-date-picker__clear-icon"></md-icon>
+        </md-input-container>
+    </div>
+
+
+<script type="text/ng-template" id="am-date-picker_content.tmpl.html">
+    <md-dialog class="am-date-picker__container" aria-label="Datepicker Content" ng-cloak>
+    <div layout="column">
+
+        <!-- Current date -->
+        <div layout-align="center" class="am-date-picker__header-current-date">
+            <p>{{ amDatePicker.moment(amDatePicker.ngModel).format('YYYY') }}</p>
+            <h2>{{ amDatePicker.moment(amDatePicker.ngModel).format(amDatePicker.popupDateFormat) }}</h2>
+        </div>
+
+    </div>
+
+    <!-- Date picker: content -->
+    <div layout="row" layout-align="space-between center" class="am-date-picker__month-year"
+         ng-if="!amDatePicker.yearSelection">
+        <md-button ng-click="amDatePicker.previousMonth()"
+                   class="md-icon-button">
+            <md-icon aria-label="Prev"
+                     class="am-date-picker__chevron"
+                     md-svg-icon="{{ amDatePicker.prevIcon }}"></md-icon>
+
+        </md-button>
+
+        <md-button ng-click="amDatePicker.displayYearSelection()"
+                   class="am-date-picker__month-year">
+            {{ amDatePicker.ngModelMoment.format('MMMM YYYY') }}
+        </md-button>
+
+         <md-button ng-click="amDatePicker.nextMonth()"
+                    class="md-icon-button">
+            <md-icon aria-label="Next"
+                     class="am-date-picker__chevron"
+                     md-svg-icon="{{ amDatePicker.nextIcon }}"></md-icon>
+        </md-button>
+    </div>
+
+    <!-- Calendar -->
+    <div class="am-date-picker__content" ng-if="!amDatePicker.yearSelection">
+
+        <!-- Weekdays -->
+        <div style="padding-left: 12px; padding-right: 20px;" layout layout-align="space-between">
+            <span ng-repeat="day in amDatePicker.daysOfWeek"
+                  class="am-date-picker__weekdays">
+                {{ day }}
+            </span>
+        </div>
+
+        <!-- Days -->
+        <span ng-repeat="x in amDatePicker.emptyFirstDays"
+              class="am-date-picker__days">&nbsp;</span>
+
+        <div class="am-date-picker__days am-date-picker__day"
+             ng-class="{ 'am-date-picker__day--is-selected': day.selected,
+                         'am-date-picker__day--is-today': day.today && !day.selected,
+                         'am-date-picker__day--is-disabled': day.disabled }"
+             ng-repeat="day in amDatePicker.days">
+            <a ng-click="amDatePicker.select(day)">{{ day ? day.format('D') : '' }}</a>
+        </div>
+
+    </div>
+
+    <!-- Year selection -->
+    <div class="am-date-picker__year-selector"
+         ng-if="amDatePicker.yearSelection">
+        <a class="am-date-picker__year"
+           ng-class="{ 'am-date-picker__year--is-active':
+                        year == amDatePicker.moment(amDatePicker.ngModel).format('YYYY') }"
+           ng-repeat="year in amDatePicker.years"
+           ng-click="amDatePicker.selectYear(year)">
+            <p>{{ year }}</p>
+        </a>
+    </div>
+
+    <!--Actions-->
+    <md-dialog-actions layout="row" class="md-actions am-date-picker__actions">
+        <md-button ng-click="amDatePicker.today()"
+                   ng-disabled="amDatePicker.isTodayDisabled"
+                   ng-if="amDatePicker.todayButton">{{ amDatePicker.todayButton }}</md-button>
+        <md-button ng-click="hide()">OK</md-button>
+    </md-dialog-actions>
+    </md-dialog>
+</script>
+
+</div>
