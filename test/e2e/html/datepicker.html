@@ -1,0 +1,61 @@
+<!doctype html>
+<html ng-app="datepickerApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <title>Datepicker</title>
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
+</head>
+
+<body ng-controller="MainCtrl">
+    <div layout-fill layout="row" layout-align="center center">
+        <div layout="column">
+
+            <div id="datepicker_with_all_params">
+                <am-date-picker ng-model="date"
+                                am-allow-clear="false"
+                                am-input-date-format="L"
+                                am-input-label="Pick a Date"
+                                am-max-date="maxDate"
+                                am-max-year="2015"
+                                am-min-date="minDate"
+                                am-min-year="2000"
+                                am-popup-date-format="D/M"
+                                am-today-button="Сегодня"
+                                am-show-input-icon="true">
+                </am-date-picker>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
+
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-material/angular-material.min.js"></script>
+
+    <script src="/dist/am-date-picker.min.js"></script>
+
+    <script>
+        angular
+            .module('datepickerApp', [
+                'ngMaterial',
+                'am.date-picker',
+            ])
+            .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
+                amDatePickerConfigProvider.setOptions({
+                    popupDateFormat: 'D MMMM',
+                    locale: 'ru'
+                })
+            }])
+            .controller('MainCtrl', ['$scope', function ($scope) {
+                $scope.minDate = new Date('2014-01-05');
+                $scope.maxDate = new Date('2014-01-15');
+                $scope.date = new Date('2014-01-10');
+            }]);
+    </script>
+
+</body>
+</html>

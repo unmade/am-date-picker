@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="datepickerApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <title>Date picker</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.css">
+    <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
+</head>
+
+<body ng-controller="MainCtrl">
+    <div layout-fill layout="row" layout-align="center center">
+        <div layout="column">
+            <am-date-picker ng-model="from"
+                            am-input-label="From"
+                            am-max-date="to"
+                            am-min-year="2000"
+                            am-today-button="Today">
+            </am-date-picker>
+
+            <am-date-picker ng-model="to"
+                            am-input-label="To"
+                            am-min-date="from">
+            </am-date-picker>
+
+
+            <am-date-picker ng-model="date"
+                            am-input-label="Pick a Date"
+                            am-today-button="Today"
+                            am-allow-clear="false"
+                            am-date-format="L"
+                            am-popup-date-format="Do of MMMM"
+                            am-show-input-icon="true">
+            </am-date-picker>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.js"></script>
+
+    <script src="/demo/js/app.js"></script>
+
+    <script src="/dist/am-date-picker.min.js"></script>
+
+</body>
+</html>
