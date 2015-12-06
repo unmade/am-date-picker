@@ -163,10 +163,10 @@
             $timeout(function()
             {
                 var yearSelector = angular.element(document.querySelector('.am-date-picker__year-selector')),
-                    activeYear = angular.element(document.querySelector('.am-date-picker__year--is-active'));
+                    activeYear = angular.element(document.querySelector('.am-date-picker__year--is-active')),
+                    activeYearHeight = activeYear[0].getElementsByTagName('p')[0].offsetHeight;
 
-                activeYear[0].scrollIntoView();
-                yearSelector[0].scrollByLines(-3);
+                yearSelector[0].scrollTop = activeYear[0].offsetTop - yearSelector[0].offsetTop - yearSelector[0].clientHeight/2 + activeYearHeight/2;
             });
         }
 
@@ -230,6 +230,7 @@
             amDatePicker.ngModel = today.toDate();
             amDatePicker.ngModelMoment = angular.copy(today);
             amDatePicker.ngModelMomentFormatted = today.format(amDatePicker.inputDateFormat);
+            if (amDatePicker.yearSelection) { amDatePicker.hideYearSelection(); }
 
             generateCalendar();
         }

@@ -270,7 +270,7 @@ describe('am.date-picker directive unit tests', function() {
   })
 
 
-  it('should show today button when today is less than minDate', function() {
+  it('should show disabled today button when today is less than minDate', function() {
     $rootScope.minDate = moment().add(1, 'days');
 
     var element = $compile('<am-date-picker am-min-date="minDate"' +
@@ -285,7 +285,7 @@ describe('am.date-picker directive unit tests', function() {
   });
 
 
-  it('should show today button when today is greater than maxDate', function() {
+  it('should show disabled today button when today is greater than maxDate', function() {
     $rootScope.maxDate = moment({year: 2014, month: 0, date: 5});
 
     var element = $compile('<am-date-picker am-max-date="maxDate"' +
@@ -475,7 +475,7 @@ describe('am.date-picker directive unit tests', function() {
   });
 
 
-  it('should show today button', function() {
+  it('should select today date', function() {
     var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
     $rootScope.$digest();
     var isoScope = element.isolateScope();
@@ -484,6 +484,7 @@ describe('am.date-picker directive unit tests', function() {
 
     isoScope.amDatePicker.today();
     expect(String(isoScope.amDatePicker.ngModel)).toBe(String(moment().toDate()));
+    expect(isoScope.amDatePicker.yearSelection).toBe(false);
   });
 
 

@@ -1,7 +1,8 @@
 # Material Design Date Picker
 
+![Date picker image](demo/images/picker.png?raw=true "Title")
 
-This module is a simple date picker built with [Angular Material](https://material.angularjs.org/latest/#/) and [Moment.js](http://momentjs.com/). I used [lumX's](http://ui.lumapps.com/directives/date-picker) date picker controller as a basement for my own one. Design was inspired by [Google Material Design specifications](https://www.google.com/design/spec/components/pickers.html#pickers-date-pickers).
+This module is a simple date picker for those who writes project with [Angular Material](https://material.angularjs.org/latest/#/) and wants an alternative date picker to the standard one. It built with [Angular Material](https://material.angularjs.org/latest/#/) and [Moment.js](http://momentjs.com/). I used [lumX's](http://ui.lumapps.com/directives/date-picker) date picker controller as a basement for my own one. Design was inspired by [Google Material Design specifications](https://www.google.com/design/spec/components/pickers.html#pickers-date-pickers).
 
 * [Demo](#demo)
 * [License](#license)
