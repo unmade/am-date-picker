@@ -11,6 +11,7 @@
     function amDatePickerConfig() {
         var config = this;
         config.allowClear = true;
+        config.backButtonText = "Back";
         config.cancelButtonText = "Cancel";
         config.inputDateFormat = 'LL';
         config.maxYear = 2020;
@@ -109,10 +110,10 @@
         );
 
         function init() {
-            var options = ['ngModel', 'allowClear', 'cancelButtonText', 'showInputIcon',
+            var options = ['ngModel', 'allowClear', 'backButtonText', 'cancelButtonText', 'showInputIcon',
                            'inputLabel', 'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
-                           'inputDateFormat', 'popupDateFormat', 'todayButton',
-                           'calendarIcon', 'prevIcon', 'nextIcon', 'clearIcon'];
+                           'inputDateFormat', 'popupDateFormat', 'todayButton', 'calendarIcon',
+                           'prevIcon', 'nextIcon', 'clearIcon'];
 
             for (var i = 0; i < options.length; i++) {
                 if (amDatePickerConfig.hasOwnProperty(options[i])) {

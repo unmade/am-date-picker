@@ -1,3 +1,6 @@
+@transition-time: 0.25s;
+@half-transition-time: @transition-time / 2;
+
 .am-date-picker__input {
     cursor: pointer;
 }
@@ -100,6 +103,10 @@ md-input-container:hover .am-date-picker__clear-icon {
         cursor: pointer;
         text-decoration: none;
         color: @day-hover-color;
+        -webkit-transition: all linear @half-transition-time;
+        -moz-transition: all linear @half-transition-time;
+        -o-transition: all linear @half-transition-time;
+        transition: all linear @half-transition-time;
     }
 }
 
@@ -111,9 +118,14 @@ md-input-container:hover .am-date-picker__clear-icon {
     background-color: @day-hover-background-color;
     cursor: pointer;
     color: @day-active-color;
+    -webkit-transition: all linear @transition-time;
+    -moz-transition: all linear @transition-time;
+    -o-transition: all linear @transition-time;
+    transition: all linear @transition-time;
 
     &:hover {
         color: @day-active-hover-color;
+        background-color: @day-hover-background-color;
     }
 }
 
@@ -142,6 +154,10 @@ md-input-container:hover .am-date-picker__clear-icon {
         color: @year-hover-color;
         text-decoration: none;
         outline-style: none;
+        -webkit-transition: all linear @half-transition-time;
+        -moz-transition: all linear @half-transition-time;
+        -o-transition: all linear @half-transition-time;
+        transition: all linear @half-transition-time;
     }
 
     p {

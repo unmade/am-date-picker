@@ -14,7 +14,7 @@ This module is a simple date picker for those who writes project with [Angular M
 
 ## Demo
 
-Live demo available [here](http://codepen.io/anon/pen/RrwYoz).
+[Live demo](http://codepen.io/anon/pen/RrwYoz).
 
 ## License
 
@@ -116,6 +116,7 @@ Specific settings that can be globally configured through the `amDatepickerConfi
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
+| `backButtonText`       | `String`      | Set text for back button displayed in year selection(default: `Cancel`). |
 | `cancelButtonText`     | `String`      | Set text for cancel button (default: `Cancel`). |
 | `locale`               | `String`      | Set locale (default: `en`). |
 | `calendarIcon`         | `String`      | Path to the calendar icon. |

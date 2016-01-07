@@ -46,9 +46,10 @@
             ])
             .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
                 amDatePickerConfigProvider.setOptions({
+                    backButtonText: 'Назад',
+                    cancelButtonText: 'Отмена',
                     popupDateFormat: 'D MMMM',
-                    locale: 'ru',
-                    cancelButtonText: 'Отмена'
+                    locale: 'ru'
                 })
             }])
             .controller('MainCtrl', ['$scope', function ($scope) {

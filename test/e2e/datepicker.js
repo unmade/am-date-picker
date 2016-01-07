@@ -174,10 +174,27 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         var days = $$('.am-date-picker__day');
         expect(days.count()).toEqual(pastDate.daysInMonth());
 
-        /* but active year shouldn't check, because date is disabled */
+        /* active year shouldn't change, because date is disabled */
         days.get(0).click();
         monthNav.click();
         expect(activeYear.getText()).toEqual('2014');
+    });
+
+    it('should open year selection and click BACK button. Back button text should be "Назад"', function() {
+        input.click();
+        var pastDate = moment().year(1920),
+            monthNav = $$('.am-date-picker__month-year button').get(1),
+            yearSelector = $('.am-date-picker__year-selector');
+
+        expect(yearSelector.isPresent()).toBe(false);
+        monthNav.click();
+        expect(yearSelector.isPresent()).toBe(true);
+
+        var buttons = $$('md-dialog-actions button');
+        expect(buttons.count()).toEqual(2);
+        expect(buttons.get(1).getText()).toEqual('НАЗАД');
+        buttons.get(1).click();
+        expect(yearSelector.isPresent()).toBe(false);
     });
 
 });

@@ -214,4 +214,22 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         expect(activeYear.getText()).toEqual('1920');
     });
 
+
+    it('should open year selection and click BACK button', function() {
+        input.click();
+        var pastDate = moment().year(1920),
+            monthNav = $$('.am-date-picker__month-year button').get(1),
+            yearSelector = $('.am-date-picker__year-selector');
+
+        expect(yearSelector.isPresent()).toBe(false);
+        monthNav.click();
+        expect(yearSelector.isPresent()).toBe(true);
+
+        var buttons = $$('md-dialog-actions button');
+        expect(buttons.count()).toEqual(1);
+        expect(buttons.get(0).getText()).toEqual('BACK');
+        buttons.get(0).click();
+        expect(yearSelector.isPresent()).toBe(false);
+    });
+
 });

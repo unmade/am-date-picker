@@ -84,9 +84,9 @@
     <div class="am-date-picker__year-selector"
          ng-if="amDatePicker.yearSelection">
         <a class="am-date-picker__year"
+           ng-repeat="year in amDatePicker.years"
            ng-class="{ 'am-date-picker__year--is-active':
                         year == amDatePicker.moment(amDatePicker.ngModel).format('YYYY') }"
-           ng-repeat="year in amDatePicker.years"
            ng-click="amDatePicker.selectYear(year)">
             <p>{{ year }}</p>
         </a>
@@ -98,8 +98,12 @@
                    ng-disabled="amDatePicker.isTodayDisabled"
                    ng-if="amDatePicker.todayButton">{{ amDatePicker.todayButton }}</md-button>
         <span flex></span>
-        <md-button ng-click="dialog.cancel()">{{ amDatePicker.cancelButtonText }}</md-button>
-        <md-button ng-click="dialog.hide()">OK</md-button>
+        <div ng-if="!amDatePicker.yearSelection">
+            <md-button ng-click="dialog.cancel()">{{ amDatePicker.cancelButtonText }}</md-button>
+            <md-button ng-click="dialog.hide()">OK</md-button>
+        </div>
+        <md-button ng-click="amDatePicker.hideYearSelection()"
+                   ng-if="amDatePicker.yearSelection">{{ amDatePicker.backButtonText }}</md-button>
     </md-dialog-actions>
     </md-dialog>
 </script>
