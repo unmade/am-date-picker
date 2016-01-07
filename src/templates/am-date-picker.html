@@ -97,7 +97,9 @@
         <md-button ng-click="amDatePicker.today()"
                    ng-disabled="amDatePicker.isTodayDisabled"
                    ng-if="amDatePicker.todayButton">{{ amDatePicker.todayButton }}</md-button>
-        <md-button ng-click="hide()">OK</md-button>
+        <span flex></span>
+        <md-button ng-click="dialog.cancel()">{{ amDatePicker.cancelButtonText }}</md-button>
+        <md-button ng-click="dialog.hide()">OK</md-button>
     </md-dialog-actions>
     </md-dialog>
 </script>

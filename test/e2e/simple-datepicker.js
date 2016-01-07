@@ -95,15 +95,51 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         })
     });
 
+    it('should have Cancel and OK button', function() {
+        input.click();
+        var buttons = $$('md-dialog-actions button');
+        expect(buttons.count()).toEqual(2);
+        expect(buttons.get(0).getText()).toEqual('CANCEL');
+        expect(buttons.get(1).getText()).toEqual('OK');
+    });
 
     it('should click OK button and close calendar', function() {
         input.click();
         var buttons = element.all(by.css('md-dialog-actions button'));
-        expect(buttons.count()).toEqual(1);
+        expect(buttons.count()).toEqual(2);
 
-        buttons.get(0).click();
+        buttons.get(1).click();
         expect(element(by.tagName('md-dialog')).isPresent()).toBe(false);
     });
+
+    it('should select date, click CANCEL button and selected date should be cancelled', function() {
+        input.click();
+        var buttons = element.all(by.css('md-dialog-actions button')),
+            days = element.all(by.css('.am-date-picker__day'));
+
+        days.get(16).click();
+        expect(hasClass(days.get(16), 'am-date-picker__day--is-selected')).toBe(true);
+        buttons.get(0).click();
+        expect(input.getAttribute('value')).toEqual('');
+    });
+
+
+    it('should select new date when initial date is set,\
+        click CANCEL button and new selected date should be cancelled', function() {
+        input.click();
+        var buttons = element.all(by.css('md-dialog-actions button')),
+            days = element.all(by.css('.am-date-picker__day'));
+        days.get(16).click();
+        buttons.get(1).click();
+        expect(input.getAttribute('value')).toEqual(currDate.date(17).format('LL'));
+
+        input.click();
+        buttons = element.all(by.css('md-dialog-actions button')),
+        days = element.all(by.css('.am-date-picker__day'));
+        days.get(12).click();
+        buttons.get(0).click();
+        expect(input.getAttribute('value')).toEqual(currDate.date(17).format('LL'));
+    })
 
 
     it('should change month', function() {
@@ -126,11 +162,12 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
     it('should select date', function() {
         input.click();
 
-        var dialog = element(by.tagName('md-dialog')),
+        var buttons = element.all(by.css('md-dialog-actions button')),
+            dialog = element(by.tagName('md-dialog')),
             days = element.all(by.css('.am-date-picker__day'));
         days.get(16).click();
-
         expect(hasClass(days.get(16), 'am-date-picker__day--is-selected')).toBe(true);
+        buttons.get(1).click();
         expect(input.getAttribute('value')).toEqual(currDate.date(17).format('LL'));
     });
 

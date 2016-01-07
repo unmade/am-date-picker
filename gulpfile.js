@@ -52,8 +52,8 @@ gulp.task('clean-build', ['scripts'], function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['tmpl:date-picker', 'scripts']);
-  gulp.watch('src/templates/*.html', ['tmpl:date-picker', 'scripts']);
+  gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch('src/templates/*.html', ['scripts']);
   gulp.watch(paths.styles, ['less']);
   gulp.watch('src/less/*.less', ['less']);
   gulp.watch(path.templates, ['tmpl:date-picker', 'scripts']);

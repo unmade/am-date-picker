@@ -9,34 +9,36 @@
 
 
     function amDatePickerConfig() {
-        this.allowClear = true;
-        this.inputDateFormat = 'LL';
-        this.maxYear = 2020;
-        this.minYear = 1920;
-        this.locale = 'en';
-        this.popupDateFormat = 'ddd, MMM D';
-        this.showInputIcon = false;
+        var config = this;
+        config.allowClear = true;
+        config.cancelButtonText = "Cancel";
+        config.inputDateFormat = 'LL';
+        config.maxYear = 2020;
+        config.minYear = 1920;
+        config.locale = 'en';
+        config.popupDateFormat = 'ddd, MMM D';
+        config.showInputIcon = false;
 
         /* Icons */
-        this.calendarIcon = '/dist/images/icons/ic_today_24px.svg';
-        this.clearIcon = '/dist/images/icons/ic_close_24px.svg';
-        this.nextIcon = '/dist/images/icons/ic_chevron_right_18px.svg';
-        this.prevIcon = '/dist/images/icons/ic_chevron_left_18px.svg';
+        config.calendarIcon = '/dist/images/icons/ic_today_24px.svg';
+        config.clearIcon = '/dist/images/icons/ic_close_24px.svg';
+        config.nextIcon = '/dist/images/icons/ic_chevron_right_18px.svg';
+        config.prevIcon = '/dist/images/icons/ic_chevron_left_18px.svg';
 
-        this.setIcons = function(icons) {
+        config.setIcons = function(icons) {
             for (var key in icons) {
-                this[key] = icons[key];
+                config[key] = icons[key];
             }
         }
 
-        this.setOptions = function(options) {
+        config.setOptions = function(options) {
             for (var key in options) {
-                this[key] = options[key];
+                config[key] = options[key];
             }
          }
 
         this.$get = function () {
-            return this;
+            return config;
         };
     }
 
@@ -58,13 +60,14 @@
                 showInputIcon: '=?amShowInputIcon',
                 todayButton: '@?amTodayButton'
             },
-            controller: ['$scope', '$timeout','$mdDialog', 'amDatePickerConfig', AmDatePickerController],
+            controller: AmDatePickerController,
             controllerAs: 'amDatePicker',
             bindToController: true,
             replace: true
         };
     }
 
+    AmDatePickerController.$inject = ['$scope', '$timeout','$mdDialog', 'amDatePickerConfig'];
 
     function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig) {
         var amDatePicker = this;
@@ -78,9 +81,9 @@
         amDatePicker.selectYear = selectYear;
         amDatePicker.openPicker = openPicker;
         amDatePicker.today = today;
-        amDatePicker.isTodayDisabled = false;
 
         amDatePicker.moment = moment;
+        amDatePicker.isTodayDisabled = false;
         amDatePicker.yearSelection = false;
 
         init();
@@ -106,8 +109,8 @@
         );
 
         function init() {
-            var options = ['ngModel', 'allowClear', 'showInputIcon', 'inputLabel',
-                           'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
+            var options = ['ngModel', 'allowClear', 'cancelButtonText', 'showInputIcon',
+                           'inputLabel', 'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
                            'inputDateFormat', 'popupDateFormat', 'todayButton',
                            'calendarIcon', 'prevIcon', 'nextIcon', 'clearIcon'];
 
@@ -146,27 +149,39 @@
             generateCalendar();
         }
 
-        function clearDate()
-        {
+        function clearDate() {
             amDatePicker.ngModel = undefined;
             amDatePicker.ngModelMomentFormatted = undefined;
+            generateCalendar();
         }
 
-        function DialogController($scope, $mdDialog) {
-            $scope.hide = function() {
+        function DialogController() {
+            var dialog = this;
+            dialog.model = angular.copy(amDatePicker.ngModel);
+            dialog.modelMoment = angular.copy(amDatePicker.ngModelMoment);
+
+            dialog.cancel = cancel;
+            dialog.hide = hide;
+
+            function cancel() {
+                (dialog.model) ? amDatePicker.select(dialog.modelMoment) : amDatePicker.clearDate();
+                $mdDialog.cancel();
+            }
+
+            function hide() {
                 $mdDialog.hide();
-            };
+            }
         }
 
         function displayYearSelection() {
             amDatePicker.yearSelection = true;
-            $timeout(function()
-            {
+            $timeout(function() {
                 var yearSelector = angular.element(document.querySelector('.am-date-picker__year-selector')),
                     activeYear = angular.element(document.querySelector('.am-date-picker__year--is-active')),
                     activeYearHeight = activeYear[0].getElementsByTagName('p')[0].offsetHeight;
 
-                yearSelector[0].scrollTop = activeYear[0].offsetTop - yearSelector[0].offsetTop - yearSelector[0].clientHeight/2 + activeYearHeight/2;
+                yearSelector[0].scrollTop = activeYear[0].offsetTop - yearSelector[0].offsetTop -
+                                            yearSelector[0].clientHeight/2 + activeYearHeight/2;
             });
         }
 
@@ -210,13 +225,14 @@
 
         function openPicker(ev) {
             $mdDialog.show({
-                controller: ['$scope', '$mdDialog', DialogController],
-                templateUrl: 'am-date-picker_content.tmpl.html',
+                clickOutsideToClose: true,
+                controller: DialogController,
+                controllerAs: 'dialog',
+                onRemoving: hideYearSelection,
                 parent: angular.element(document.body),
                 scope: $scope.$new(),
                 targetEvent: ev,
-                clickOutsideToClose: true,
-                onRemoving: hideYearSelection
+                templateUrl: 'am-date-picker_content.tmpl.html'
             });
         }
 

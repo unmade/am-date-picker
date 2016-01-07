@@ -47,7 +47,8 @@
             .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
                 amDatePickerConfigProvider.setOptions({
                     popupDateFormat: 'D MMMM',
-                    locale: 'ru'
+                    locale: 'ru',
+                    cancelButtonText: 'Отмена'
                 })
             }])
             .controller('MainCtrl', ['$scope', function ($scope) {

@@ -101,13 +101,14 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     });
 
 
-    it('should have Today and OK button', function() {
+    it('should have Today Cancel and OK button', function() {
         input.click();
         var buttons = $$('md-dialog-actions button');
-        expect(buttons.count()).toEqual(2);
+        expect(buttons.count()).toEqual(3);
         expect(buttons.get(0).getText()).toEqual('СЕГОДНЯ');
         expect(buttons.get(0).isEnabled()).toBe(false);
-        expect(buttons.get(1).getText()).toEqual('OK');
+        expect(buttons.get(1).getText()).toEqual('ОТМЕНА');
+        expect(buttons.get(2).getText()).toEqual('OK');
     });
 
 

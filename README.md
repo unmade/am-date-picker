@@ -116,6 +116,7 @@ Specific settings that can be globally configured through the `amDatepickerConfi
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
+| `cancelButtonText`     | `String`      | Set text for cancel button (default: `Cancel`). |
 | `locale`               | `String`      | Set locale (default: `en`). |
 | `calendarIcon`         | `String`      | Path to the calendar icon. |
 | `clearIcon`            | `String`      | Path to the clear icon. |

@@ -1,13 +1,15 @@
 describe('am.date-picker directive unit tests', function() {
   var $compile,
-      $rootScope;
+      $rootScope,
+      $controller;
 
 
   beforeEach(module('am.date-picker'));
 
 
-  beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _amDatePickerConfig_){
+  beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _$controller_, _amDatePickerConfig_){
     $compile = _$compile_;
+    $controller = _$controller_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     $httpBackend.whenGET('/dist/images/icons/ic_today_24px.svg').respond('');
@@ -54,22 +56,23 @@ describe('am.date-picker directive unit tests', function() {
 
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope(),
-        lastYearIndex = isoScope.amDatePicker.years.length - 1;
+    var amDatePicker = element.isolateScope().amDatePicker,
+        lastYearIndex = amDatePicker.years.length - 1;
 
-    expect(isoScope.amDatePicker.ngModel).toBe(undefined);
-    expect(isoScope.amDatePicker.allowClear).toBe(true);
-    expect(isoScope.amDatePicker.inputLabel).toBe(undefined);
-    expect(isoScope.amDatePicker.inputDateFormat).toBe('LL');
-    expect(isoScope.amDatePicker.locale).toBe("en");
-    expect(isoScope.amDatePicker.maxDate).toBe(undefined);
-    expect(isoScope.amDatePicker.minDate).toBe(undefined);
-    expect(isoScope.amDatePicker.popupDateFormat).toBe('ddd, MMM D');
-    expect(isoScope.amDatePicker.showInputIcon).toBe(false);
-    expect(isoScope.amDatePicker.todayButton).toBe(undefined);
-    expect(isoScope.amDatePicker.yearSelection).toBe(false);
-    expect(isoScope.amDatePicker.years[0]).toBe(1920);
-    expect(isoScope.amDatePicker.years[lastYearIndex]).toBe(2020);
+    expect(amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.allowClear).toBe(true);
+    expect(amDatePicker.cancelButtonText).toBe('Cancel');
+    expect(amDatePicker.inputLabel).toBe(undefined);
+    expect(amDatePicker.inputDateFormat).toBe('LL');
+    expect(amDatePicker.locale).toBe("en");
+    expect(amDatePicker.maxDate).toBe(undefined);
+    expect(amDatePicker.minDate).toBe(undefined);
+    expect(amDatePicker.popupDateFormat).toBe('ddd, MMM D');
+    expect(amDatePicker.showInputIcon).toBe(false);
+    expect(amDatePicker.todayButton).toBe(undefined);
+    expect(amDatePicker.yearSelection).toBe(false);
+    expect(amDatePicker.years[0]).toBe(1920);
+    expect(amDatePicker.years[lastYearIndex]).toBe(2020);
   });
 
 
@@ -79,6 +82,7 @@ describe('am.date-picker directive unit tests', function() {
 
     amDatePickerConfig.setOptions({
         allowClear: false,
+        cancelButtonText: 'Отмена',
         inputDateFormat: 'L',
         inputLabel: 'Выберите дату',
         locale: 'ru',
@@ -92,6 +96,7 @@ describe('am.date-picker directive unit tests', function() {
     });
 
     expect(amDatePickerConfig.allowClear).toBe(false);
+    expect(amDatePickerConfig.cancelButtonText).toBe('Отмена');
     expect(amDatePickerConfig.inputDateFormat).toBe('L');
     expect(amDatePickerConfig.inputLabel).toBe('Выберите дату');
     expect(amDatePickerConfig.locale).toBe('ru');
@@ -107,22 +112,22 @@ describe('am.date-picker directive unit tests', function() {
 
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope(),
-        lastYearIndex = isoScope.amDatePicker.years.length - 1;
+    var amDatePicker = element.isolateScope().amDatePicker,
+        lastYearIndex = amDatePicker.years.length - 1;
 
-    expect(isoScope.amDatePicker.showInputIcon).toBe(true);
-    expect(isoScope.amDatePicker.allowClear).toBe(false);
-    expect(isoScope.amDatePicker.inputDateFormat).toBe('L');
-    expect(isoScope.amDatePicker.inputLabel).toBe("Выберите дату");
-    expect(isoScope.amDatePicker.locale).toBe("ru");
-    expect(isoScope.amDatePicker.maxDate).toBe(maxDate);
-    expect(isoScope.amDatePicker.minDate).toBe(minDate);
-    expect(isoScope.amDatePicker.popupDateFormat).toBe('D MMMM');
-    expect(isoScope.amDatePicker.todayButton).toBe('Today');
-    expect(isoScope.amDatePicker.yearSelection).toBe(false);
-    expect(isoScope.amDatePicker.showInputIcon).toBe(true);
-    expect(isoScope.amDatePicker.years[0]).toBe(1967);
-    expect(isoScope.amDatePicker.years[lastYearIndex]).toBe(1973);
+    expect(amDatePicker.showInputIcon).toBe(true);
+    expect(amDatePicker.allowClear).toBe(false);
+    expect(amDatePicker.inputDateFormat).toBe('L');
+    expect(amDatePicker.inputLabel).toBe("Выберите дату");
+    expect(amDatePicker.locale).toBe("ru");
+    expect(amDatePicker.maxDate).toBe(maxDate);
+    expect(amDatePicker.minDate).toBe(minDate);
+    expect(amDatePicker.popupDateFormat).toBe('D MMMM');
+    expect(amDatePicker.todayButton).toBe('Today');
+    expect(amDatePicker.yearSelection).toBe(false);
+    expect(amDatePicker.showInputIcon).toBe(true);
+    expect(amDatePicker.years[0]).toBe(1967);
+    expect(amDatePicker.years[lastYearIndex]).toBe(1973);
   });
 
 
@@ -148,20 +153,20 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker>')($rootScope);
 
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.ngModel).toBe(date);
-    expect(isoScope.amDatePicker.allowClear).toBe(false);
-    expect(isoScope.amDatePicker.inputDateFormat).toBe('L');
-    expect(isoScope.amDatePicker.inputLabel).toBe('Pick a Date');
-    expect(isoScope.amDatePicker.locale).toBe('en');
-    expect(isoScope.amDatePicker.maxDate).toBe(maxDate);
-    expect(isoScope.amDatePicker.maxYear).toBe(2015);
-    expect(isoScope.amDatePicker.minDate).toBe(minDate);
-    expect(isoScope.amDatePicker.minYear).toBe(2000);
-    expect(isoScope.amDatePicker.popupDateFormat).toBe('D MMMM');
-    expect(isoScope.amDatePicker.todayButton).toBe('Today');
-    expect(isoScope.amDatePicker.showInputIcon).toBe(true);
+    expect(amDatePicker.ngModel).toBe(date);
+    expect(amDatePicker.allowClear).toBe(false);
+    expect(amDatePicker.inputDateFormat).toBe('L');
+    expect(amDatePicker.inputLabel).toBe('Pick a Date');
+    expect(amDatePicker.locale).toBe('en');
+    expect(amDatePicker.maxDate).toBe(maxDate);
+    expect(amDatePicker.maxYear).toBe(2015);
+    expect(amDatePicker.minDate).toBe(minDate);
+    expect(amDatePicker.minYear).toBe(2000);
+    expect(amDatePicker.popupDateFormat).toBe('D MMMM');
+    expect(amDatePicker.todayButton).toBe('Today');
+    expect(amDatePicker.showInputIcon).toBe(true);
   });
 
 
@@ -185,13 +190,13 @@ describe('am.date-picker directive unit tests', function() {
 
       $rootScope.$digest();
 
-      var isoScope = element.isolateScope();
+      var amDatePicker = element.isolateScope().amDatePicker;
 
-      expect(isoScope.amDatePicker.emptyFirstDays.length).toBe(dates[i].emptyFirstDays);
-      expect(isoScope.amDatePicker.days.length).toBe(dates[i].days);
-      expect(isoScope.amDatePicker.days[0].selected).toBe(true);
-      for (var j = 0; j < isoScope.amDatePicker.days.length; j++) {
-        expect(isoScope.amDatePicker.days[j].disabled).toBe(undefined);
+      expect(amDatePicker.emptyFirstDays.length).toBe(dates[i].emptyFirstDays);
+      expect(amDatePicker.days.length).toBe(dates[i].days);
+      expect(amDatePicker.days[0].selected).toBe(true);
+      for (var j = 0; j < amDatePicker.days.length; j++) {
+        expect(amDatePicker.days[j].disabled).toBe(undefined);
       }
     }
   });
@@ -203,10 +208,10 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope(),
-        lastYearIndex = isoScope.amDatePicker.years.length - 1;
-    expect(isoScope.amDatePicker.years[0]).toBe(2011);
-    expect(isoScope.amDatePicker.years[lastYearIndex]).toBe(2015);
+    var amDatePicker = element.isolateScope().amDatePicker,
+        lastYearIndex = amDatePicker.years.length - 1;
+    expect(amDatePicker.years[0]).toBe(2011);
+    expect(amDatePicker.years[lastYearIndex]).toBe(2015);
 });
 
 
@@ -221,22 +226,22 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
     var j;
     /* dates disabled due-to min-date */
     for (j = 0; j < 4; j++) {
-      expect(isoScope.amDatePicker.days[j].disabled).toBe(true);
+      expect(amDatePicker.days[j].disabled).toBe(true);
     }
 
     /* dates disabled due-to max-date */
-    for (j = 9; j < isoScope.amDatePicker.days.length; j++) {
-      expect(isoScope.amDatePicker.days[j].disabled).toBe(true);
+    for (j = 9; j < amDatePicker.days.length; j++) {
+      expect(amDatePicker.days[j].disabled).toBe(true);
     }
 
     /* dates shouldn't be disabled */
     for (j = 5; j < 9; j++) {
-      expect(isoScope.amDatePicker.days[j].disabled).toBe(undefined);
+      expect(amDatePicker.days[j].disabled).toBe(undefined);
     }
 
   });
@@ -249,9 +254,9 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope();
-    expect(isoScope.amDatePicker.inputDateFormat).toBe('L');
-    expect(isoScope.amDatePicker.ngModelMomentFormatted).toBe($rootScope.date.format('L'));
+    var amDatePicker = element.isolateScope().amDatePicker;
+    expect(amDatePicker.inputDateFormat).toBe('L');
+    expect(amDatePicker.ngModelMomentFormatted).toBe($rootScope.date.format('L'));
   });
 
 
@@ -263,10 +268,10 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.todayButton).toBe("Today");
-    expect(isoScope.amDatePicker.isTodayDisabled).toBe(false);
+    expect(amDatePicker.todayButton).toBe("Today");
+    expect(amDatePicker.isTodayDisabled).toBe(false);
   })
 
 
@@ -278,10 +283,10 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.todayButton).toBe("Today");
-    expect(isoScope.amDatePicker.isTodayDisabled).toBe(true);
+    expect(amDatePicker.todayButton).toBe("Today");
+    expect(amDatePicker.isTodayDisabled).toBe(true);
   });
 
 
@@ -293,24 +298,24 @@ describe('am.date-picker directive unit tests', function() {
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
 
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.todayButton).toBe("Today");
-    expect(isoScope.amDatePicker.isTodayDisabled).toBe(true);
+    expect(amDatePicker.todayButton).toBe("Today");
+    expect(amDatePicker.isTodayDisabled).toBe(true);
   });
 
 
   it('should select date', function() {
     var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope(),
+    var amDatePicker = element.isolateScope().amDatePicker,
         date = moment();
 
-    isoScope.amDatePicker.select(date);
+    amDatePicker.select(date);
 
-    expect(isoScope.amDatePicker.ngModel).toBe(date.toDate());
-    expect(isoScope.amDatePicker.ngModelMoment.toDate()).toEqual(date.toDate());
-    expect(isoScope.amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
+    expect(amDatePicker.ngModel).toBe(date.toDate());
+    expect(amDatePicker.ngModelMoment.toDate()).toEqual(date.toDate());
+    expect(amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
   });
 
 
@@ -320,13 +325,13 @@ describe('am.date-picker directive unit tests', function() {
     var element = $compile('<am-date-picker am-min-date="minDate">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope(),
+    var amDatePicker = element.isolateScope().amDatePicker,
         date = moment();
 
     date.disabled = true;
-    isoScope.amDatePicker.select(date);
+    amDatePicker.select(date);
 
-    expect(isoScope.amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.ngModel).toBe(undefined);
   });
 
 
@@ -336,11 +341,11 @@ describe('am.date-picker directive unit tests', function() {
     var element = $compile('<am-date-picker ng-model="date">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    isoScope.amDatePicker.nextMonth();
+    amDatePicker.nextMonth();
 
-    expect(isoScope.amDatePicker.days.length).toBe(29);
+    expect(amDatePicker.days.length).toBe(29);
   });
 
 
@@ -350,11 +355,11 @@ describe('am.date-picker directive unit tests', function() {
     var element = $compile('<am-date-picker ng-model="date">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    isoScope.amDatePicker.previousMonth();
+    amDatePicker.previousMonth();
 
-    expect(isoScope.amDatePicker.days.length).toBe(29);
+    expect(amDatePicker.days.length).toBe(29);
   });
 
 
@@ -366,22 +371,22 @@ describe('am.date-picker directive unit tests', function() {
                          '                am-min-date="minDate">' +
                          '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope(),
+    var amDatePicker = element.isolateScope().amDatePicker,
         i;
     for (i = 0; i < 4; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(true);
+      expect(amDatePicker.days[i].disabled).toBe(true);
     }
-    for (i = 5; i < isoScope.amDatePicker.length; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(undefined);
+    for (i = 5; i < amDatePicker.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
 
     $rootScope.minDate = moment({year: 2014, month: 0, date: 10});;
     element.isolateScope().$apply();
     for (i = 0; i < 9; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(true);
+      expect(amDatePicker.days[i].disabled).toBe(true);
     }
-    for (i = 10; i < isoScope.amDatePicker.length; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(undefined);
+    for (i = 10; i < amDatePicker.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
   });
 
@@ -394,22 +399,22 @@ describe('am.date-picker directive unit tests', function() {
                          '                am-max-date="maxDate">' +
                          '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope(),
+    var amDatePicker = element.isolateScope().amDatePicker,
       i;
     for (i = 0; i < 15; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(undefined);
+      expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
-    for (i = 15; i < isoScope.amDatePicker.length; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(true);
+    for (i = 15; i < amDatePicker.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(true);
     }
 
     $rootScope.maxDate = moment({year: 2014, month: 0, date: 10});;
     element.isolateScope().$apply();
     for (i = 0; i < 10; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(undefined);
+      expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
-    for (i = 10; i < isoScope.amDatePicker.length; i++) {
-      expect(isoScope.amDatePicker.days[i].disabled).toBe(true);
+    for (i = 10; i < amDatePicker.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(true);
     }
   });
 
@@ -426,8 +431,8 @@ describe('am.date-picker directive unit tests', function() {
 
       $rootScope.minDate = moment({year: 2014, month: 0, date: 20}).toDate();
       element.isolateScope().$apply();
-      var isoScope = element.isolateScope();
-      expect(String(isoScope.amDatePicker.ngModel)).toBe(String($rootScope.minDate));
+      var amDatePicker = element.isolateScope().amDatePicker;
+      expect(String(amDatePicker.ngModel)).toBe(String($rootScope.minDate));
   });
 
 
@@ -443,48 +448,48 @@ describe('am.date-picker directive unit tests', function() {
 
       $rootScope.maxDate = moment({year: 2014, month: 0, date: 10}).toDate();
       element.isolateScope().$apply();
-      var isoScope = element.isolateScope();
-      expect(String(isoScope.amDatePicker.ngModel)).toBe(String($rootScope.maxDate));
+      var amDatePicker = element.isolateScope().amDatePicker;
+      expect(String(amDatePicker.ngModel)).toBe(String($rootScope.maxDate));
   });
 
 
   it('should display year selection', function() {
     var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    isoScope.amDatePicker.displayYearSelection();
-    expect(isoScope.amDatePicker.yearSelection).toBe(true);
+    amDatePicker.displayYearSelection();
+    expect(amDatePicker.yearSelection).toBe(true);
 
-    isoScope.amDatePicker.hideYearSelection();
-    expect(isoScope.amDatePicker.yearSelection).toBe(false);
+    amDatePicker.hideYearSelection();
+    expect(amDatePicker.yearSelection).toBe(false);
   });
 
 
   it('should select year', function() {
     var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    isoScope.amDatePicker.displayYearSelection();
-    expect(isoScope.amDatePicker.yearSelection).toBe(true);
+    amDatePicker.displayYearSelection();
+    expect(amDatePicker.yearSelection).toBe(true);
 
-    isoScope.amDatePicker.selectYear(1999);
-    expect(isoScope.amDatePicker.yearSelection).toBe(false);
-    expect(isoScope.amDatePicker.days[0].year()).toBe(1999);
+    amDatePicker.selectYear(1999);
+    expect(amDatePicker.yearSelection).toBe(false);
+    expect(amDatePicker.days[0].year()).toBe(1999);
   });
 
 
   it('should select today date', function() {
     var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.ngModel).toBe(undefined);
 
-    isoScope.amDatePicker.today();
-    expect(String(isoScope.amDatePicker.ngModel)).toBe(String(moment().toDate()));
-    expect(isoScope.amDatePicker.yearSelection).toBe(false);
+    amDatePicker.today();
+    expect(String(amDatePicker.ngModel)).toBe(String(moment().toDate()));
+    expect(amDatePicker.yearSelection).toBe(false);
   });
 
 
@@ -495,16 +500,16 @@ describe('am.date-picker directive unit tests', function() {
                            '                am-allow-clear="true">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var isoScope = element.isolateScope();
+    var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(isoScope.amDatePicker.ngModel).toEqual(date);
-    expect(isoScope.amDatePicker.ngModelMoment).toEqual(date);
-    expect(isoScope.amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
-    expect(isoScope.amDatePicker.allowClear).toBe(true);
+    expect(amDatePicker.ngModel).toEqual(date);
+    expect(amDatePicker.ngModelMoment).toEqual(date);
+    expect(amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
+    expect(amDatePicker.allowClear).toBe(true);
 
-    isoScope.amDatePicker.clearDate();
-    expect(isoScope.amDatePicker.ngModel).toBe(undefined);
-    expect(isoScope.amDatePicker.ngModelMomentFormatted).toBe(undefined);
+    amDatePicker.clearDate();
+    expect(amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.ngModelMomentFormatted).toBe(undefined);
   });
 
 });
