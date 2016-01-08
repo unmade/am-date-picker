@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('am.date-picker', ['ngMaterial'])
+        .module('am.date-picker', ['ngMaterial', 'ngAnimate'])
         .directive('amDatePicker', amDatePicker)
         .provider('amDatePickerConfig', amDatePickerConfig);
 
@@ -68,7 +68,7 @@
         };
     }
 
-    AmDatePickerController.$inject = ['$scope', '$timeout','$mdDialog', 'amDatePickerConfig'];
+    AmDatePickerController.$inject = ['$scope', '$timeout', '$mdDialog', 'amDatePickerConfig'];
 
     function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig) {
         var amDatePicker = this;
@@ -86,6 +86,9 @@
         amDatePicker.moment = moment;
         amDatePicker.isTodayDisabled = false;
         amDatePicker.yearSelection = false;
+        amDatePicker.change = true;
+
+        var delay = 110;
 
         init();
 
@@ -212,7 +215,7 @@
             amDatePicker.isTodayDisabled = (angular.isDefined(amDatePicker.minDate) &&
                                             moment().toDate() < amDatePicker.minDate ||
                                             angular.isDefined(amDatePicker.maxDate) &&
-                                            moment().toDate() > amDatePicker.maxDate)
+                                            moment().toDate() > amDatePicker.maxDate);
         }
 
         function hideYearSelection() {
@@ -222,6 +225,16 @@
         function nextMonth() {
             amDatePicker.ngModelMoment = amDatePicker.ngModelMoment.add(1, 'month');
             generateCalendar();
+            onNextMonth();
+        }
+
+
+        function onNextMonth() {
+            amDatePicker.change = false;
+            amDatePicker.next = true;
+            $timeout(function() {
+                amDatePicker.change = true;
+            }, delay);
         }
 
         function openPicker(ev) {
@@ -237,9 +250,18 @@
             });
         }
 
+        function onPrevMonth() {
+            amDatePicker.next = false;
+            amDatePicker.change = false;
+            $timeout(function() {
+                amDatePicker.change = true;
+            }, delay);
+        }
+
         function previousMonth() {
             amDatePicker.ngModelMoment = amDatePicker.ngModelMoment.subtract(1, 'month');
             generateCalendar();
+            onPrevMonth();
         }
 
         function today() {
@@ -263,7 +285,7 @@
         }
 
         function selectYear(_year) {
-            amDatePicker.yearSelection = false;
+            amDatePicker.hideYearSelection();
             amDatePicker.ngModelMoment = amDatePicker.ngModelMoment.year(_year);
 
             generateCalendar();

@@ -190,9 +190,9 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
             monthNav = $$('.am-date-picker__month-year button').get(1),
             yearSelector = $('.am-date-picker__year-selector');
 
-        expect(yearSelector.isPresent()).toBe(false);
+        expect(yearSelector.isDisplayed()).toBe(false);
         monthNav.click();
-        expect(yearSelector.isPresent()).toBe(true);
+        expect(yearSelector.isDisplayed()).toBe(true);
 
         var years = $$('.am-date-picker__year-selector a'),
             activeYear = yearSelector.$('.am-date-picker__year--is-active');
@@ -201,7 +201,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         expect(activeYear.getText()).toEqual(currDate.format('YYYY'));
 
         years.get(0).click();
-        expect(yearSelector.isPresent()).toBe(false);
+        expect(yearSelector.isDisplayed()).toBe(false);
         expect(monthNav.getText()).toEqual(pastDate.format('MMMM YYYY').toUpperCase());
 
         /* check if calendar change respectively */
@@ -221,15 +221,15 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
             monthNav = $$('.am-date-picker__month-year button').get(1),
             yearSelector = $('.am-date-picker__year-selector');
 
-        expect(yearSelector.isPresent()).toBe(false);
+        expect(yearSelector.isDisplayed()).toBe(false);
         monthNav.click();
-        expect(yearSelector.isPresent()).toBe(true);
+        expect(yearSelector.isDisplayed()).toBe(true);
 
         var buttons = $$('md-dialog-actions button');
         expect(buttons.count()).toEqual(1);
         expect(buttons.get(0).getText()).toEqual('BACK');
         buttons.get(0).click();
-        expect(yearSelector.isPresent()).toBe(false);
+        expect(yearSelector.isDisplayed()).toBe(false);
     });
 
 });

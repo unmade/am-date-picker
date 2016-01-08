@@ -55,12 +55,11 @@ md-input-container:hover .am-date-picker__clear-icon {
     }
 }
 
-
 .am-date-picker__content {
-    min-width: 293px;
-    height: 252px;
-    padding-left: 7px;
+    min-height: 300px;
+    height: 300px;
 }
+
 
 .am-date-picker__month-year {
     color: @month-year-color;
@@ -79,6 +78,15 @@ md-input-container:hover .am-date-picker__clear-icon {
 
 .am-date-picker__weekdays {
     color: @weekdays-color;
+}
+
+.am-date-picker__calendar {
+    min-width: 293px;
+    height: 252px;
+    padding-left: 7px;
+
+    @time: 0.1s;
+    @delay: 0.5s;
 }
 
 .am-date-picker__days {
@@ -103,6 +111,7 @@ md-input-container:hover .am-date-picker__clear-icon {
         cursor: pointer;
         text-decoration: none;
         color: @day-hover-color;
+        background-color: @day-hover-background-color;
         -webkit-transition: all linear @half-transition-time;
         -moz-transition: all linear @half-transition-time;
         -o-transition: all linear @half-transition-time;
@@ -115,7 +124,7 @@ md-input-container:hover .am-date-picker__clear-icon {
 }
 
 .am-date-picker__day--is-selected a {
-    background-color: @day-hover-background-color;
+    background-color: @day-active-background-color;
     cursor: pointer;
     color: @day-active-color;
     -webkit-transition: all linear @transition-time;
@@ -125,7 +134,7 @@ md-input-container:hover .am-date-picker__clear-icon {
 
     &:hover {
         color: @day-active-hover-color;
-        background-color: @day-hover-background-color;
+        background-color: @day-active-background-color;
     }
 }
 
@@ -144,6 +153,7 @@ md-input-container:hover .am-date-picker__clear-icon {
     margin: 5px 0;
     height: 290px;
 }
+
 
 .am-date-picker__year {
     color: @year-color;
@@ -179,5 +189,64 @@ md-input-container:hover .am-date-picker__clear-icon {
     color: @action-color;
     .md-button {
         min-width: 50px;
+    }
+}
+
+
+.am-date-picker__animate-month-change {
+    @time: 0.1s;
+
+    &.next.ng-enter, &.next.ng-leave,
+    &.prev.ng-enter, &.prev.ng-leave {
+        -webkit-transition:all @time ease-in-out;
+        -moz-transition:all @time ease-in-out;
+        -o-transition:all @time ease-in-out;
+        transition:all @time ease-in-out;
+    }
+
+    &.next.ng-enter {
+        transform: translate(300px,0);
+    }
+
+    &.next.ng-enter.ng-enter-active {
+        transform: translate(0,0);
+    }
+
+    &.next.ng-leave.ng-leave-active {
+        transform: translate(-300px,0);
+    }
+
+    &.prev.ng-enter {
+        transform: translate(-300px,0);
+    }
+
+    &.prev.ng-enter.ng-enter-active {
+        transform: translate(0,0);
+    }
+
+    &.prev.ng-leave.ng-leave-active {
+        transform: translate(300px,0);
+    }
+}
+
+
+.am-date-picker__animate-year-selection {
+    @time: 0.1s;
+
+    &.ng-hide-remove {
+      -webkit-transition:all @time linear;
+      -moz-transition:all @time linear;
+      -o-transition:all @time linear;
+      transition:all @time linear;
+      opacity:0;
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-add-active {
+        display: none;
+    }
+
+    &.ng-hide-remove.ng-hide-remove-active {
+      opacity:1;
     }
 }

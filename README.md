@@ -128,7 +128,7 @@ Specific settings that can be globally configured through the `amDatepickerConfi
 
 ## Contributing
 
-If you have an improvement, bug report or request please let me know or post a pull request
+If you have an improvement (especially in animation part), bug report or request please let me know or post a pull request.
 
 See how to [run app locally](demo/README.md).
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "name": "angular-material-datepicker",
   "description": "Simple datepicker based on angular material framework",
