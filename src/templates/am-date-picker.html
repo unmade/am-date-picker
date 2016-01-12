@@ -100,10 +100,15 @@
     <md-dialog-actions layout="row" class="md-actions am-date-picker__actions">
         <md-button ng-click="amDatePicker.today()"
                    ng-disabled="amDatePicker.isTodayDisabled"
-                   ng-if="amDatePicker.todayButton">{{ amDatePicker.todayButton }}</md-button>
+                   ng-if="amDatePicker.todayButton">
+            {{ amDatePicker.todayButton }}
+        </md-button>
         <span flex></span>
         <div ng-if="!amDatePicker.yearSelection">
-            <md-button ng-click="dialog.cancel()">{{ amDatePicker.cancelButtonText }}</md-button>
+            <md-button ng-click="dialog.cancel()"
+                       ng-if="amDatePicker.cancelButton">
+                {{ amDatePicker.cancelButton }}
+            </md-button>
             <md-button ng-click="dialog.hide()">OK</md-button>
         </div>
         <md-button ng-click="amDatePicker.hideYearSelection()"

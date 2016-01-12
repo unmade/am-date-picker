@@ -101,7 +101,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     });
 
 
-    it('should have Today Cancel and OK button', function() {
+    it('should have "Today", "Cancel" and "OK" button', function() {
         input.click();
         var buttons = $$('md-dialog-actions button');
         expect(buttons.count()).toEqual(3);
@@ -112,12 +112,24 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     });
 
 
-    it('should click OK button and close calendar', function() {
+    it('should click "OK" button and close calendar', function() {
         input.click();
 
         var buttons = $$('md-dialog-actions button');
         buttons.get(1).click();
         expect(element(by.tagName('md-dialog')).isPresent()).toBe(false);
+    });
+
+
+    it('should select new date when initial date is set,\
+        click "Cancel" button and new selected date should be cancelled',
+      function() {
+        input.click();
+        var buttons = element.all(by.css('md-dialog-actions button')),
+            days = element.all(by.css('.am-date-picker__day'));
+        days.get(12).click();
+        buttons.get(1).click();
+        expect(input.getAttribute('value')).toEqual('10.01.2014');
     });
 
 
@@ -179,6 +191,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         monthNav.click();
         expect(activeYear.getText()).toEqual('2014');
     });
+
 
     it('should open year selection and click BACK button. Back button text should be "Назад"', function() {
         input.click();

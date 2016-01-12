@@ -57,7 +57,7 @@ describe('am.date-picker e2e test. (Linked Datepickers)', function() {
             var days = $$('.am-date-picker__day'),
                 buttons = $$('md-dialog-actions button');
             days.get(14).click();
-            buttons.get(1).click();
+            buttons.get(0).click();
 
             secondInput.click();
             days = $$('.am-date-picker__day');
@@ -77,7 +77,7 @@ describe('am.date-picker e2e test. (Linked Datepickers)', function() {
             var days = $$('.am-date-picker__day'),
                 buttons = $$('md-dialog-actions button');
             days.get(14).click();
-            buttons.get(1).click();
+            buttons.get(0).click();
 
             firstInput.click();
             days = $$('.am-date-picker__day');
