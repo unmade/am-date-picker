@@ -12,7 +12,7 @@
         var config = this;
         config.allowClear = true;
         config.backButtonText = "Back";
-        config.cancelButtonText = "Cancel";
+        // config.cancelButtonText = "Cancel";
         config.inputDateFormat = 'LL';
         config.maxYear = 2020;
         config.minYear = 1920;
@@ -51,6 +51,7 @@
             {
                 ngModel: '=',
                 allowClear: '=?amAllowClear',
+                cancelButton: '@?amCancelButton',
                 inputDateFormat: '@?amInputDateFormat',
                 inputLabel: '@?amInputLabel',
                 maxDate: '=?amMaxDate',
@@ -113,7 +114,7 @@
         );
 
         function init() {
-            var options = ['ngModel', 'allowClear', 'backButtonText', 'cancelButtonText', 'showInputIcon',
+            var options = ['ngModel', 'allowClear', 'backButtonText', 'cancelButton', 'showInputIcon',
                            'inputLabel', 'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
                            'inputDateFormat', 'popupDateFormat', 'todayButton', 'calendarIcon',
                            'prevIcon', 'nextIcon', 'clearIcon'];

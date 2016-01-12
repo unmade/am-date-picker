@@ -102,6 +102,7 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 | :--------------------- | :------------ | :---------- |
 | `ng-model`             | `Date Object` | Two-way data-binding date property. |
 | `am-allow-clear`       | `Boolean`     | Whether the input could be clear (default: `true`). |
+| `cancelButton`         | `String`      | Set text for cancel button. If not provided the button won't be shown. |
 | `am-input-date-format` | `String`      | The format for displayed date in input (default: `LL`). |
 | `am-input-label`       | `String`      | The text to display as input label. |
 | `am-max-date`          | `Date Object` | Defines the maximum selectable date. |
@@ -117,7 +118,6 @@ Specific settings that can be globally configured through the `amDatepickerConfi
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
 | `backButtonText`       | `String`      | Set text for back button displayed in year selection(default: `Cancel`). |
-| `cancelButtonText`     | `String`      | Set text for cancel button (default: `Cancel`). |
 | `locale`               | `String`      | Set locale (default: `en`). |
 | `calendarIcon`         | `String`      | Path to the calendar icon. |
 | `clearIcon`            | `String`      | Path to the clear icon. |

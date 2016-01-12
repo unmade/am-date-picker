@@ -61,7 +61,7 @@ describe('am.date-picker directive unit tests', function() {
 
     expect(amDatePicker.ngModel).toBe(undefined);
     expect(amDatePicker.allowClear).toBe(true);
-    expect(amDatePicker.cancelButtonText).toBe('Cancel');
+    expect(amDatePicker.cancelButtonText).toBe(undefined);
     expect(amDatePicker.inputLabel).toBe(undefined);
     expect(amDatePicker.inputDateFormat).toBe('LL');
     expect(amDatePicker.locale).toBe("en");
@@ -82,7 +82,7 @@ describe('am.date-picker directive unit tests', function() {
 
     amDatePickerConfig.setOptions({
         allowClear: false,
-        cancelButtonText: 'Отмена',
+        cancelButton: 'Отмена',
         inputDateFormat: 'L',
         inputLabel: 'Выберите дату',
         locale: 'ru',
@@ -96,7 +96,7 @@ describe('am.date-picker directive unit tests', function() {
     });
 
     expect(amDatePickerConfig.allowClear).toBe(false);
-    expect(amDatePickerConfig.cancelButtonText).toBe('Отмена');
+    expect(amDatePickerConfig.cancelButton).toBe('Отмена');
     expect(amDatePickerConfig.inputDateFormat).toBe('L');
     expect(amDatePickerConfig.inputLabel).toBe('Выберите дату');
     expect(amDatePickerConfig.locale).toBe('ru');
@@ -141,6 +141,7 @@ describe('am.date-picker directive unit tests', function() {
 
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-allow-clear="false"' +
+                           '                am-cancel-button="Cancel"' +
                            '                am-input-date-format="L"' +
                            '                am-input-label="Pick a Date"' +
                            '                am-max-date="maxDate"' +
@@ -157,6 +158,7 @@ describe('am.date-picker directive unit tests', function() {
 
     expect(amDatePicker.ngModel).toBe(date);
     expect(amDatePicker.allowClear).toBe(false);
+    expect(amDatePicker.cancelButton).toBe('Cancel');
     expect(amDatePicker.inputDateFormat).toBe('L');
     expect(amDatePicker.inputLabel).toBe('Pick a Date');
     expect(amDatePicker.locale).toBe('en');
@@ -396,7 +398,7 @@ describe('am.date-picker directive unit tests', function() {
     $rootScope.date = moment({year: 2014, month: 0, date: 10});
 
     var element = $compile('<am-date-picker ng-model="date"' +
-                         '                am-max-date="maxDate">' +
+                         '                  am-max-date="maxDate">' +
                          '</am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker,
