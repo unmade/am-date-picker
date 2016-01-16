@@ -1,26 +1,40 @@
 describe('am.date-picker directive unit tests', function() {
   var $compile,
       $rootScope,
-      $controller;
+      $controller,
+      amDatePickerConfigProvider;
 
 
-  beforeEach(module('am.date-picker'));
+  function providerFactory(moduleName, providerName) {
+      var provider;
+      module(moduleName, [providerName, function(Provider) { provider = Provider; }]);
+    return function() { inject(); return provider; }; // inject calls the above
+  }
+  
+  function serviceFactory(serviceName){
+      var service;
+      inject([serviceName,function(Service){ service = Service;}]);
+      return service;      
+  }
+    beforeEach(function(){
+      amDatePickerConfigProvider = providerFactory("am.date-picker", "amDatePickerConfigProvider")();
+  });
 
 
-  beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _$controller_, _amDatePickerConfig_){
+  beforeEach(inject(function(_$compile_, _$rootScope_, _$httpBackend_, _$controller_){
     $compile = _$compile_;
     $controller = _$controller_;
     $rootScope = _$rootScope_;
-    $httpBackend = _$httpBackend_;
+    var $httpBackend = _$httpBackend_;
     $httpBackend.whenGET('/dist/images/icons/ic_today_24px.svg').respond('');
     $httpBackend.whenGET('/dist/images/icons/ic_close_24px.svg').respond('');
     $httpBackend.whenGET('/dist/images/icons/ic_chevron_right_18px.svg').respond('');
     $httpBackend.whenGET('/dist/images/icons/ic_chevron_left_18px.svg').respond('');
-    amDatePickerConfig = _amDatePickerConfig_;
   }));
 
 
   it("check config's default values", function() {
+      var amDatePickerConfig = serviceFactory('amDatePickerConfig');
       expect(amDatePickerConfig.allowClear).toBe(true);
       expect(amDatePickerConfig.inputDateFormat).toBe('LL');
       expect(amDatePickerConfig.maxYear).toBe(2020);
@@ -37,13 +51,14 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it("should set calendar icon", function() {
-    amDatePickerConfig.setIcons({
+    amDatePickerConfigProvider.setIcons({
         calendarIcon: '/dist/images/icons/ic_today.svg',
         clearIcon: '/dist/images/icons/ic_close.svg',
         nextIcon: '/dist/images/icons/ic_chevron_right.svg',
         prevIcon: '/dist/images/icons/ic_chevron_left.svg'
     });
 
+    var amDatePickerConfig = serviceFactory('amDatePickerConfig');
     expect(amDatePickerConfig.calendarIcon).toBe('/dist/images/icons/ic_today.svg');
     expect(amDatePickerConfig.prevIcon).toBe('/dist/images/icons/ic_chevron_left.svg');
     expect(amDatePickerConfig.nextIcon).toBe('/dist/images/icons/ic_chevron_right.svg');
@@ -80,7 +95,7 @@ describe('am.date-picker directive unit tests', function() {
     var minDate = moment({year: 1967, month: 1, date: 1}),
         maxDate = moment({year: 1973, month: 1, date: 1});
 
-    amDatePickerConfig.setOptions({
+    amDatePickerConfigProvider.setOptions({
         allowClear: false,
         cancelButton: 'Отмена',
         inputDateFormat: 'L',
@@ -95,6 +110,7 @@ describe('am.date-picker directive unit tests', function() {
         todayButton: 'Today'
     });
 
+    var amDatePickerConfig = serviceFactory('amDatePickerConfig');
     expect(amDatePickerConfig.allowClear).toBe(false);
     expect(amDatePickerConfig.cancelButton).toBe('Отмена');
     expect(amDatePickerConfig.inputDateFormat).toBe('L');

@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     templateCache = require('gulp-angular-templatecache'),
     rename = require('gulp-rename'),
     path = require('path'),
-    clean = require('gulp-clean');
+    clean = require('gulp-clean'),
+    sourcemaps = require("gulp-sourcemaps");
 
 
 var paths = {
@@ -41,8 +42,10 @@ gulp.task('tmpl:date-picker', function () {
 
 gulp.task('scripts', ['tmpl:date-picker'], function() {
   return gulp.src(paths.scripts)
+    .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
     .pipe(concat('am-date-picker.min.js'))
+    .pipe(sourcemaps.write("./"))		
     .pipe(gulp.dest('dist/'));
 });
 
