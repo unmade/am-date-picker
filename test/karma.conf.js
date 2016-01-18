@@ -11,6 +11,7 @@ module.exports = function(config){
       'bower_components/angular-material/angular-material.js',
       'bower_components/angular-mocks/angular-mocks.js',
       {pattern: 'dist/images/icons/*.svg', watched: false, included: false, served: true},
+      {pattern: 'dist/*.map', watched: false, included: false, served: true},
       'dist/am-date-picker.min.js',
       'test/unit/*.js',
     ],
