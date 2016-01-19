@@ -91,7 +91,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     }
 
     function nextMonth() {
-        if (dialog.monthYear.isBefore(dialog.minDate, "month")) {
+        if (!dialog.maxDate || dialog.monthYear.isBefore(dialog.maxDate, "month")) {
             dialog.monthYear.add(1, 'month');
             generateCalendar();
             onNextMonth();
@@ -116,7 +116,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     }
 
     function previousMonth() {
-        if (dialog.monthYear.isAfter(dialog.maxDate, "month")) {
+        if (!dialog.minDate || dialog.monthYear.isAfter(dialog.minDate, "month")) {
             dialog.monthYear.subtract(1, 'month');
             generateCalendar();
             onPrevMonth();
@@ -151,7 +151,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     function generateCalendar(selectableMoment) {
         dialog.days = [];
         dialog.emptyFirstDays = [];
-        var previousDay = angular.copy(dialog.monthYear).date(0),
+        var previousDay = dialog.monthYear.clone().date(0),
             firstDayOfMonth = angular.copy(dialog.monthYear).date(1),
             lastDayOfMonth = angular.copy(firstDayOfMonth).endOf('month'),
             maxDays = angular.copy(lastDayOfMonth).date();
@@ -160,13 +160,13 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
             dialog.emptyFirstDays.push({});
         }
         for (var j = 0; j < maxDays; j++) {
-            var date = angular.copy(previousDay.add(1, 'days'));
+            var date = previousDay.add(1, 'days').clone();
             date.selected = selectableMoment !== false && date.isSame(dialog.moment, 'day');
             date.today = date.isSame(moment(), 'day');
-            if (angular.isDefined(dialog.minDate) && date.toDate() < dialog.minDate) {
+            if (angular.isDefined(dialog.minDate) && date.isBefore(dialog.minDate, 'day')) {
                 date.disabled = true;
             }
-            if (angular.isDefined(dialog.maxDate) && date.toDate() > dialog.maxDate) {
+            if (angular.isDefined(dialog.maxDate) && date.isSameOrAfter(dialog.maxDate, 'day')) {
                 date.disabled = true;
             }
             dialog.days.push(date);
