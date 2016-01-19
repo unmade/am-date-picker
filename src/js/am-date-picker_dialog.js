@@ -35,7 +35,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         dialog.moment = moment(dialog.Date || new Date());
         dialog.moment.locale(dialog.locale);
         dialog.monthYear = moment(dialog.Date || new Date());
-    
+        
         dialog.days = [];
         dialog.daysOfWeek = [
             moment.weekdaysMin(1),
@@ -166,7 +166,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
             if (angular.isDefined(dialog.minDate) && date.isBefore(dialog.minDate, 'day')) {
                 date.disabled = true;
             }
-            if (angular.isDefined(dialog.maxDate) && date.isSameOrAfter(dialog.maxDate, 'day')) {
+            if (angular.isDefined(dialog.maxDate) && date.isAfter(dialog.maxDate, 'day')) {
                 date.disabled = true;
             }
             dialog.days.push(date);

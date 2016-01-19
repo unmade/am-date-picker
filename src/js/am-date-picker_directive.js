@@ -2,7 +2,7 @@ function amDatePickerDirective() {
     return {
         restrict: 'AE',
         templateUrl: 'am-date-picker.html',
-        scope:
+        bindToController:
         {
             Date: "=ngModel",
             allowClear: '=?amAllowClear',
@@ -19,7 +19,7 @@ function amDatePickerDirective() {
         },
         controller: AmDatePickerController,
         controllerAs: 'amDatePicker',
-        bindToController: true,
+        scope: {},
         replace: true
     };
 }
@@ -50,6 +50,28 @@ function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig)
             }
         }
         formatViewValue();
+
+        $scope.$watch(function () { return amDatePicker.minDate; }, function (newValue, oldValue) {
+            if(newValue && amDatePicker.Date){
+                var minDate = moment(newValue),
+                    currentDate = moment(amDatePicker.Date);
+                if(currentDate.isBefore(minDate, 'day')){
+                    amDatePicker.Date = minDate.toDate();
+                    amDatePicker.value = minDate.format(amDatePicker.inputDateFormat);
+                }
+            }
+        });
+
+        $scope.$watch(function () { return amDatePicker.maxDate; }, function (newValue, oldValue) {
+            if(newValue && amDatePicker.Date){
+                var maxDate = moment(newValue),
+                    currentDate = moment(amDatePicker.Date);
+                if(currentDate.isAfter(maxDate, 'day')){
+                    amDatePicker.Date = maxDate.toDate();
+                    amDatePicker.value = maxDate.format(amDatePicker.inputDateFormat);
+                }
+            }
+        });
     }
 
     function formatViewValue() {
