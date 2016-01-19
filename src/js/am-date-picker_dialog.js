@@ -36,6 +36,15 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         dialog.moment.locale(dialog.locale);
         dialog.monthYear = moment(dialog.Date || new Date());
         
+        //ensure the dialog time frame is within a valid date range
+        if(dialog.maxDate && dialog.monthYear.isAfter(dialog.maxDate, 'month')){
+            dialog.monthYear = moment(dialog.maxDate);
+        }
+
+        if(dialog.minDate && dialog.monthYear.isBefore(dialog.minDate, 'month')){
+            dialog.monthYear = moment(dialog.minDate);
+        }
+    
         dialog.days = [];
         dialog.daysOfWeek = [
             moment.weekdaysMin(1),
