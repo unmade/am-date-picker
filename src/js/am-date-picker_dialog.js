@@ -17,6 +17,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     dialog.change = true;
 
     var delay = 110;
+    var selectedMoment;
 
     init();
 
@@ -32,9 +33,10 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
             }
         }
 
+        selectedMoment = !!dialog.Date;
         dialog.moment = moment(dialog.Date || new Date());
         dialog.moment.locale(dialog.locale);
-        dialog.monthYear = moment(dialog.Date || new Date());
+        dialog.monthYear = dialog.moment.clone();
         
         //ensure the dialog time frame is within a valid date range
         if(dialog.maxDate && dialog.monthYear.isAfter(dialog.maxDate, 'month')){
@@ -44,16 +46,19 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         if(dialog.minDate && dialog.monthYear.isBefore(dialog.minDate, 'month')){
             dialog.monthYear = moment(dialog.minDate);
         }
+        
+        dialog.monthYear.locale(dialog.locale);
     
         dialog.days = [];
+        var localeData = moment.localeData(dialog.locale);
         dialog.daysOfWeek = [
-            moment.weekdaysMin(1),
-            moment.weekdaysMin(2),
-            moment.weekdaysMin(3),
-            moment.weekdaysMin(4),
-            moment.weekdaysMin(5),
-            moment.weekdaysMin(6),
-            moment.weekdaysMin(0)
+            localeData._weekdaysMin[1],
+            localeData._weekdaysMin[2],
+            localeData._weekdaysMin[3],
+            localeData._weekdaysMin[4],
+            localeData._weekdaysMin[5],
+            localeData._weekdaysMin[6],
+            localeData._weekdaysMin[0]
         ];
         dialog.years = [];
 
@@ -72,7 +77,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
             dialog.years.push(y);
         }
 
-        generateCalendar(!!dialog.Date);
+        generateCalendar();
     }
 
     function cancel() {
@@ -80,7 +85,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     }
 
     function hide() {
-        $mdDialog.hide(dialog.moment.toDate());
+        $mdDialog.hide(selectedMoment ? dialog.moment.toDate() : undefined);
     }
 
     function displayYearSelection() {
@@ -135,8 +140,9 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
     function today() {
         var today = new Date();
         dialog.moment = moment(today);
-        dialog.ngModelMoment = moment(today);
-        if (dialog.yearSelection) { dialog.hideYearSelection(); }
+        dialog.monthYear = moment(today);
+        selectedMoment = true;
+        dialog.hideYearSelection();
 
         generateCalendar();
     }
@@ -145,6 +151,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         if (!_day.disabled) {
             dialog.moment = _day;
             dialog.monthYear = angular.copy(_day);
+            selectedMoment = true;
 
             generateCalendar();
         }
@@ -157,7 +164,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         generateCalendar();
     }
 
-    function generateCalendar(selectableMoment) {
+    function generateCalendar() {
         dialog.days = [];
         dialog.emptyFirstDays = [];
         var previousDay = dialog.monthYear.clone().date(0),
@@ -170,7 +177,7 @@ function DialogController($mdDialog, $timeout, amDatePickerConfig) {
         }
         for (var j = 0; j < maxDays; j++) {
             var date = previousDay.add(1, 'days').clone();
-            date.selected = selectableMoment !== false && date.isSame(dialog.moment, 'day');
+            date.selected = selectedMoment && date.isSame(dialog.moment, 'day');
             date.today = date.isSame(moment(), 'day');
             if (angular.isDefined(dialog.minDate) && date.isBefore(dialog.minDate, 'day')) {
                 date.disabled = true;
