@@ -4,7 +4,7 @@ function amDatePickerDirective() {
         templateUrl: 'am-date-picker.html',
         bindToController:
         {
-            Date: "=ngModel",
+            date: "=ngModel",
             allowClear: '=?amAllowClear',
             cancelButton: '@?amCancelButton',
             inputDateFormat: '@?amInputDateFormat',
@@ -52,22 +52,22 @@ function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig)
         formatViewValue();
 
         $scope.$watch(function () { return amDatePicker.minDate; }, function (newValue, oldValue) {
-            if(newValue && amDatePicker.Date){
-                var minDate = moment(newValue),
-                    currentDate = moment(amDatePicker.Date);
+            if(newValue && amDatePicker.date){
+                var minDate = moment(newValue).locale(amDatePicker.locale),
+                    currentDate = moment(amDatePicker.date);
                 if(currentDate.isBefore(minDate, 'day')){
-                    amDatePicker.Date = minDate.toDate();
+                    amDatePicker.date = minDate.toDate();
                     amDatePicker.value = minDate.format(amDatePicker.inputDateFormat);
                 }
             }
         });
 
         $scope.$watch(function () { return amDatePicker.maxDate; }, function (newValue, oldValue) {
-            if(newValue && amDatePicker.Date){
-                var maxDate = moment(newValue),
-                    currentDate = moment(amDatePicker.Date);
+            if(newValue && amDatePicker.date){
+                var maxDate = moment(newValue).locale(amDatePicker.locale),
+                    currentDate = moment(amDatePicker.date);
                 if(currentDate.isAfter(maxDate, 'day')){
-                    amDatePicker.Date = maxDate.toDate();
+                    amDatePicker.date = maxDate.toDate();
                     amDatePicker.value = maxDate.format(amDatePicker.inputDateFormat);
                 }
             }
@@ -75,11 +75,11 @@ function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig)
     }
 
     function formatViewValue() {
-        amDatePicker.value = amDatePicker.Date ? moment(amDatePicker.Date).format(amDatePicker.inputDateFormat) : undefined;
+        amDatePicker.value = amDatePicker.date ? moment(amDatePicker.date).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) : undefined;
     }
 
     function clearDate() {
-        amDatePicker.Date = undefined;
+        amDatePicker.date = undefined;
         formatViewValue();
     }
 
@@ -93,7 +93,7 @@ function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig)
             targetEvent: ev,
             templateUrl: 'am-date-picker_content.tmpl.html',
             locals: {
-                Date: amDatePicker.Date,
+                Date: amDatePicker.date,
                 minDate: amDatePicker.minDate,
                 maxDate: amDatePicker.maxDate,
                 todayButton: amDatePicker.todayButton,
@@ -101,7 +101,7 @@ function AmDatePickerController($scope, $timeout, $mdDialog, amDatePickerConfig)
                 backButtonText: amDatePicker.backButtonText
             }
         }).then(function (selectedDate) {
-            amDatePicker.Date = selectedDate;
+            amDatePicker.date = selectedDate;
             formatViewValue();
         });
     }
