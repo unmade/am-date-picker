@@ -76,7 +76,7 @@ angular
     }]);
 ```
 
-> Note that images for icons have to be set globally through the `amDatepickerConfig`.
+> Note that images for icons have to be set globally through the `amDatePickerConfig`.
 
 **markup**
 
@@ -96,12 +96,13 @@ angular
 
 ## API Documentation
 
-All settings can be provided as attributes in the `am-date-picker` or globally configured through the `amDatepickerConfig`.
+All settings can be provided as attributes in the `am-date-picker` or globally configured through the `amDatePickerConfig`.
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
 | `ng-model`             | `Date Object` | Two-way data-binding date property. |
-| `am-allow-clear`       | `Boolean`     | Whether the input could be clear (default: `true`). |
+| `ng-change`            | `expression`  | Expression evaluated when the model value changes. |
+| `am-allow-clear`       | `boolean`     | Whether the input could be clear (default: `true`). |
 | `am-cancel-button`     | `String`      | Set text for cancel button. If not provided the button won't be shown. |
 | `am-input-date-format` | `String`      | The format for displayed date in input (default: `LL`). |
 | `am-input-label`       | `String`      | The text to display as input label. |
@@ -110,10 +111,10 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 | `am-max-year`          | `Number`      | Defines the maximum year displayed in year selection (default: `2020`). |
 | `am-min-year`          | `Number`      | Defines the minimum year displayed in year selection (default: `1920`). |
 | `am-popup-date-format` | `String`      | The format for displayed date in popup header (default: `ddd, MMM D`). |
-| `am-show-input-icon`   | `Boolean`     | Whether to display the calendar icon (default: `false`). |
+| `am-show-input-icon`   | `boolean`     | Whether to display the calendar icon (default: `false`). |
 | `am-today-button`      | `String`      | The text for today button. If not provided the button won't be shown. |
 
-Specific settings that can be globally configured through the `amDatepickerConfig` only.
+Specific settings that can be globally configured through the `amDatePickerConfig` only.
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |

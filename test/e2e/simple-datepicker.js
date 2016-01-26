@@ -85,12 +85,12 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         var days = element.all(by.css('.am-date-picker__day'));
         expect(days.count()).toEqual(currDate.daysInMonth());
 
-        var todayDay = element.all(by.css('.am-date-picker__day--is-today'));
+        var todayDay = element.all(by.css('.am-date-picker__day--is-selected'));
         expect(todayDay.count()).toEqual(1);
         expect(todayDay.get(0).getText()).toEqual(currDate.format('D'));
 
         days.each(function(e, i) {
-            expect(hasClass(e, 'am-date-picker__day--is-selected')).toBe(false);
+            expect(hasClass(e, 'am-date-picker__day--is-today')).toBe(false);
             expect(hasClass(e, 'am-date-picker__day--is-disabled')).toBe(false);
         })
     });

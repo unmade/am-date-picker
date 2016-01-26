@@ -10,11 +10,11 @@ describe('am.date-picker directive unit tests', function() {
       module(moduleName, [providerName, function(Provider) { provider = Provider; }]);
     return function() { inject(); return provider; }; // inject calls the above
   }
-  
+
   function serviceFactory(serviceName){
       var service;
       inject([serviceName,function(Service){ service = Service;}]);
-      return service;      
+      return service;
   }
     beforeEach(function(){
       amDatePickerConfigProvider = providerFactory("am.date-picker", "amDatePickerConfigProvider")();
@@ -67,21 +67,27 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should init calendar without parameters', function() {
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
 
     $rootScope.$digest();
 
     var amDatePicker = element.isolateScope().amDatePicker,
-        lastYearIndex = amDatePicker.years.length - 1;
+        lastYearIndex = amDatePicker.years.length - 1,
+        today = moment();
 
-    expect(amDatePicker.ngModel).toBe(undefined);
     expect(amDatePicker.allowClear).toBe(true);
-    expect(amDatePicker.cancelButtonText).toBe(undefined);
+    expect(amDatePicker.cancelButton).toBe(undefined);
     expect(amDatePicker.inputLabel).toBe(undefined);
     expect(amDatePicker.inputDateFormat).toBe('LL');
     expect(amDatePicker.locale).toBe("en");
     expect(amDatePicker.maxDate).toBe(undefined);
+    expect(amDatePicker.maxYear).toBe(2020);
     expect(amDatePicker.minDate).toBe(undefined);
+    expect(amDatePicker.minYear).toBe(1920);
+    expect(amDatePicker.model).toBe(undefined);
+    expect(amDatePicker.modelMoment.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelMomentSelected.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelFormatted).toBe(undefined);
     expect(amDatePicker.popupDateFormat).toBe('ddd, MMM D');
     expect(amDatePicker.showInputIcon).toBe(false);
     expect(amDatePicker.todayButton).toBe(undefined);
@@ -92,8 +98,8 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should set global config and init calendar', function() {
-    var minDate = moment({year: 1967, month: 1, date: 1}),
-        maxDate = moment({year: 1973, month: 1, date: 1});
+    var minDate = new Date('1967-01-01');
+        maxDate = new Date('1973-01-01');
 
     amDatePickerConfigProvider.setOptions({
         allowClear: false,
@@ -117,19 +123,20 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePickerConfig.inputLabel).toBe('Выберите дату');
     expect(amDatePickerConfig.locale).toBe('ru');
     expect(amDatePickerConfig.maxDate).toBe(maxDate);
-    expect(amDatePickerConfig.minDate).toBe(minDate);
     expect(amDatePickerConfig.maxYear).toBe(1973);
+    expect(amDatePickerConfig.minDate).toBe(minDate);
     expect(amDatePickerConfig.minYear).toBe(1967);
     expect(amDatePickerConfig.popupDateFormat).toBe('D MMMM');
     expect(amDatePickerConfig.todayButton).toBe('Today');
     expect(amDatePickerConfig.showInputIcon).toBe(true);
 
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
 
     $rootScope.$digest();
 
     var amDatePicker = element.isolateScope().amDatePicker,
-        lastYearIndex = amDatePicker.years.length - 1;
+        lastYearIndex = amDatePicker.years.length - 1,
+        today = moment();
 
     expect(amDatePicker.showInputIcon).toBe(true);
     expect(amDatePicker.allowClear).toBe(false);
@@ -137,7 +144,13 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.inputLabel).toBe("Выберите дату");
     expect(amDatePicker.locale).toBe("ru");
     expect(amDatePicker.maxDate).toBe(maxDate);
+    expect(amDatePicker.maxYear).toBe(1973);
     expect(amDatePicker.minDate).toBe(minDate);
+    expect(amDatePicker.minYear).toBe(1967);
+    expect(amDatePicker.model).toBe(undefined);
+    expect(amDatePicker.modelMoment.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelMomentSelected.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelFormatted).toBe(undefined);
     expect(amDatePicker.popupDateFormat).toBe('D MMMM');
     expect(amDatePicker.todayButton).toBe('Today');
     expect(amDatePicker.yearSelection).toBe(false);
@@ -148,9 +161,10 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should Init Calendar with parameters', function() {
-    var date = moment({year: 2014, month: 0, date: 15}),
-        minDate = moment({year: 2014, month: 0, date: 10}),
-        maxDate = moment({year: 2014, month: 0, date: 20});
+    var date = new Date('2014-01-15'),
+        minDate = new Date('2014-01-10'),
+        maxDate = new Date('2014-01-20');
+
     $rootScope.date = date;
     $rootScope.minDate = minDate;
     $rootScope.maxDate = maxDate;
@@ -172,7 +186,10 @@ describe('am.date-picker directive unit tests', function() {
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(amDatePicker.ngModel).toBe(date);
+    expect(amDatePicker.model).toEqual(date);
+    expect(amDatePicker.modelMoment).toEqual(moment(date));
+    expect(amDatePicker.modelMomentSelected).toEqual(moment(date));
+    expect(amDatePicker.modelMomentFormatted).toEqual(moment(date).format(amDatePicker.inputDateFormat));
     expect(amDatePicker.allowClear).toBe(false);
     expect(amDatePicker.cancelButton).toBe('Cancel');
     expect(amDatePicker.inputDateFormat).toBe('L');
@@ -191,12 +208,12 @@ describe('am.date-picker directive unit tests', function() {
   it('should generate calendar', function() {
     var dates = [
       {
-         date: moment({year: 2014, month: 0, date: 1}),
+         date: new Date('2014-01-01'),
          emptyFirstDays: 2,
          days: 31
       },
       {
-         date: moment({year: 2014, month: 1, date: 1}),
+         date: new Date('2014-02-01'),
          emptyFirstDays: 5,
          days: 28
       }
@@ -221,22 +238,25 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should generate calendar with min and max year in selection', function() {
-    var element = $compile('<am-date-picker am-min-year="2011"' +
+    var element = $compile('<am-date-picker ng-model="date"' +
+                           '                am-min-year="2011"' +
                            '                am-max-year="2015">' +
                            '</am-date-picker')($rootScope);
     $rootScope.$digest();
 
     var amDatePicker = element.isolateScope().amDatePicker,
         lastYearIndex = amDatePicker.years.length - 1;
+    expect(amDatePicker.maxYear).toBe(2015);
+    expect(amDatePicker.minYear).toBe(2011);
     expect(amDatePicker.years[0]).toBe(2011);
     expect(amDatePicker.years[lastYearIndex]).toBe(2015);
-});
+  });
 
 
   it('should generate calendar with disabled days', function() {
-    $rootScope.date = moment({year: 2014, month: 0, date: 7});
-    $rootScope.minDate = moment({year: 2014, month: 0, date: 5});
-    $rootScope.maxDate = moment({year: 2014, month: 0, date: 9});
+    $rootScope.date = new Date('2014-01-07');
+    $rootScope.minDate = new Date('2014-01-05');
+    $rootScope.maxDate = new Date('2014-01-09');
 
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-min-date="minDate"' +
@@ -245,6 +265,9 @@ describe('am.date-picker directive unit tests', function() {
     $rootScope.$digest();
 
     var amDatePicker = element.isolateScope().amDatePicker;
+
+    expect(amDatePicker.maxDate).toEqual($rootScope.maxDate);
+    expect(amDatePicker.minDate).toEqual($rootScope.minDate);
 
     var j;
     /* dates disabled due-to min-date */
@@ -266,20 +289,20 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should set custom input date format', function() {
-    $rootScope.date = moment();
+    $rootScope.date = new Date();
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-input-date-format="L">' +
                            '</am-date-picker')($rootScope);
     $rootScope.$digest();
 
     var amDatePicker = element.isolateScope().amDatePicker;
-    expect(amDatePicker.inputDateFormat).toBe('L');
-    expect(amDatePicker.ngModelMomentFormatted).toBe($rootScope.date.format('L'));
+    expect(amDatePicker.inputDateFormat).toEqual('L');
+    expect(amDatePicker.modelMomentFormatted).toBe(moment($rootScope.date).format('L'));
   });
 
 
   it('should show today button', function() {
-    $rootScope.date = moment({year: 2014, month: 0, date: 7});
+    $rootScope.date = new Date('2014-01-07');
 
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-today-button="Today">' +
@@ -294,9 +317,10 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should show disabled today button when today is less than minDate', function() {
-    $rootScope.minDate = moment().add(1, 'days');
+    $rootScope.minDate = moment().add(1, 'days').toDate();
 
-    var element = $compile('<am-date-picker am-min-date="minDate"' +
+    var element = $compile('<am-date-picker ng-model="date"' +
+                           '                am-min-date="minDate"' +
                            '                am-today-button="Today">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
@@ -309,9 +333,10 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should show disabled today button when today is greater than maxDate', function() {
-    $rootScope.maxDate = moment({year: 2014, month: 0, date: 5});
+    $rootScope.maxDate = new Date('2014-01-05');
 
-    var element = $compile('<am-date-picker am-max-date="maxDate"' +
+    var element = $compile('<am-date-picker ng-model="date"'+
+                           '                am-max-date="maxDate"' +
                            '                am-today-button="Today">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
@@ -324,23 +349,25 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should select date', function() {
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker,
         date = moment();
 
     amDatePicker.select(date);
 
-    expect(amDatePicker.ngModel).toBe(date.toDate());
-    expect(amDatePicker.ngModelMoment.toDate()).toEqual(date.toDate());
-    expect(amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
+    expect(amDatePicker.model).toBe(undefined);
+    expect(amDatePicker.modelMoment).toEqual(date);
+    expect(amDatePicker.modelMomentSelected).toEqual(date);
+    expect(amDatePicker.modelMomentFormatted).toBe(undefined);
   });
 
 
   it('should not select disabled date', function() {
-    $rootScope.minDate = moment().add(1, 'days');
+    $rootScope.minDate = moment().add(1, 'days').toDate();
 
-    var element = $compile('<am-date-picker am-min-date="minDate">' +
+    var element = $compile('<am-date-picker ng-model="date"' +
+                           '                am-min-date="minDate">' +
                            '</am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker,
@@ -349,12 +376,12 @@ describe('am.date-picker directive unit tests', function() {
     date.disabled = true;
     amDatePicker.select(date);
 
-    expect(amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.model).toBe(undefined);
   });
 
 
   it('should generate calendar for next month', function() {
-    $rootScope.date = moment({year: 2012, month: 0, date: 1});
+    $rootScope.date = new Date('2012-01-01');
 
     var element = $compile('<am-date-picker ng-model="date">' +
                            '</am-date-picker>')($rootScope);
@@ -368,7 +395,7 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should generate calendar previous month', function() {
-    $rootScope.date = moment({year: 2012, month: 2, date: 1});
+    $rootScope.date = new Date('2012-03-01');
 
     var element = $compile('<am-date-picker ng-model="date">' +
                            '</am-date-picker>')($rootScope);
@@ -382,12 +409,12 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should change min date and disabled days', function() {
-    $rootScope.minDate = moment({year: 2014, month: 0, date: 5});
-    $rootScope.date = moment({year: 2014, month: 0, date: 15});
+    $rootScope.minDate = new Date('2014-01-05');
+    $rootScope.date = new Date('2014-01-15');
 
     var element = $compile('<am-date-picker ng-model="date"' +
-                         '                am-min-date="minDate">' +
-                         '</am-date-picker>')($rootScope);
+                           '                am-min-date="minDate">' +
+                           '</am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker,
         i;
@@ -398,7 +425,7 @@ describe('am.date-picker directive unit tests', function() {
       expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
 
-    $rootScope.minDate = moment({year: 2014, month: 0, date: 10});;
+    $rootScope.minDate = new Date('2014-01-10');
     element.isolateScope().$apply();
     for (i = 0; i < 9; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);
@@ -410,12 +437,12 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should change max date and disabled days', function() {
-    $rootScope.maxDate = moment({year: 2014, month: 0, date: 15});
-    $rootScope.date = moment({year: 2014, month: 0, date: 10});
+    $rootScope.maxDate = new Date('2014-01-15');
+    $rootScope.date = new Date('2014-01-10');
 
     var element = $compile('<am-date-picker ng-model="date"' +
-                         '                  am-max-date="maxDate">' +
-                         '</am-date-picker>')($rootScope);
+                           '                am-max-date="maxDate">' +
+                           '</am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker,
       i;
@@ -426,7 +453,7 @@ describe('am.date-picker directive unit tests', function() {
       expect(amDatePicker.days[i].disabled).toBe(true);
     }
 
-    $rootScope.maxDate = moment({year: 2014, month: 0, date: 10});;
+    $rootScope.maxDate = new Date('2014-01-10');
     element.isolateScope().$apply();
     for (i = 0; i < 10; i++) {
       expect(amDatePicker.days[i].disabled).toBe(undefined);
@@ -439,40 +466,40 @@ describe('am.date-picker directive unit tests', function() {
 
   it('should set new min date and change selected date respectively if it lesser',
     function() {
-      $rootScope.minDate = moment({year: 2014, month: 0, date: 5});
-      $rootScope.date = moment({year: 2014, month: 0, date: 15});
+      $rootScope.minDate = new Date('2014-01-05');
+      $rootScope.date = new Date('2014-01-15');
 
       var element = $compile('<am-date-picker ng-model="date"' +
                              '                am-min-date="minDate">' +
                              '</am-date-picker>')($rootScope);
       $rootScope.$digest();
 
-      $rootScope.minDate = moment({year: 2014, month: 0, date: 20}).toDate();
+      $rootScope.minDate = new Date('2014-01-20');
       element.isolateScope().$apply();
       var amDatePicker = element.isolateScope().amDatePicker;
-      expect(String(amDatePicker.ngModel)).toBe(String($rootScope.minDate));
+      expect(amDatePicker.model).toEqual($rootScope.minDate);
   });
 
 
   it('should set new max date and change selected date respectively if it greater',
     function() {
-      $rootScope.maxDate = moment({year: 2014, month: 0, date: 20});
-      $rootScope.date = moment({year: 2014, month: 0, date: 15});
+      $rootScope.maxDate = new Date('2014-01-20');
+      $rootScope.date = new Date('2014-01-15');
 
       var element = $compile('<am-date-picker ng-model="date"' +
                              '                am-max-date="maxDate">' +
                              '</am-date-picker>')($rootScope);
       $rootScope.$digest();
 
-      $rootScope.maxDate = moment({year: 2014, month: 0, date: 10}).toDate();
+      $rootScope.maxDate = new Date('2014-01-10');
       element.isolateScope().$apply();
       var amDatePicker = element.isolateScope().amDatePicker;
-      expect(String(amDatePicker.ngModel)).toBe(String($rootScope.maxDate));
+      expect(amDatePicker.model).toEqual($rootScope.maxDate);
   });
 
 
   it('should display year selection', function() {
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker;
 
@@ -485,7 +512,7 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should select year', function() {
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker;
 
@@ -499,20 +526,23 @@ describe('am.date-picker directive unit tests', function() {
 
 
   it('should select today date', function() {
-    var element = $compile('<am-date-picker></am-date-picker>')($rootScope);
+    var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
     $rootScope.$digest();
-    var amDatePicker = element.isolateScope().amDatePicker;
+    var amDatePicker = element.isolateScope().amDatePicker,
+        today = moment();
 
-    expect(amDatePicker.ngModel).toBe(undefined);
+    expect(amDatePicker.model).toBe(undefined);
 
     amDatePicker.today();
-    expect(String(amDatePicker.ngModel)).toBe(String(moment().toDate()));
+    expect(amDatePicker.modelMoment.toDate()).toEqual(today.toDate());
+    expect(amDatePicker.modelMomentSelected.toDate()).toEqual(today.toDate());
     expect(amDatePicker.yearSelection).toBe(false);
   });
 
 
   it('should clear date', function() {
-    var date = moment({year: 2014});
+    var date = new Date('2014-01-01'),
+        momentDate = moment(date);
     $rootScope.date = date;
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-allow-clear="true">' +
@@ -520,14 +550,15 @@ describe('am.date-picker directive unit tests', function() {
     $rootScope.$digest();
     var amDatePicker = element.isolateScope().amDatePicker;
 
-    expect(amDatePicker.ngModel).toEqual(date);
-    expect(amDatePicker.ngModelMoment).toEqual(date);
-    expect(amDatePicker.ngModelMomentFormatted).toBe(date.format('LL'));
+    expect(amDatePicker.model).toEqual(date);
+    expect(amDatePicker.modelMoment).toEqual(momentDate);
+    expect(amDatePicker.modelMomentSelected).toEqual(momentDate);
+    expect(amDatePicker.modelMomentFormatted).toBe(momentDate.format('LL'));
     expect(amDatePicker.allowClear).toBe(true);
 
     amDatePicker.clearDate();
-    expect(amDatePicker.ngModel).toBe(undefined);
-    expect(amDatePicker.ngModelMomentFormatted).toBe(undefined);
+    expect(amDatePicker.model).toBe(undefined);
+    expect(amDatePicker.modelMomentFormatted).toBe(undefined);
   });
 
 });

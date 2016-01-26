@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Date picker</title>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
 </head>
 
@@ -24,23 +24,23 @@
 
 
             <am-date-picker ng-model="date"
+                            ng-change="onChange(date)"
                             am-cancel-button="Cancel"
                             am-input-label="Pick a Date"
                             am-today-button="Today"
                             am-allow-clear="false"
-                            am-date-format="L"
+                            am-input-date-format="L"
                             am-popup-date-format="Do of MMMM"
                             am-show-input-icon="true">
             </am-date-picker>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-animate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.4/angular-material.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-material/angular-material.min.js"></script>
+    <script src="/bower_components/moment/min/moment-with-locales.js"></script>
 
     <script src="/demo/js/app.js"></script>
 

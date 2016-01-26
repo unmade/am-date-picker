@@ -81,8 +81,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
     it('should display calendar for current month', function() {
         input.click();
-        var minDate = moment({year: 2014, month: 0, date: 5}),
-            maxDate = moment({year: 2014, month: 0, date: 15})
+        
         var days = $$('.am-date-picker__day');
         expect(days.count()).toEqual(selectedDate.daysInMonth());
 
@@ -154,10 +153,12 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         input.click();
 
         var dialog = element(by.tagName('md-dialog')),
-            days = $$('.am-date-picker__day');
+            days = $$('.am-date-picker__day'),
+            buttons = element.all(by.css('md-dialog-actions button'));
         days.get(13).click();
 
         expect(hasClass(days.get(13), 'am-date-picker__day--is-selected')).toBe(true);
+        buttons.get(2).click();
         expect(input.getAttribute('value')).toEqual(selectedDate.date(14).format('L'));
     });
 

@@ -6,7 +6,7 @@
             <md-icon ng-show="amDatePicker.showInputIcon"
                      md-svg-icon="{{ amDatePicker.calendarIcon }}"
                      class="am-date-picker__calendar-icon"></md-icon>
-            <input ng-model="amDatePicker.ngModelMomentFormatted"
+            <input ng-model="amDatePicker.modelMomentFormatted"
                    ng-click="amDatePicker.openPicker($event)"
                    class="am-date-picker__input"
                    type="text"
@@ -25,8 +25,8 @@
 
         <!-- Current date -->
         <div layout-align="center" class="am-date-picker__header-current-date">
-            <p>{{ amDatePicker.moment(amDatePicker.ngModel).format('YYYY') }}</p>
-            <h2>{{ amDatePicker.moment(amDatePicker.ngModel).format(amDatePicker.popupDateFormat) }}</h2>
+            <p>{{ amDatePicker.moment(amDatePicker.modelMomentSelected).format('YYYY') }}</p>
+            <h2>{{ amDatePicker.moment(amDatePicker.modelMomentSelected).format(amDatePicker.popupDateFormat) }}</h2>
         </div>
 
     </div>
@@ -44,7 +44,7 @@
 
             <md-button ng-click="amDatePicker.displayYearSelection()"
                        class="am-date-picker__month-year">
-                {{ amDatePicker.ngModelMoment.format('MMMM YYYY') }}
+                {{ amDatePicker.modelMoment.format('MMMM YYYY') }}
             </md-button>
 
              <md-button ng-click="amDatePicker.nextMonth()"
@@ -59,7 +59,7 @@
         <div class="am-date-picker__calendar am-date-picker__animate-month-change"
              ng-class="{'next': amDatePicker.next,
                         'prev': !amDatePicker.next}"
-             ng-if="amDatePicker.change">
+             ng-if="amDatePicker.monthChanged">
 
             <!-- Weekdays -->
             <div style="padding-left: 12px; padding-right: 20px;" layout layout-align="space-between">
@@ -90,7 +90,7 @@
         <a class="am-date-picker__year"
            ng-repeat="year in amDatePicker.years"
            ng-class="{ 'am-date-picker__year--is-active':
-                        year == amDatePicker.moment(amDatePicker.ngModel).format('YYYY') }"
+                        year == amDatePicker.moment(amDatePicker.modelMomentSelected).format('YYYY') }"
            ng-click="amDatePicker.selectYear(year)">
             <p>{{ year }}</p>
         </a>
