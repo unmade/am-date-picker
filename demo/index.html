@@ -25,14 +25,20 @@
 
             <am-date-picker ng-model="date"
                             ng-change="onChange(date)"
-                            am-cancel-button="Cancel"
-                            am-input-label="Pick a Date"
-                            am-today-button="Today"
+                            am-min-date="from"
+                            am-max-date="to"
+                            am-locale="ru"
+                            am-cancel-button="Отмена"
+                            am-back-button-text="Назад"
+                            am-input-label="Выберите дату"
+                            am-today-button="Сегодня"
                             am-allow-clear="false"
                             am-input-date-format="L"
-                            am-popup-date-format="Do of MMMM"
+                            am-popup-date-format="D MMMM"
                             am-show-input-icon="true">
             </am-date-picker>
+
+            <md-button ng-click="change()">change date</md-button>
         </div>
     </div>
 

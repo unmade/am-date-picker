@@ -25,8 +25,8 @@
 
         <!-- Current date -->
         <div layout-align="center" class="am-date-picker__header-current-date">
-            <p>{{ amDatePicker.moment(amDatePicker.modelMomentSelected).format('YYYY') }}</p>
-            <h2>{{ amDatePicker.moment(amDatePicker.modelMomentSelected).format(amDatePicker.popupDateFormat) }}</h2>
+            <p>{{ amDatePicker.modelMomentSelected.format('YYYY') }}</p>
+            <h2>{{ amDatePicker.modelMomentSelected.format(amDatePicker.popupDateFormat) }}</h2>
         </div>
 
     </div>
@@ -90,7 +90,7 @@
         <a class="am-date-picker__year"
            ng-repeat="year in amDatePicker.years"
            ng-class="{ 'am-date-picker__year--is-active':
-                        year == amDatePicker.moment(amDatePicker.modelMomentSelected).format('YYYY') }"
+                        year == amDatePicker.modelMomentSelected.format('YYYY') }"
            ng-click="amDatePicker.selectYear(year)">
             <p>{{ year }}</p>
         </a>

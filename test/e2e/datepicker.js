@@ -9,8 +9,7 @@ var hasClass = function (element, cls) {
 };
 
 describe('am.date-picker directive e2e test (datepicker with opt)', function() {
-    moment.locale('ru');
-    var selectedDate = moment({year: 2014, month: 0, date: 10}),
+    var selectedDate = moment({year: 2014, month: 0, date: 10}).locale('ru'),
         inputContainer = element(by.tagName('md-input-container')),
         label = inputContainer.element(by.tagName('label')),
         input = inputContainer.element(by.tagName('input'));
@@ -81,7 +80,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
     it('should display calendar for current month', function() {
         input.click();
-        
+
         var days = $$('.am-date-picker__day');
         expect(days.count()).toEqual(selectedDate.daysInMonth());
 

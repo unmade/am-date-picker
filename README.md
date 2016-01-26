@@ -100,12 +100,14 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
-| `ng-model`             | `Date Object` | Two-way data-binding date property. |
+| `ng-model`             | `Date Object` | Two-way data-binding date property. If ng-model out of range [minDate, maxDate] the error would be raised. |
 | `ng-change`            | `expression`  | Expression evaluated when the model value changes. |
 | `am-allow-clear`       | `boolean`     | Whether the input could be clear (default: `true`). |
+| `am-back-button-text`  | `String`      | Set text for back button displayed in year selection(default: `Back`). |
 | `am-cancel-button`     | `String`      | Set text for cancel button. If not provided the button won't be shown. |
 | `am-input-date-format` | `String`      | The format for displayed date in input (default: `LL`). |
 | `am-input-label`       | `String`      | The text to display as input label. |
+| `am-locale`            | `String`      | Set locale (default: `en`). |
 | `am-max-date`          | `Date Object` | Defines the maximum selectable date. |
 | `am-min-date`          | `Date Object` | Defines the minimum selectable date. |
 | `am-max-year`          | `Number`      | Defines the maximum year displayed in year selection (default: `2020`). |
@@ -118,8 +120,6 @@ Specific settings that can be globally configured through the `amDatePickerConfi
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
-| `backButtonText`       | `String`      | Set text for back button displayed in year selection(default: `Cancel`). |
-| `locale`               | `String`      | Set locale (default: `en`). |
 | `calendarIcon`         | `String`      | Path to the calendar icon. |
 | `clearIcon`            | `String`      | Path to the clear icon. |
 | `nextIcon`             | `String`      | Path to the chevron right icon. |

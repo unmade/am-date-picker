@@ -76,6 +76,7 @@ describe('am.date-picker directive unit tests', function() {
         today = moment();
 
     expect(amDatePicker.allowClear).toBe(true);
+    expect(amDatePicker.backButtonText).toBe('Back');
     expect(amDatePicker.cancelButton).toBe(undefined);
     expect(amDatePicker.inputLabel).toBe(undefined);
     expect(amDatePicker.inputDateFormat).toBe('LL');
@@ -103,6 +104,7 @@ describe('am.date-picker directive unit tests', function() {
 
     amDatePickerConfigProvider.setOptions({
         allowClear: false,
+        backButtonText: 'Назад',
         cancelButton: 'Отмена',
         inputDateFormat: 'L',
         inputLabel: 'Выберите дату',
@@ -118,6 +120,7 @@ describe('am.date-picker directive unit tests', function() {
 
     var amDatePickerConfig = serviceFactory('amDatePickerConfig');
     expect(amDatePickerConfig.allowClear).toBe(false);
+    expect(amDatePickerConfig.backButtonText).toBe('Назад');
     expect(amDatePickerConfig.cancelButton).toBe('Отмена');
     expect(amDatePickerConfig.inputDateFormat).toBe('L');
     expect(amDatePickerConfig.inputLabel).toBe('Выберите дату');
@@ -138,8 +141,10 @@ describe('am.date-picker directive unit tests', function() {
         lastYearIndex = amDatePicker.years.length - 1,
         today = moment();
 
-    expect(amDatePicker.showInputIcon).toBe(true);
+
     expect(amDatePicker.allowClear).toBe(false);
+    expect(amDatePicker.backButtonText).toBe('Назад');
+    expect(amDatePicker.cancelButton).toBe('Отмена');
     expect(amDatePicker.inputDateFormat).toBe('L');
     expect(amDatePicker.inputLabel).toBe("Выберите дату");
     expect(amDatePicker.locale).toBe("ru");
@@ -171,9 +176,11 @@ describe('am.date-picker directive unit tests', function() {
 
     var element = $compile('<am-date-picker ng-model="date"' +
                            '                am-allow-clear="false"' +
-                           '                am-cancel-button="Cancel"' +
+                           '                am-back-button-text="Календарь"' +
+                           '                am-cancel-button="Отмена"' +
                            '                am-input-date-format="L"' +
-                           '                am-input-label="Pick a Date"' +
+                           '                am-input-label="Выберите дату"' +
+                           '                am-locale="ru"' +
                            '                am-max-date="maxDate"' +
                            '                am-max-year="2015"' +
                            '                am-min-date="minDate"' +
@@ -187,14 +194,16 @@ describe('am.date-picker directive unit tests', function() {
     var amDatePicker = element.isolateScope().amDatePicker;
 
     expect(amDatePicker.model).toEqual(date);
-    expect(amDatePicker.modelMoment).toEqual(moment(date));
-    expect(amDatePicker.modelMomentSelected).toEqual(moment(date));
-    expect(amDatePicker.modelMomentFormatted).toEqual(moment(date).format(amDatePicker.inputDateFormat));
+    expect(amDatePicker.modelMoment).toEqual(moment(date).locale('ru'));
+    expect(amDatePicker.modelMomentSelected).toEqual(moment(date).locale('ru'));
+    expect(amDatePicker.modelMomentFormatted).toEqual(moment(date).locale('ru')
+                                                                  .format(amDatePicker.inputDateFormat));
     expect(amDatePicker.allowClear).toBe(false);
-    expect(amDatePicker.cancelButton).toBe('Cancel');
+    expect(amDatePicker.backButtonText).toBe('Календарь');
+    expect(amDatePicker.cancelButton).toBe('Отмена');
     expect(amDatePicker.inputDateFormat).toBe('L');
-    expect(amDatePicker.inputLabel).toBe('Pick a Date');
-    expect(amDatePicker.locale).toBe('en');
+    expect(amDatePicker.inputLabel).toBe('Выберите дату');
+    expect(amDatePicker.locale).toBe('ru');
     expect(amDatePicker.maxDate).toBe(maxDate);
     expect(amDatePicker.maxYear).toBe(2015);
     expect(amDatePicker.minDate).toBe(minDate);
@@ -231,7 +240,7 @@ describe('am.date-picker directive unit tests', function() {
       expect(amDatePicker.days.length).toBe(dates[i].days);
       expect(amDatePicker.days[0].selected).toBe(true);
       for (var j = 0; j < amDatePicker.days.length; j++) {
-        expect(amDatePicker.days[j].disabled).toBe(undefined);
+        expect(amDatePicker.days[j].disabled).toBe(false);
       }
     }
   });
@@ -282,7 +291,7 @@ describe('am.date-picker directive unit tests', function() {
 
     /* dates shouldn't be disabled */
     for (j = 5; j < 9; j++) {
-      expect(amDatePicker.days[j].disabled).toBe(undefined);
+      expect(amDatePicker.days[j].disabled).toBe(false);
     }
 
   });
@@ -447,7 +456,7 @@ describe('am.date-picker directive unit tests', function() {
     var amDatePicker = element.isolateScope().amDatePicker,
       i;
     for (i = 0; i < 15; i++) {
-      expect(amDatePicker.days[i].disabled).toBe(undefined);
+      expect(amDatePicker.days[i].disabled).toBe(false);
     }
     for (i = 15; i < amDatePicker.length; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);
@@ -456,7 +465,7 @@ describe('am.date-picker directive unit tests', function() {
     $rootScope.maxDate = new Date('2014-01-10');
     element.isolateScope().$apply();
     for (i = 0; i < 10; i++) {
-      expect(amDatePicker.days[i].disabled).toBe(undefined);
+      expect(amDatePicker.days[i].disabled).toBe(false);
     }
     for (i = 10; i < amDatePicker.length; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);

@@ -37,18 +37,17 @@
             }
          }
 
-        this.$get = function ($mdDialog, $q) {
-            return new amDatePickerService(config, $mdDialog, $q);
+        this.$get = function () {
+            return new amDatePickerService(config);
         };
-        this.$get.$inject = ["$mdDialog", "$q"];
 
     }
 
-    function amDatePickerService(config, $mdDialog, $q){
-        var properties = ['allowClear', 'backButtonText', 'cancelButton', 'showInputIcon',
-            'inputLabel', 'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
-            'inputDateFormat', 'popupDateFormat', 'todayButton', 'calendarIcon',
-            'prevIcon', 'nextIcon', 'clearIcon'];
+    function amDatePickerService(config){
+        var properties = ['allowClear', 'backButtonText', 'cancelButton', 'inputLabel',
+                          'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
+                          'inputDateFormat', 'popupDateFormat', 'showInputIcon', 'todayButton',
+                          'calendarIcon', 'prevIcon', 'nextIcon', 'clearIcon'];
         for(var property in properties){
             createProperty(this, properties[property], config[properties[property]]);
         }
@@ -71,9 +70,11 @@
             scope:
             {
                 allowClear: '=?amAllowClear',
+                backButtonText: '@?amBackButtonText',
                 cancelButton: '@?amCancelButton',
                 inputDateFormat: '@?amInputDateFormat',
                 inputLabel: '@?amInputLabel',
+                locale: '@?amLocale',
                 maxDate: '=?amMaxDate',
                 minDate: '=?amMinDate',
                 maxYear: '=?amMaxYear',
@@ -111,12 +112,11 @@
         amDatePicker.openPicker = openPicker;
         amDatePicker.today = today;
 
-        amDatePicker.moment = moment;
+        amDatePicker.model = null;
+        amDatePicker.ngModelCtrl = null;
+        amDatePicker.monthChanged = true;
         amDatePicker.isTodayDisabled = false;
         amDatePicker.yearSelection = false;
-        amDatePicker.monthChanged = true;
-        amDatePicker.ngModelCtrl = null;
-        amDatePicker.model = null;
 
         var delay = 110;
 
@@ -126,7 +126,7 @@
             "amDatePicker.minDate",
             function(newValue, oldValue) {
                 if (amDatePicker.model && newValue > amDatePicker.model) {
-                    amDatePicker.select(moment(newValue));
+                    amDatePicker.select(moment(newValue).locale(amDatePicker.locale));
                     updateModel();
                 }
                 generateCalendar();
@@ -137,7 +137,7 @@
             "amDatePicker.maxDate",
             function(newValue, oldValue) {
                 if (amDatePicker.model && newValue < amDatePicker.model) {
-                    amDatePicker.select(moment(newValue));
+                    amDatePicker.select(moment(newValue).locale(amDatePicker.locale));
                     updateModel();
                 }
                 generateCalendar();
@@ -145,10 +145,10 @@
         );
 
         function init() {
-            var options = ['allowClear', 'backButtonText', 'cancelButton', 'showInputIcon',
-                           'inputLabel', 'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
-                           'inputDateFormat', 'popupDateFormat', 'todayButton', 'calendarIcon',
-                           'prevIcon', 'nextIcon', 'clearIcon'];
+            var options = ['allowClear', 'backButtonText', 'cancelButton', 'inputLabel',
+                           'maxDate', 'minDate', 'maxYear', 'minYear', 'locale',
+                           'inputDateFormat', 'popupDateFormat', 'showInputIcon', 'todayButton',
+                           'calendarIcon', 'prevIcon', 'nextIcon', 'clearIcon'];
 
             for (var i = 0; i < options.length; i++) {
                 if (amDatePickerConfig.hasOwnProperty(options[i])) {
@@ -157,22 +157,24 @@
                }
             }
 
-            amDatePicker.moment.locale(amDatePicker.locale);
-
             amDatePicker.modelMomentSelected = angular.isDefined(amDatePicker.model) ?
                 moment(angular.copy(amDatePicker.model)) : moment();
             amDatePicker.modelMoment = angular.copy(amDatePicker.modelMomentSelected);
             amDatePicker.modelMomentFormatted = angular.isDefined(amDatePicker.model) ?
-                moment(amDatePicker.model).format(amDatePicker.inputDateFormat) : undefined;
+                moment(amDatePicker.model).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) : undefined;
+            amDatePicker.modelMoment.locale(amDatePicker.locale);
+            amDatePicker.modelMomentSelected.locale(amDatePicker.locale);
             amDatePicker.days = [];
+
+            var localeData = moment.localeData(amDatePicker.locale);
             amDatePicker.daysOfWeek = [
-                moment.weekdaysMin(1),
-                moment.weekdaysMin(2),
-                moment.weekdaysMin(3),
-                moment.weekdaysMin(4),
-                moment.weekdaysMin(5),
-                moment.weekdaysMin(6),
-                moment.weekdaysMin(0)
+                localeData._weekdaysMin[1],
+                localeData._weekdaysMin[2],
+                localeData._weekdaysMin[3],
+                localeData._weekdaysMin[4],
+                localeData._weekdaysMin[5],
+                localeData._weekdaysMin[6],
+                localeData._weekdaysMin[0]
             ];
             amDatePicker.years = [];
 
@@ -197,7 +199,13 @@
             amDatePicker.ngModelCtrl = ngModelCtrl;
 
             ngModelCtrl.$render = function() {
-                amDatePicker.model = amDatePicker.ngModelCtrl.$viewValue;
+                var date = amDatePicker.ngModelCtrl.$viewValue;
+
+                if (date < amDatePicker.minDate || date > amDatePicker.maxDate) {
+                    throw Error('new date out of bounds');
+                }
+
+                amDatePicker.model = date;
                 init();
             }
         }
@@ -244,14 +252,12 @@
             }
             for (var j = 0; j < maxDays; j++) {
                 var date = angular.copy(previousDay.add(1, 'days'));
-                date.selected = angular.isDefined(amDatePicker.modelMomentSelected) && date.isSame(amDatePicker.modelMomentSelected, 'day');
+                date.selected = angular.isDefined(amDatePicker.modelMomentSelected) &&
+                    date.isSame(amDatePicker.modelMomentSelected, 'day');
                 date.today = date.isSame(moment(), 'day');
-                if (angular.isDefined(amDatePicker.minDate) && date.toDate() < amDatePicker.minDate) {
-                    date.disabled = true;
-                }
-                if (angular.isDefined(amDatePicker.maxDate) && date.toDate() > amDatePicker.maxDate) {
-                    date.disabled = true;
-                }
+                date.disabled = (angular.isDefined(amDatePicker.minDate) && date.toDate() < amDatePicker.minDate ||
+                                 angular.isDefined(amDatePicker.maxDate) && date.toDate() > amDatePicker.maxDate)
+
                 amDatePicker.days.push(date);
             }
             amDatePicker.isTodayDisabled = (angular.isDefined(amDatePicker.minDate) &&
@@ -283,7 +289,7 @@
                 controller: DialogController,
                 controllerAs: 'dialog',
                 onRemoving: hideYearSelection,
-                // parent: angular.element(document.body),
+                parent: angular.element(document.body),
                 scope: $scope.$new(),
                 targetEvent: ev,
                 templateUrl: 'am-date-picker_content.tmpl.html'
@@ -308,7 +314,7 @@
 
         function today() {
             if (amDatePicker.yearSelection) { amDatePicker.hideYearSelection(); }
-            amDatePicker.select(moment());
+            amDatePicker.select(moment().locale(amDatePicker.locale));
         }
 
         function select(_day) {
@@ -328,7 +334,8 @@
         function updateModel() {
             amDatePicker.model = amDatePicker.modelMomentSelected.toDate()
             amDatePicker.ngModelCtrl.$setViewValue(amDatePicker.model);
-            amDatePicker.modelMomentFormatted = amDatePicker.modelMomentSelected.format(amDatePicker.inputDateFormat);
+            amDatePicker.modelMomentFormatted = amDatePicker.modelMomentSelected.locale(amDatePicker.locale)
+                                                                                .format(amDatePicker.inputDateFormat);
         }
     }
 })();

@@ -9,14 +9,11 @@ var hasClass = function (element, cls) {
 };
 
 describe('am.date-picker e2e test. (Linked Datepickers)', function() {
-    moment.locale('en');
     var firstDate = moment({year: 2014, month: 0, date: 10}),
         secondDate = moment({year: 2014, month: 0, date: 20});
     var firstContainer = element.all(by.tagName("md-input-container")).first(),
-        firstInput = firstContainer.element(by.tagName('label')),
         firstInput = firstContainer.element(by.tagName('input')),
         secondContainer = element.all(by.tagName("md-input-container")).last(),
-        secondInput = secondContainer.element(by.tagName('label')),
         secondInput = secondContainer.element(by.tagName('input'));
 
 
