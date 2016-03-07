@@ -11,13 +11,23 @@
 
 .am-date-picker__clear-icon {
     visibility: hidden;
+
+    .md-icon-button {
+        position: fixed!important;
+        margin: -5px -36px;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0
+
+    }
 }
+
 
 md-input-container:hover .am-date-picker__clear-icon {
     visibility: visible;
     outline: none;
     color: @clear-icon;
-    right: 36px;
 }
 
 .am-date-picker__container {
@@ -70,6 +80,8 @@ md-input-container:hover .am-date-picker__clear-icon {
     width: 36px;
     height: 36px;
     line-height: 36px;
+    padding: 0;
+    margin: 0 6px;
 }
 
 .am-date-picker__chevron {

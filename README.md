@@ -22,7 +22,7 @@ This software is provided free of change and without restriction under the [MIT 
 
 ## Requirements
 
-[Angular Material](https://material.angularjs.org/latest/#/)
+[Angular Material](https://material.angularjs.org/latest/#/) >= 1.0.0
 
 [Moment.js](http://momentjs.com/)
 

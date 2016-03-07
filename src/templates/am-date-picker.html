@@ -1,7 +1,7 @@
 <div style="outline-style: none;">
     <!-- Date picker input -->
     <div>
-        <md-input-container class="md-icon-float md-icon-right">
+        <md-input-container>
             <label>{{ amDatePicker.inputLabel }}</label>
             <md-icon ng-show="amDatePicker.showInputIcon"
                      md-svg-icon="{{ amDatePicker.calendarIcon }}"
@@ -11,10 +11,14 @@
                    class="am-date-picker__input"
                    type="text"
                    readonly="readonly">
-            <md-icon ng-show="amDatePicker.allowClear"
-                     ng-click="amDatePicker.clearDate()"
-                     md-svg-icon="{{ amDatePicker.clearIcon }}"
-                     class="am-date-picker__clear-icon"></md-icon>
+            <div class="am-date-picker__clear-icon">
+                <md-button class="md-icon-button md-mini"
+                           ng-click="amDatePicker.clearDate()"
+                           aria-label="Clear">
+                    <md-icon ng-show="amDatePicker.allowClear"
+                             md-svg-icon="{{ amDatePicker.clearIcon }}"></md-icon>
+                </md-button>
+            </div>
         </md-input-container>
     </div>
 
@@ -35,7 +39,8 @@
     <div ng-hide="amDatePicker.yearSelection" class="am-date-picker__content am-date-picker__animate-year-selection">
         <div layout="row" layout-align="space-between center" class="am-date-picker__month-year">
             <md-button ng-click="amDatePicker.previousMonth()"
-                       class="md-icon-button">
+                       class="md-icon-button"
+                       aria-label="Prev Month Button">
                 <md-icon aria-label="Prev"
                          class="am-date-picker__chevron"
                          md-svg-icon="{{ amDatePicker.prevIcon }}"></md-icon>
@@ -48,7 +53,8 @@
             </md-button>
 
              <md-button ng-click="amDatePicker.nextMonth()"
-                        class="md-icon-button">
+                        class="md-icon-button"
+                        aria-label="Next Month Button">
                 <md-icon aria-label="Next"
                          class="am-date-picker__chevron"
                          md-svg-icon="{{ amDatePicker.nextIcon }}"></md-icon>
@@ -97,7 +103,7 @@
     </div>
 
     <!--Actions-->
-    <md-dialog-actions layout="row" class="md-actions am-date-picker__actions">
+    <md-dialog-actions layout="row" class="am-date-picker__actions">
         <md-button ng-click="amDatePicker.today()"
                    ng-disabled="amDatePicker.isTodayDisabled"
                    ng-if="amDatePicker.todayButton">
