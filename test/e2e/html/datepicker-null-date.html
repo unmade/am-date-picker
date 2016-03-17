@@ -1,0 +1,53 @@
+<!doctype html>
+<html ng-app="datepickerApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <title>Datepicker</title>
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
+</head>
+
+<body ng-controller="MainCtrl">
+    <div layout-fill layout="row" layout-align="center center">
+        <div layout="column">
+
+            <div id="simple_datepicker">
+                <am-date-picker ng-model="date"
+                                am-min-date="minDate"
+                                am-max-date="maxDate"></am-date-picker>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
+
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-material/angular-material.min.js"></script>
+
+    <script src="/dist/am-date-picker.min.js"></script>
+
+    <script>
+        angular
+            .module('datepickerApp', [
+                'ngMaterial',
+                'am.date-picker',
+            ])
+            .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
+                amDatePickerConfigProvider.setOptions({
+                    popupDateFormat: 'D MMMM'
+                })
+            }])
+            .controller('MainCtrl', ['$scope',
+                function ($scope) {
+                    $scope.date = null;
+                    $scope.minDate = null;
+                    $scope.maxDate = null;
+                }
+            ]);
+    </script>
+
+</body>
+</html>

@@ -86,8 +86,7 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.minDate).toBe(undefined);
     expect(amDatePicker.minYear).toBe(1920);
     expect(amDatePicker.model).toBe(undefined);
-    expect(amDatePicker.modelMoment.toString()).toEqual(today.toString());
-    expect(amDatePicker.modelMomentSelected.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(today.format('YYYY-MM-DD'));
     expect(amDatePicker.modelFormatted).toBe(undefined);
     expect(amDatePicker.popupDateFormat).toBe('ddd, MMM D');
     expect(amDatePicker.showInputIcon).toBe(false);
@@ -95,6 +94,19 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.yearSelection).toBe(false);
     expect(amDatePicker.years[0]).toBe(1920);
     expect(amDatePicker.years[lastYearIndex]).toBe(2020);
+  });
+
+  it('should init calendar when date set to null', function() {
+      var element = $compile('<am-date-picker ng-model="date"></am-date-picker>')($rootScope);
+      $rootScope.date = null;
+
+      $rootScope.$digest();
+
+      var amDatePicker = element.isolateScope().amDatePicker;
+
+      expect(amDatePicker.model).toBe(null);
+      expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(moment().format('YYYY-MM-DD'));
+      expect(amDatePicker.modelFormatted).toBe(undefined);
   });
 
 
@@ -153,8 +165,7 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.minDate).toBe(minDate);
     expect(amDatePicker.minYear).toBe(1967);
     expect(amDatePicker.model).toBe(undefined);
-    expect(amDatePicker.modelMoment.toString()).toEqual(today.toString());
-    expect(amDatePicker.modelMomentSelected.toString()).toEqual(today.toString());
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(today.format('YYYY-MM-DD'));
     expect(amDatePicker.modelFormatted).toBe(undefined);
     expect(amDatePicker.popupDateFormat).toBe('D MMMM');
     expect(amDatePicker.todayButton).toBe('Today');
@@ -194,8 +205,7 @@ describe('am.date-picker directive unit tests', function() {
     var amDatePicker = element.isolateScope().amDatePicker;
 
     expect(amDatePicker.model).toEqual(date);
-    expect(amDatePicker.modelMoment).toEqual(moment(date).locale('ru'));
-    expect(amDatePicker.modelMomentSelected).toEqual(moment(date).locale('ru'));
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(moment(date).locale('ru').format('YYYY-MM-DD'));
     expect(amDatePicker.modelMomentFormatted).toEqual(moment(date).locale('ru')
                                                                   .format(amDatePicker.inputDateFormat));
     expect(amDatePicker.allowClear).toBe(false);
@@ -367,7 +377,6 @@ describe('am.date-picker directive unit tests', function() {
 
     expect(amDatePicker.model).toBe(undefined);
     expect(amDatePicker.modelMoment).toEqual(date);
-    expect(amDatePicker.modelMomentSelected).toEqual(date);
     expect(amDatePicker.modelMomentFormatted).toBe(undefined);
   });
 
@@ -430,7 +439,31 @@ describe('am.date-picker directive unit tests', function() {
     for (i = 0; i < 4; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);
     }
-    for (i = 5; i < amDatePicker.length; i++) {
+    for (i = 5; i < amDatePicker.days.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(false);
+    }
+
+    $rootScope.minDate = new Date('2014-01-10');
+    element.isolateScope().$apply();
+    for (i = 0; i < 9; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(true);
+    }
+    for (i = 10; i < amDatePicker.days.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(false);
+    }
+  });
+
+  it('should set min date to null, change min date and disabled days accordingly', function() {
+    $rootScope.minDate = null;
+    $rootScope.date = new Date('2014-01-15');
+
+    var element = $compile('<am-date-picker ng-model="date"' +
+                           '                am-min-date="minDate">' +
+                           '</am-date-picker>')($rootScope);
+    $rootScope.$digest();
+    var amDatePicker = element.isolateScope().amDatePicker,
+        i;
+    for (i = 0; i < amDatePicker.length; i++) {
       expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
 
@@ -443,7 +476,6 @@ describe('am.date-picker directive unit tests', function() {
       expect(amDatePicker.days[i].disabled).toBe(undefined);
     }
   });
-
 
   it('should change max date and disabled days', function() {
     $rootScope.maxDate = new Date('2014-01-15');
@@ -458,7 +490,7 @@ describe('am.date-picker directive unit tests', function() {
     for (i = 0; i < 15; i++) {
       expect(amDatePicker.days[i].disabled).toBe(false);
     }
-    for (i = 15; i < amDatePicker.length; i++) {
+    for (i = 15; i < amDatePicker.days.length; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);
     }
 
@@ -467,7 +499,31 @@ describe('am.date-picker directive unit tests', function() {
     for (i = 0; i < 10; i++) {
       expect(amDatePicker.days[i].disabled).toBe(false);
     }
-    for (i = 10; i < amDatePicker.length; i++) {
+    for (i = 10; i < amDatePicker.days.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(true);
+    }
+  });
+
+  it('should  set max date to null, change max date and disabled days accordingly', function() {
+    $rootScope.maxDate = null;
+    $rootScope.date = new Date('2014-01-10');
+
+    var element = $compile('<am-date-picker ng-model="date"' +
+                           '                am-max-date="maxDate">' +
+                           '</am-date-picker>')($rootScope);
+    $rootScope.$digest();
+    var amDatePicker = element.isolateScope().amDatePicker,
+      i;
+    for (i = 0; i < amDatePicker.days.length; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(false);
+    }
+
+    $rootScope.maxDate = new Date('2014-01-10');
+    element.isolateScope().$apply();
+    for (i = 0; i < 10; i++) {
+      expect(amDatePicker.days[i].disabled).toBe(false);
+    }
+    for (i = 10; i < amDatePicker.days.length; i++) {
       expect(amDatePicker.days[i].disabled).toBe(true);
     }
   });
@@ -543,8 +599,7 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.model).toBe(undefined);
 
     amDatePicker.today();
-    expect(amDatePicker.modelMoment.toDate()).toEqual(today.toDate());
-    expect(amDatePicker.modelMomentSelected.toDate()).toEqual(today.toDate());
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(today.format('YYYY-MM-DD'));
     expect(amDatePicker.yearSelection).toBe(false);
   });
 
@@ -560,8 +615,7 @@ describe('am.date-picker directive unit tests', function() {
     var amDatePicker = element.isolateScope().amDatePicker;
 
     expect(amDatePicker.model).toEqual(date);
-    expect(amDatePicker.modelMoment).toEqual(momentDate);
-    expect(amDatePicker.modelMomentSelected).toEqual(momentDate);
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(momentDate.format('YYYY-MM-DD'));
     expect(amDatePicker.modelMomentFormatted).toBe(momentDate.format('LL'));
     expect(amDatePicker.allowClear).toBe(true);
 

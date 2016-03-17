@@ -189,7 +189,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         /* active year shouldn't change, because date is disabled */
         days.get(0).click();
         monthNav.click();
-        expect(activeYear.getText()).toEqual('2014');
+        expect(activeYear.getText()).toEqual('2000');
     });
 
 

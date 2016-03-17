@@ -120,12 +120,11 @@
 
         var delay = 110;
 
-        init();
-
         $scope.$watch(
             "amDatePicker.minDate",
             function(newValue, oldValue) {
-                if (amDatePicker.model && newValue > amDatePicker.model) {
+                if (amDatePicker.model
+                    && amDatePicker.modelMoment.isBefore(newValue) && newValue) {
                     amDatePicker.select(moment(newValue).locale(amDatePicker.locale));
                     updateModel();
                 }
@@ -136,7 +135,8 @@
         $scope.$watch(
             "amDatePicker.maxDate",
             function(newValue, oldValue) {
-                if (amDatePicker.model && newValue < amDatePicker.model) {
+                if (amDatePicker.model
+                    && amDatePicker.modelMoment.isAfter(newValue)  && newValue) {
                     amDatePicker.select(moment(newValue).locale(amDatePicker.locale));
                     updateModel();
                 }
@@ -157,13 +157,11 @@
                }
             }
 
-            amDatePicker.modelMomentSelected = angular.isDefined(amDatePicker.model) ?
-                moment(angular.copy(amDatePicker.model)) : moment();
-            amDatePicker.modelMoment = angular.copy(amDatePicker.modelMomentSelected);
-            amDatePicker.modelMomentFormatted = angular.isDefined(amDatePicker.model) ?
-                moment(amDatePicker.model).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) : undefined;
+            var isDate = angular.isDate(amDatePicker.model);
+            amDatePicker.modelMoment = (isDate) ? moment(angular.copy(amDatePicker.model)) : moment();
             amDatePicker.modelMoment.locale(amDatePicker.locale);
-            amDatePicker.modelMomentSelected.locale(amDatePicker.locale);
+            amDatePicker.modelMomentFormatted = (isDate) ? amDatePicker.modelMoment
+                .format(amDatePicker.inputDateFormat) : undefined;
             amDatePicker.days = [];
 
             var localeData = moment.localeData(amDatePicker.locale);
@@ -201,10 +199,6 @@
             ngModelCtrl.$render = function() {
                 var date = amDatePicker.ngModelCtrl.$viewValue;
 
-                if (date < amDatePicker.minDate || date > amDatePicker.maxDate) {
-                    throw Error('new date out of bounds');
-                }
-
                 amDatePicker.model = date;
                 init();
             }
@@ -212,13 +206,13 @@
 
         function DialogController() {
             var dialog = this,
-                modelMomentSelected = angular.copy(amDatePicker.modelMomentSelected);
+                modelMoment = angular.copy(amDatePicker.modelMoment);
 
             dialog.cancel = cancel;
             dialog.hide = hide;
 
             function cancel() {
-                amDatePicker.modelMomentSelected = modelMomentSelected;
+                select(modelMoment);
                 $mdDialog.cancel();
             }
 
@@ -252,17 +246,17 @@
             }
             for (var j = 0; j < maxDays; j++) {
                 var date = angular.copy(previousDay.add(1, 'days'));
-                date.selected = angular.isDefined(amDatePicker.modelMomentSelected) &&
-                    date.isSame(amDatePicker.modelMomentSelected, 'day');
+                date.disabled = (angular.isDate(amDatePicker.minDate) && date.isBefore(amDatePicker.minDate) ||
+                                 angular.isDate(amDatePicker.maxDate) && date.isAfter(amDatePicker.maxDate));
+                date.selected = angular.isDefined(amDatePicker.modelMoment) &&
+                    date.isSame(amDatePicker.modelMoment, 'day') && !date.disabled;
                 date.today = date.isSame(moment(), 'day');
-                date.disabled = (angular.isDefined(amDatePicker.minDate) && date.toDate() < amDatePicker.minDate ||
-                                 angular.isDefined(amDatePicker.maxDate) && date.toDate() > amDatePicker.maxDate)
 
                 amDatePicker.days.push(date);
             }
-            amDatePicker.isTodayDisabled = (angular.isDefined(amDatePicker.minDate) &&
+            amDatePicker.isTodayDisabled = (angular.isDate(amDatePicker.minDate) &&
                                             moment().toDate() < amDatePicker.minDate ||
-                                            angular.isDefined(amDatePicker.maxDate) &&
+                                            angular.isDate(amDatePicker.maxDate) &&
                                             moment().toDate() > amDatePicker.maxDate);
         }
 
@@ -319,23 +313,21 @@
 
         function select(_day) {
             if (_day.disabled) return;
-            amDatePicker.modelMomentSelected = angular.copy(_day);
             amDatePicker.modelMoment = angular.copy(_day);
             generateCalendar();
         }
 
         function selectYear(_year) {
             amDatePicker.hideYearSelection();
-            amDatePicker.modelMoment.year(_year);
-
+            select(amDatePicker.modelMoment.year(_year));
             generateCalendar();
         }
 
         function updateModel() {
-            amDatePicker.model = amDatePicker.modelMomentSelected.toDate()
+            amDatePicker.model = amDatePicker.modelMoment.toDate()
             amDatePicker.ngModelCtrl.$setViewValue(amDatePicker.model);
-            amDatePicker.modelMomentFormatted = amDatePicker.modelMomentSelected.locale(amDatePicker.locale)
-                                                                                .format(amDatePicker.inputDateFormat);
+            amDatePicker.modelMomentFormatted = amDatePicker.modelMoment.locale(amDatePicker.locale)
+                                                                        .format(amDatePicker.inputDateFormat);
         }
     }
 })();

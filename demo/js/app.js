@@ -5,7 +5,8 @@ angular
     ])
     .controller('MainCtrl', ['$scope',
         function ($scope) {
-            $scope.to = (new Date()).setDate(new Date().getDate() + 1);
+            var today = new Date();
+            $scope.to = new Date(today.setDate(today.getDate() + 1));
             $scope.from = new Date('2015-11-05');
             $scope.onChange = function(date) {
                 console.log('date was changed to %s', date);
