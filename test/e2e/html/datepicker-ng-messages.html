@@ -1,0 +1,78 @@
+<!doctype html>
+<html ng-app="datepickerApp" ng-cloak>
+<head>
+    <meta charset="utf-8">
+    <title>Datepicker</title>
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
+</head>
+
+<body ng-controller="MainCtrl">
+    <div layout-fill layout="row" layout-align="center center">
+        <div layout="column">
+
+            <form name="myForm">
+                <am-date-picker ng-model="date"
+                                am-min-date="minDate"
+                                am-max-date="maxDate"
+                                name="dateField"
+                                required>
+                </am-date-picker>
+                <div ng-messages="myForm.dateField.$error">
+                    <div id="required" ng-message="required">The date is required</div>
+                    <div id="minDate" ng-message="minDate">Date is too early!</div>
+                    <div id="maxDate" ng-message="maxDate">Date is too late!</div>
+                    <div id="valid" ng-message="valid">The entered value is not a date!</div>
+                </div>
+            </form>
+
+            <button id="setDate" ng-click="setDate()"></button>
+
+            <button id="setInvalidDate" ng-click="setInvalidDate()"></button>
+
+            <button id="setLessThanMinDate" ng-click="setLessThanMinDate()"></button>
+            <button id="setGreaterThanMaxDate" ng-click="setGreaterThanMaxDate()"></button>
+
+        </div>
+    </div>
+
+    <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
+
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-material/angular-material.min.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.min.js"></script>
+
+    <script src="/dist/am-date-picker.min.js"></script>
+
+    <script>
+        angular
+            .module('datepickerApp', [
+                'ngMaterial',
+                'ngMessages',
+                'am.date-picker',
+            ])
+            .controller('MainCtrl', ['$scope',
+                function ($scope) {
+                    $scope.date = null;
+                    $scope.minDate = new Date(new Date('2014-01-05'));
+                    $scope.maxDate = new Date(new Date('2014-01-10'));
+                    $scope.setDate = function() {
+                        $scope.date = new Date();
+                    }
+                    $scope.setInvalidDate = function() {
+                        $scope.date = "azazaza";
+                    }
+                    $scope.setLessThanMinDate = function() {
+                        $scope.date = new Date(new Date('2014-01-03'));
+                    }
+                    $scope.setGreaterThanMaxDate = function() {
+                        $scope.date = new Date(new Date('2014-01-12'));
+                    }
+                }
+            ]);
+    </script>
+
+</body>
+</html>

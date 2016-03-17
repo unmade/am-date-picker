@@ -64,7 +64,7 @@ describe('am.date-picker e2e test. (Two datepickers with different locale)', fun
         checkLocale();
 
         $$('md-dialog-actions button').get(0).click();  // Today button
-        checkLocale();  // nothing should change   
+        checkLocale();  // nothing should change
     });
 
 })

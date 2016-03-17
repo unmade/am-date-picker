@@ -96,6 +96,14 @@ angular
 
 ## API Documentation
 
+This component supports `ngMessages`. Supported attributes are:
+
+- `required`: whether a required date is not set.
+- `minDate`: whether the selected date is before the minimum allowed date.
+- `maxDate`: whether the selected date is after the maximum allowed date.
+- `valid`: whether the specified is not valid date.
+
+
 All settings can be provided as attributes in the `am-date-picker` or globally configured through the `amDatePickerConfig`.
 
 | Attribute              | Type          | Description |

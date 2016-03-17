@@ -1,6 +1,7 @@
 angular
     .module('datepickerApp', [
         'ngMaterial',
+        'ngMessages',
         'am.date-picker',
     ])
     .controller('MainCtrl', ['$scope',

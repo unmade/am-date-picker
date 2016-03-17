@@ -184,6 +184,7 @@
             }
 
             generateCalendar();
+            updateErrorState();
         }
 
         function clearDate() {
@@ -191,6 +192,12 @@
             amDatePicker.model = undefined;
             amDatePicker.modelMomentFormatted = undefined;
             generateCalendar();
+        }
+
+        function clearErrorState() {
+            ['minDate', 'maxDate', 'valid'].forEach(function(field) {
+                amDatePicker.ngModelCtrl.$setValidity(field, true);
+            }, amDatePicker);
         }
 
         function configureNgModel(ngModelCtrl) {
@@ -328,6 +335,22 @@
             amDatePicker.ngModelCtrl.$setViewValue(amDatePicker.model);
             amDatePicker.modelMomentFormatted = amDatePicker.modelMoment.locale(amDatePicker.locale)
                                                                         .format(amDatePicker.inputDateFormat);
+            updateErrorState();
         }
+
+        function updateErrorState() {
+            var date = amDatePicker.ngModelCtrl.$viewValue,
+                momentDate;
+            clearErrorState();
+            if (angular.isDate(date)) {
+                momentDate = moment(date);
+                amDatePicker.ngModelCtrl.$setValidity('minDate', momentDate.isAfter(amDatePicker.minDate));
+                amDatePicker.ngModelCtrl.$setValidity('maxDate', momentDate.isBefore(amDatePicker.maxDate));
+            }
+            else {
+                amDatePicker.ngModelCtrl.$setValidity('valid', false);
+            }
+        }
+
     }
 })();

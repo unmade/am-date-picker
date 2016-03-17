@@ -5,6 +5,15 @@
     <title>Date picker</title>
     <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="/dist/css/am-date-picker_light-theme.css">
+
+    <style>
+        .validation-messages {
+            font-size: 11px;
+            color: darkred;
+            margin: -36px 0px 0 36px;
+        }
+    </style>
+
 </head>
 
 <body ng-controller="MainCtrl">
@@ -22,20 +31,30 @@
                             am-min-date="from">
             </am-date-picker>
 
-            <am-date-picker ng-model="date"
-                            ng-change="onChange(date)"
-                            am-min-date="from"
-                            am-max-date="to"
-                            am-locale="ru"
-                            am-cancel-button="Отмена"
-                            am-back-button-text="Назад"
-                            am-input-label="Выберите дату"
-                            am-today-button="Сегодня"
-                            am-allow-clear="false"
-                            am-input-date-format="L"
-                            am-popup-date-format="D MMMM"
-                            am-show-input-icon="true">
-            </am-date-picker>
+            <form name="myForm">
+                <am-date-picker ng-model="date"
+                                ng-change="onChange(date)"
+                                am-min-date="from"
+                                am-max-date="to"
+                                am-locale="ru"
+                                am-cancel-button="Отмена"
+                                am-back-button-text="Назад"
+                                am-input-label="Выберите дату"
+                                am-today-button="Сегодня"
+                                am-allow-clear="false"
+                                am-input-date-format="L"
+                                am-popup-date-format="D MMMM"
+                                am-show-input-icon="true"
+                                name="dateField"
+                                required>
+                </am-date-picker>
+                <div ng-messages="myForm.dateField.$error" class="validation-messages">
+                    <div ng-message="required">The date is required</div>
+                    <div ng-message="minDate">Date is too early!</div>
+                    <div ng-message="maxDate">Date is too late!</div>
+                    <div ng-message="valid">The entered value is not a date!</div>
+                </div>
+            </form>
 
             <md-button ng-click="change()">change date</md-button>
         </div>
@@ -45,6 +64,8 @@
     <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
     <script src="/bower_components/angular-material/angular-material.min.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.min.js"></script>
+
     <script src="/bower_components/moment/min/moment-with-locales.js"></script>
 
     <script src="/demo/js/app.js"></script>
