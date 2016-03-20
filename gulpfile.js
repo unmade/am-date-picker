@@ -42,10 +42,10 @@ gulp.task('tmpl:date-picker', function () {
 
 gulp.task('scripts', ['tmpl:date-picker'], function() {
   return gulp.src(paths.scripts)
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
-    .pipe(concat('am-date-picker.min.js'))
-    .pipe(sourcemaps.write("./"))		
+    .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(concat('am-date-picker.min.js'))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist/'));
 });
 

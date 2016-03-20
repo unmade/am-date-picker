@@ -165,7 +165,7 @@ describe('am.date-picker directive unit tests', function() {
     expect(amDatePicker.minDate).toBe(minDate);
     expect(amDatePicker.minYear).toBe(1967);
     expect(amDatePicker.model).toBe(undefined);
-    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(today.format('YYYY-MM-DD'));
+    expect(amDatePicker.modelMoment.format('YYYY-MM-DD')).toEqual(moment(maxDate).format('YYYY-MM-DD'));
     expect(amDatePicker.modelFormatted).toBe(undefined);
     expect(amDatePicker.popupDateFormat).toBe('D MMMM');
     expect(amDatePicker.todayButton).toBe('Today');

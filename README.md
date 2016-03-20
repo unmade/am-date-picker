@@ -14,7 +14,7 @@ This module is a simple date picker for those who writes project with [Angular M
 
 ## Demo
 
-[Live demo](http://codepen.io/anon/pen/RrwYoz).
+[Live demo](http://codepen.io/fdooch/pen/KzWWRG).
 
 ## License
 
