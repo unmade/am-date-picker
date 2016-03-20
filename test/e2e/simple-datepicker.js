@@ -23,13 +23,10 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
 
     it('should have input calendar without a label and icon', function() {
         var icons = inputContainer.all(by.tagName('md-icon')),
-            calendarIcon = icons.get(0),
-            calendarIconPath = '/dist/images/icons/ic_today_24px.svg',
-            clearIcon = icons.get(1),
+            clearIcon = icons.get(0),
             clearIconPath = '/dist/images/icons/ic_close_24px.svg';
 
-        expect(calendarIcon.evaluate('amDatePicker.showInputIcon')).toBe(false);
-        expect(calendarIcon.getAttribute('md-svg-icon')).toEqual(calendarIconPath);
+        expect(icons.count()).toBe(1);
         expect(clearIcon.evaluate('amDatePicker.allowClear')).toBe(true);
         expect(clearIcon.getAttribute('md-svg-icon')).toEqual(clearIconPath);
 

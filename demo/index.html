@@ -10,7 +10,7 @@
         .validation-messages {
             font-size: 11px;
             color: darkred;
-            margin: -36px 0px 0 36px;
+            margin: -36px 0px 0 8px;
         }
     </style>
 
@@ -26,10 +26,12 @@
                             am-today-button="Today">
             </am-date-picker>
 
+
             <am-date-picker ng-model="to"
                             am-input-label="To"
                             am-min-date="from">
             </am-date-picker>
+
 
             <form name="myForm">
                 <am-date-picker ng-model="date"

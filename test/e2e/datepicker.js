@@ -23,23 +23,29 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     it('should have input calendar without a label and icon', function() {
         var icons = inputContainer.all(by.tagName('md-icon')),
             calendarIcon = icons.get(0),
-            calendarIconPath = '/dist/images/icons/ic_today_24px.svg',
-            clearIcon = icons.get(1),
-            clearIconPath = '/dist/images/icons/ic_close_24px.svg';
-
+            calendarIconPath = '/dist/images/icons/ic_today_24px.svg';
+        expect(icons.count()).toBe(1);
         expect(calendarIcon.evaluate('amDatePicker.showInputIcon')).toBe(true);
         expect(calendarIcon.getAttribute('md-svg-icon')).toEqual(calendarIconPath);
-        expect(clearIcon.evaluate('amDatePicker.allowClear')).toBe(false);
-        expect(clearIcon.getAttribute('md-svg-icon')).toEqual(clearIconPath);
 
         expect(label.getText()).toEqual('Pick a Date');
         expect(input.getAttribute('value')).toEqual('10.01.2014');
     });
 
 
-    it('should open picker', function() {
+    it('should open the picker', function() {
         expect(element(by.tagName('md-dialog')).isPresent()).toBe(false);
         input.click();
+        expect(element(by.tagName('md-dialog')).isPresent()).toBe(true);
+    });
+
+    it('should open the picker by clicking calendar icon', function() {
+        var icons = inputContainer.all(by.tagName('md-icon')),
+            calendarIcon = icons.get(0);
+
+        expect(element(by.tagName('md-dialog')).isPresent()).toBe(false);
+        calendarIcon.click();
+
         expect(element(by.tagName('md-dialog')).isPresent()).toBe(true);
     });
 

@@ -35,7 +35,7 @@ This package is installable through the Bower package manager.
 bower install angular-material-date-picker --save
 ```
 
-In your `index.html` file, include the data picker module and style sheet
+In your `index.html` file, include the date picker module and style sheet
 
 ```html
 <!-- style sheet -->

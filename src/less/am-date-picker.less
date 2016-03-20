@@ -7,19 +7,24 @@
 
 .am-date-picker__calendar-icon {
     color: @calendar-icon;
+    position: absolute;
+    top: -7px;
+    left: -12px;
+    right: auto;
 }
 
 .am-date-picker__clear-icon {
     visibility: hidden;
+    color: @calendar-icon;
+    position: absolute;
+    top: -3px;
+    right: -8px;
 
     .md-icon-button {
-        position: fixed!important;
-        margin: -5px -36px;
         width: 36px;
         height: 36px;
         line-height: 36px;
         padding: 0
-
     }
 }
 
