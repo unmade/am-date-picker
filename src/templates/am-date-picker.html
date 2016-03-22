@@ -33,10 +33,12 @@
     <div layout="column">
 
         <!-- Current date -->
-        <div layout-align="center" class="am-date-picker__header-current-date">
-            <p>{{ dialog.dateMoment.format('YYYY') }}</p>
-            <h2>{{ dialog.dateMoment.format(dialog.popupDateFormat) }}</h2>
-        </div>
+        <md-toolbar class="am-date-picker__header-current-date">
+            <div layout="column" layout-align="center start">
+                <p class="md-subhead">{{ dialog.dateMoment.format('YYYY') }}</p>
+                <h2 class="md-title">{{ dialog.dateMoment.format(dialog.popupDateFormat) }}</h2>
+            </div>
+        </md-toolbar>
 
     </div>
 
@@ -53,7 +55,7 @@
             </md-button>
 
             <md-button ng-click="dialog.displayYearSelection()"
-                       class="am-date-picker__month-year">
+                       class="md-primary am-date-picker__month-year">
                 {{ dialog.dateMoment.format('MMMM YYYY') }}
             </md-button>
 
@@ -73,23 +75,21 @@
              ng-if="dialog.monthChanged">
 
             <!-- Weekdays -->
-            <div style="padding-left: 12px; padding-right: 20px;" layout layout-align="space-between">
-                <span ng-repeat="day in dialog.daysOfWeek"
-                      class="am-date-picker__weekdays">
-                    {{ day }}
-                </span>
+            <div class="am-date-picker__weekdays" layout layout-align="space-between">
+                <span ng-repeat="day in dialog.daysOfWeek">{{ day }}</span>
             </div>
 
             <!-- Days -->
-            <span ng-repeat="x in dialog.emptyFirstDays"
-                  class="am-date-picker__days">&nbsp;</span>
+            <span class="am-date-picker__empty-days"
+                  ng-repeat="x in dialog.emptyFirstDays">&nbsp;</span>
 
-            <div class="am-date-picker__days am-date-picker__day"
-                 ng-class="{ 'am-date-picker__day--is-selected': day.selected,
-                             'am-date-picker__day--is-today': day.today && !day.selected,
-                             'am-date-picker__day--is-disabled': day.disabled }"
-                 ng-repeat="day in dialog.days">
-                <a ng-click="dialog.select(day)">{{ day ? day.format('D') : '' }}</a>
+            <div class="am-date-picker__days">
+                <md-button class="md-primary md-icon-button"
+                    ng-class="{'am-date-picker__day--is-selected md-fab' : day.selected,
+                               'am-date-picker__day--is-today': day.today && !day.selected}"
+                    ng-repeat="day in dialog.days"
+                    ng-disabled="day.disabled"
+                    ng-click="dialog.select(day)">{{ day ? day.format('D') : '' }}</md-button>
             </div>
 
         </div>
@@ -98,35 +98,45 @@
     <!-- Year selection -->
     <div class="am-date-picker__year-selector am-date-picker__animate-year-selection"
          ng-show="dialog.yearSelection">
-        <a class="am-date-picker__year"
-           ng-repeat="year in dialog.years"
-           ng-class="{ 'am-date-picker__year--is-active':
-                        year == dialog.dateMoment.format('YYYY') }"
-           ng-click="dialog.selectYear(year)">
-            <p>{{ year }}</p>
-        </a>
+        <div class="am-date-picker__year"
+             ng-repeat="year in dialog.years">
+            <md-button class="md-primary md-icon-button"
+                       ng-class="{ 'am-date-picker__year--is-active md-fab md-mini':
+                                        year == dialog.dateMoment.format('YYYY') }"
+                       ng-click="dialog.selectYear(year)">
+                {{ year }}
+            </md-button>
+        </div>
     </div>
 
     <!--Actions-->
     <md-dialog-actions layout="row" class="am-date-picker__actions">
         <md-button ng-click="dialog.today()"
                    ng-disabled="dialog.isTodayDisabled"
-                   ng-if="dialog.todayButton">
+                   ng-if="dialog.todayButton"
+                   class="md-primary">
             {{ dialog.todayButton }}
         </md-button>
         <span flex></span>
         <div ng-if="!dialog.yearSelection">
             <md-button ng-click="dialog.cancel()"
-                       ng-if="dialog.cancelButton">
+                       ng-if="dialog.cancelButton"
+                       class="md-primary">
                 {{ dialog.cancelButton }}
             </md-button>
+
             <md-button ng-click="dialog.hide()"
-                       ng-disabled="dialog.dateMoment.disabled">
+                       ng-disabled="dialog.dateMoment.disabled"
+                       class="md-primary">
                 OK
             </md-button>
         </div>
+
         <md-button ng-click="dialog.hideYearSelection()"
-                   ng-if="dialog.yearSelection">{{ dialog.backButtonText }}</md-button>
+                   ng-if="dialog.yearSelection"
+                   class="md-primary">
+               {{ dialog.backButtonText }}
+        </md-button>
     </md-dialog-actions>
     </md-dialog>
 </script>

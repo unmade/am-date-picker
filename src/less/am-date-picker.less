@@ -6,7 +6,6 @@
 }
 
 .am-date-picker__calendar-icon {
-    color: @calendar-icon;
     position: absolute;
     top: -7px;
     left: -12px;
@@ -15,7 +14,6 @@
 
 .am-date-picker__clear-icon {
     visibility: hidden;
-    color: @calendar-icon;
     position: absolute;
     top: -3px;
     right: -8px;
@@ -32,14 +30,12 @@
 md-input-container:hover .am-date-picker__clear-icon {
     visibility: visible;
     outline: none;
-    color: @clear-icon;
 }
 
 .am-date-picker__container {
     width: 300px;
     min-width: 300px;
     min-height: 450px;
-    background-color: @container-background-color;
     overflow: hidden;
 
     * {
@@ -48,25 +44,23 @@ md-input-container:hover .am-date-picker__clear-icon {
         box-sizing: content-box;
         outline: none;
     }
+
+    md-toolbar {
+        width:auto;
+    }
 }
 
 .am-date-picker__header-current-date {
-    background-color: @header-background-color;
-    color: @header-text-color;
     padding: 15px 20px;
 
     p {
-        padding: 5px 0;
         margin: 0;
-        color: @header-accent-color;
+        opacity: 0.7;
     }
 
     h2 {
         margin: 0;
-        padding: 5px 0;
-        font-size: 1.75em;
-        line-height: 1;
-        font-weight: 600;
+        font-size: 1.5em;
     }
 }
 
@@ -77,24 +71,25 @@ md-input-container:hover .am-date-picker__clear-icon {
 
 
 .am-date-picker__month-year {
-    color: @month-year-color;
-}
-
-.am-date-picker__month-year .md-icon-button {
-    color: @month-year-color;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    padding: 0;
-    margin: 0 6px;
+    .md-icon-button {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0;
+        margin: 0 6px;
+    }
 }
 
 .am-date-picker__chevron {
-    color: @chevron-color;
 }
 
 .am-date-picker__weekdays {
-    color: @weekdays-color;
+    padding-left: 12px;
+    padding-right: 20px;
+
+    span {
+        opacity: 0.4;
+    }
 }
 
 .am-date-picker__calendar {
@@ -106,62 +101,47 @@ md-input-container:hover .am-date-picker__clear-icon {
     @delay: 0.5s;
 }
 
-.am-date-picker__days {
+.am-date-picker__empty-days {
     float:left;
     width: 31px;
     height: 30px;
     padding: 5px;
 }
 
-.am-date-picker__day a {
-    color: @day-color;
-    text-decoration: none;
-    font-size: 0.9em;
-    border-radius: 50%;
-    text-align: center;
-    display: block;
-    line-height: 30px;
-    width: 100%;
-    height: 100%;
+.am-date-picker__days {
+    button {
+        span {
+            color: rgba(0, 0, 0, .67);
+        }
+        &:disabled {
+            cursor: not-allowed;
+            span {
+                color: inherit;
+            }
+        }
+    }
 
-    &:hover {
-        cursor: pointer;
-        text-decoration: none;
-        color: @day-hover-color;
-        background-color: @day-hover-background-color;
-        -webkit-transition: all linear @half-transition-time;
-        -moz-transition: all linear @half-transition-time;
-        -o-transition: all linear @half-transition-time;
-        transition: all linear @half-transition-time;
+    .md-button {
+        padding: 0.3px;
+        margin: 0;
+        line-height: 0;
+        min-height: 0;
+        font-weight: 400;
+    }
+
+    .md-fab {
+        box-shadow: none;
+        height: 39.4px;
+        width: 40px;
+
+        span {
+            color: inherit;
+        }
     }
 }
 
-.am-date-picker__day--is-today a {
-    color: @day-hover-color;
-}
-
-.am-date-picker__day--is-selected a {
-    background-color: @day-active-background-color;
-    cursor: pointer;
-    color: @day-active-color;
-    -webkit-transition: all linear @transition-time;
-    -moz-transition: all linear @transition-time;
-    -o-transition: all linear @transition-time;
-    transition: all linear @transition-time;
-
-    &:hover {
-        color: @day-active-hover-color;
-        background-color: @day-active-background-color;
-    }
-}
-
-.am-date-picker__day--is-disabled a {
-    color: @day-disabled-color !important;
-    cursor: not-allowed !important;
-
-    &:hover {
-        background-color: transparent !important;
-    }
+.am-date-picker__day--is-today span {
+    font-weight: 600;
 }
 
 
@@ -173,37 +153,27 @@ md-input-container:hover .am-date-picker__clear-icon {
 
 
 .am-date-picker__year {
-    color: @year-color;
-    padding: 5px 0;
-    cursor: pointer;
+    width: 100%;
+    text-align: center;
 
-    &:hover {
-        color: @year-hover-color;
-        text-decoration: none;
-        outline-style: none;
-        -webkit-transition: all linear @half-transition-time;
-        -moz-transition: all linear @half-transition-time;
-        -o-transition: all linear @half-transition-time;
-        transition: all linear @half-transition-time;
+    button {
+        font-weight: 400;
+        span {
+            color: rgba(0, 0, 0, .67);
+        }
     }
 
-    p {
-        margin: 0 auto;
-        height: 41px;
-        text-align: center;
-        border-radius: 50%;
-        line-height: 41px;
+    .md-fab {
+        box-shadow: none;
+
+        span {
+            color: inherit;
+        }
     }
-}
 
-.am-date-picker__year--is-active p {
-    color: @year-active-color;
-    font-size: 1.5em;
 }
-
 
 .am-date-picker__actions {
-    color: @action-color;
     .md-button {
         min-width: 50px;
     }

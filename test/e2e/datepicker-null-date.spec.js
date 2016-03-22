@@ -24,7 +24,7 @@ describe('am.date-picker directive. Init picker with date set to null', function
     it('should not have disabled days, when it opens', function() {
         input.click();
 
-        var days = element.all(by.css('.am-date-picker__day'));
+        var days = element.all(by.css('.am-date-picker__days button'));
         expect(days.count()).toEqual(currDate.daysInMonth());
 
         var todayDay = element.all(by.css('.am-date-picker__day--is-selected'));

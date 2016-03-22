@@ -70,7 +70,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
 
     it('should have weekdays in calendar title', function() {
         input.click();
-        var weekdaysName = element.all(by.css('.am-date-picker__weekdays'))
+        var weekdaysName = $$('.am-date-picker__weekdays span')
                                   .map(function(e, i) { return e.getText();});
         expect(weekdaysName).toEqual(['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']);
     });
@@ -79,7 +79,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
     it('should display calendar for current month', function() {
         input.click();
 
-        var days = element.all(by.css('.am-date-picker__day'));
+        var days = element.all(by.css('.am-date-picker__days button'));
         expect(days.count()).toEqual(currDate.daysInMonth());
 
         var todayDay = element.all(by.css('.am-date-picker__day--is-selected'));
@@ -88,7 +88,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
 
         days.each(function(e, i) {
             expect(hasClass(e, 'am-date-picker__day--is-today')).toBe(false);
-            expect(hasClass(e, 'am-date-picker__day--is-disabled')).toBe(false);
+            expect(e.getAttribute('disabled')).toBe(null);
         })
     });
 
@@ -117,12 +117,12 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
 
         /* change to previous month */
         monthNav.get(0).click();
-        var days = element.all(by.css('.am-date-picker__day'));
+        var days = element.all(by.css('.am-date-picker__days button'));
         expect(days.count()).toEqual(currDate.subtract(1, 'month').daysInMonth());
 
         /* change to next to current month */
         monthNav.get(2).click().click();
-        var days = element.all(by.css('.am-date-picker__day'));
+        var days = element.all(by.css('.am-date-picker__days button'));
         expect(days.count()).toEqual(currDate.add(2, 'month').daysInMonth());
         currDate.subtract(1, 'month'); /* return currDate to currentDate */
     });
@@ -131,7 +131,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
     it('should select date', function() {
         var buttons = element.all(by.css('md-dialog-actions button')),
             dialog = element(by.tagName('md-dialog')),
-            days = element.all(by.css('.am-date-picker__day'));
+            days = element.all(by.css('.am-date-picker__days button'));
 
         input.click();
         days.get(16).click();
@@ -144,7 +144,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
     it('should clear selected date', function() {
         input.click();
         var dialog = element(by.tagName('md-dialog')),
-            days = $$('.am-date-picker__day');
+            days = $$('.am-date-picker__days button');
         days.get(16).click();
 
         var clearIcon = inputContainer.all(by.tagName('md-icon')).get(1);
@@ -163,7 +163,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         monthNav.click();
         expect(yearSelector.isDisplayed()).toBe(true);
 
-        var years = $$('.am-date-picker__year-selector a'),
+        var years = $$('.am-date-picker__year-selector div'),
             activeYear = yearSelector.$('.am-date-picker__year--is-active');
         expect(years.first().getText()).toEqual('1920');
         expect(years.last().getText()).toEqual('2020');
@@ -174,7 +174,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
         expect(monthNav.getText()).toEqual(pastDate.format('MMMM YYYY').toUpperCase());
 
         /* check if calendar change respectively */
-        var days = $$('.am-date-picker__day');
+        var days = $$('.am-date-picker__days button');
         expect(days.count()).toEqual(pastDate.daysInMonth());
 
         /* change active year to 1920 */

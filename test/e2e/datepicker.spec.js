@@ -73,7 +73,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
     it('should have weekdays in calendar title', function() {
         input.click();
-        var weekdaysName = $$('.am-date-picker__weekdays')
+        var weekdaysName = $$('.am-date-picker__weekdays span')
                               .map(function(e, i) { return e.getText();});
         expect(weekdaysName).toEqual(['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']);
     });
@@ -82,7 +82,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     it('should display calendar for current month', function() {
         input.click();
 
-        var days = $$('.am-date-picker__day');
+        var days = $$('.am-date-picker__days button');
         expect(days.count()).toEqual(selectedDate.daysInMonth());
 
         var selectedDay = $$('.am-date-picker__day--is-selected');
@@ -94,7 +94,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
             bool;
         days.each(function(e, i) {
             bool = (disabledDays.indexOf(i) != -1);
-            expect(hasClass(e, 'am-date-picker__day--is-disabled')).toBe(bool);
+            expect(e.getAttribute('disabled')).toBe((bool) ? 'true' : null);
             expect(hasClass(e, 'am-date-picker__day--is-today')).toBe(false);
         })
     });
@@ -125,7 +125,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
       function() {
         input.click();
         var buttons = element.all(by.css('md-dialog-actions button')),
-            days = element.all(by.css('.am-date-picker__day'));
+            days = element.all(by.css('.am-date-picker__days button'));
         days.get(12).click();
         buttons.get(1).click();
         expect(input.getAttribute('value')).toEqual('10.01.2014');
@@ -138,12 +138,12 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
         /* change to previous month */
         monthNav.get(0).click();
-        var days = $$('.am-date-picker__day');
+        var days = $$('.am-date-picker__days button');
         expect(days.count()).toEqual(selectedDate.subtract(1, 'month').daysInMonth());
 
         /* change to next to current month */
         monthNav.get(2).click().click();
-        days = $$('.am-date-picker__day');
+        days = $$('.am-date-picker__days button');
         expect(days.count()).toEqual(selectedDate.add(2, 'month').daysInMonth());
         selectedDate.subtract(1, 'month'); /* return selectedDate to selected date */
     });
@@ -155,11 +155,11 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
         /* change to previous month */
         monthNav.get(0).click();
-        var days = $$('.am-date-picker__day'),
+        var days = $$('.am-date-picker__days button'),
             day = days.get(13),
             buttons = element.all(by.css('md-dialog-actions button'));
 
-        expect(hasClass(day, 'am-date-picker__day--is-disabled')).toBe(true);
+        expect(day.getAttribute('disabled')).toBe('true');
         expect(buttons.get(2).isEnabled()).toBe(false);
         days.get(13).click();
     });
@@ -169,7 +169,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         input.click();
 
         var dialog = element(by.tagName('md-dialog')),
-            days = $$('.am-date-picker__day'),
+            days = $$('.am-date-picker__days button'),
             buttons = element.all(by.css('md-dialog-actions button'));
         days.get(13).click();
 
@@ -189,7 +189,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         monthNav.click();
         expect(yearSelector.isDisplayed()).toBe(true);
 
-        var years = $$('.am-date-picker__year-selector a'),
+        var years = $$('.am-date-picker__year-selector div'),
             activeYear = yearSelector.$('.am-date-picker__year--is-active');
         expect(years.first().getText()).toEqual('2000');
         expect(years.last().getText()).toEqual('2015');
@@ -200,7 +200,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         expect(monthNav.getText()).toEqual(pastDate.format('MMMM YYYY').toUpperCase());
 
         /* check if calendar change respectively */
-        var days = $$('.am-date-picker__day');
+        var days = $$('.am-date-picker__days button');
         expect(days.count()).toEqual(pastDate.daysInMonth());
 
         /* active year shouldn't change, because date is disabled */

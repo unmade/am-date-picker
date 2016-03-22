@@ -23,7 +23,7 @@ describe('am.date-picker e2e test. (Two datepickers with different locale)', fun
                 currYear = header.element(by.tagName('p')),
                 currFormatDate = header.element(by.tagName('h2')),
                 monthNameNav = element.all(by.css('.am-date-picker__month-year button')).get(1),
-                weekdaysName = element.all(by.css('.am-date-picker__weekdays'))
+                weekdaysName = element.all(by.css('.am-date-picker__weekdays span'))
                                           .map(function(e, i) { return e.getText();});
             expect(currYear.getText()).toEqual(today.format('YYYY'));
             expect(currFormatDate.getText()).toBe(today.format('ddd, MMM D'));
@@ -48,7 +48,7 @@ describe('am.date-picker e2e test. (Two datepickers with different locale)', fun
                 currYear = header.element(by.tagName('p')),
                 currFormatDate = header.element(by.tagName('h2')),
                 monthNameNav = element.all(by.css('.am-date-picker__month-year button')).get(1),
-                weekdaysName = element.all(by.css('.am-date-picker__weekdays'))
+                weekdaysName = element.all(by.css('.am-date-picker__weekdays span'))
                                           .map(function(e, i) { return e.getText();});
             expect(currYear.getText()).toEqual(today.format('YYYY'));
             expect(currFormatDate.getText()).toBe(today.format('ddd, MMM D'));

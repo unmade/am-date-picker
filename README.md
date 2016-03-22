@@ -2,7 +2,11 @@
 
 ![Date picker image](demo/images/picker.png?raw=true "Title")
 
-This module is a simple date picker for those who writes project with [Angular Material](https://material.angularjs.org/latest/#/) and wants an alternative date picker to the standard one. It built with [Angular Material](https://material.angularjs.org/latest/#/) and [Moment.js](http://momentjs.com/). I used [lumX's](http://ui.lumapps.com/directives/date-picker) date picker controller as a basement for my own one. Design was inspired by [Google Material Design specifications](https://www.google.com/design/spec/components/pickers.html#pickers-date-pickers).
+This module is a simple date picker for those who writes project
+with [Angular Material](https://material.angularjs.org/latest/#/) and wants an alternative date picker
+to the standard one. It built with [Angular Material](https://material.angularjs.org/latest/#/) and
+[Moment.js](http://momentjs.com/).
+Design was inspired by [Google Material Design specifications](https://www.google.com/design/spec/components/pickers.html#pickers-date-pickers).
 
 * [Demo](#demo)
 * [License](#license)
@@ -26,8 +30,8 @@ This software is provided free of change and without restriction under the [MIT 
 
 [Moment.js](http://momentjs.com/)
 
-## Installation
 
+## Installation
 
 This package is installable through the Bower package manager.
 
@@ -39,7 +43,7 @@ In your `index.html` file, include the date picker module and style sheet
 
 ```html
 <!-- style sheet -->
-<link href="bower_components/angular-material-date-picker/dist/css/am-date-picker_light-theme.css" rel="stylesheet" type="text/css"/>
+<link href="bower_components/angular-material-date-picker/dist/am-date-picker.min.css" rel="stylesheet" type="text/css"/>
 <!-- module -->
 <script type="text/javascript" src="bower_components/angular-material-date-picker/dist/am-date-picker.min.js"></script>
 ```
@@ -94,7 +98,14 @@ angular
 </am-date-picker>
 ```
 
+
 ## API Documentation
+
+**Theming**
+
+This component uses configured theme with `$mdThemingProvider` or default one.
+
+**Validation**
 
 This component supports `ngMessages`. Supported attributes are:
 
@@ -104,11 +115,13 @@ This component supports `ngMessages`. Supported attributes are:
 - `valid`: whether the specified is not valid date.
 
 
+**API**
+
 All settings can be provided as attributes in the `am-date-picker` or globally configured through the `amDatePickerConfig`.
 
 | Attribute              | Type          | Description |
 | :--------------------- | :------------ | :---------- |
-| `ng-model`             | `Date Object` | Two-way data-binding date property. If ng-model out of range [minDate, maxDate] the error would be raised. |
+| `ng-model`             | `Date Object` | Two-way data-binding date property. |
 | `ng-change`            | `expression`  | Expression evaluated when the model value changes. |
 | `am-allow-clear`       | `boolean`     | Whether the input could be clear (default: `true`). |
 | `am-back-button-text`  | `String`      | Set text for back button displayed in year selection(default: `Back`). |
@@ -124,6 +137,7 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 | `am-show-input-icon`   | `boolean`     | Whether to display the calendar icon (default: `false`). |
 | `am-today-button`      | `String`      | The text for today button. If not provided the button won't be shown. |
 
+
 Specific settings that can be globally configured through the `amDatePickerConfig` only.
 
 | Attribute              | Type          | Description |
@@ -135,9 +149,11 @@ Specific settings that can be globally configured through the `amDatePickerConfi
 
 > Date formats and locale should correspond MomentJS ones.
 
+
 ## Contributing
 
-If you have an improvement (especially in animation part), bug report or request please let me know or post a pull request.
+If you have an improvement (especially in animation part), bug report or request please let me know
+or post a pull request.
 
 See how to [run app locally](demo/README.md).
 

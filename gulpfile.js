@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 
 var paths = {
   scripts: ['src/js/*.module.js', 'src/js/*.js', 'build/templates/am-date-picker.tmpl.js'],
-  styles: 'src/less/theme/*.less',
+  styles: 'src/less/*.less',
   templates: 'src/templates/*.html',
   images: 'src/img/**/*.svg'
 };
@@ -25,7 +25,8 @@ gulp.task('less', function () {
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
     .pipe(minifyCss())
-    .pipe(gulp.dest('dist/css'));
+    .pipe(rename({extname: '.min.css'}))
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('images', function() {

@@ -1,9 +1,15 @@
+'use strict';
+
 angular
     .module('datepickerApp', [
         'ngMaterial',
         'ngMessages',
         'am.date-picker',
     ])
+    .config(function($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+            .primaryPalette('teal')
+    })
     .controller('MainCtrl', ['$scope',
         function ($scope) {
             var today = new Date();

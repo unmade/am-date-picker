@@ -65,7 +65,7 @@
             $timeout(function() {
                 var yearSelector = angular.element(document.querySelector('.am-date-picker__year-selector')),
                     activeYear = angular.element(document.querySelector('.am-date-picker__year--is-active')),
-                    activeYearHeight = activeYear[0].getElementsByTagName('p')[0].offsetHeight;
+                    activeYearHeight = activeYear[0].offsetHeight;
 
                 yearSelector[0].scrollTop = activeYear[0].offsetTop - yearSelector[0].offsetTop -
                                             yearSelector[0].clientHeight/2 + activeYearHeight/2;
