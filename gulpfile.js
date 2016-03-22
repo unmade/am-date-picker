@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    gulpUtil = require('gulp-util'),
     less = require('gulp-less'),
     concat = require('gulp-concat'),
     minifyCss = require('gulp-minify-css'),
@@ -11,7 +12,7 @@ var gulp = require('gulp'),
 
 
 var paths = {
-  scripts: ['src/js/am-date-picker_directive.js', 'build/templates/am-date-picker.tmpl.js'],
+  scripts: ['src/js/*.module.js', 'src/js/*.js', 'build/templates/am-date-picker.tmpl.js'],
   styles: 'src/less/theme/*.less',
   templates: 'src/templates/*.html',
   images: 'src/img/**/*.svg'
@@ -42,8 +43,8 @@ gulp.task('tmpl:date-picker', function () {
 
 gulp.task('scripts', ['tmpl:date-picker'], function() {
   return gulp.src(paths.scripts)
-    .pipe(sourcemaps.init())
-        .pipe(uglify())
+    .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify().on('error', gulpUtil.log))
         .pipe(concat('am-date-picker.min.js'))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist/'));

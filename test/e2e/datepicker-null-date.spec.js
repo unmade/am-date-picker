@@ -2,12 +2,6 @@
 
 var moment = require('../../bower_components/moment/min/moment-with-locales.min.js');
 
-var hasClass = function (element, cls) {
-    return element.getAttribute('class').then(function (classes) {
-        return classes.split(' ').indexOf(cls) !== -1;
-    });
-};
-
 
 describe('am.date-picker directive. Init picker with date set to null', function() {
     moment.locale('en');
@@ -17,13 +11,15 @@ describe('am.date-picker directive. Init picker with date set to null', function
         input = inputContainer.element(by.tagName('input'));
 
     beforeEach(function() {
-        browser.get('/test/e2e/html/datepicker-null-date.html');
+        browser.get('/test/e2e/datepicker-null-date.html');
     });
+
 
     it('should init picker with date set to null', function() {
         expect(label.getText()).toEqual('');
         expect(input.getAttribute('value')).toEqual('');
     });
+
 
     it('should not have disabled days, when it opens', function() {
         input.click();

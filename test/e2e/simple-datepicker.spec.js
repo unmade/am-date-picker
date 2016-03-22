@@ -17,7 +17,7 @@ describe('am.date-picker directive e2e test (simple datepicker)', function() {
 
 
     beforeEach(function() {
-        browser.get('/test/e2e/html/simple-datepicker.html');
+        browser.get('/test/e2e/simple-datepicker.html');
     });
 
 

@@ -2,11 +2,6 @@
 
 var moment = require('../../bower_components/moment/min/moment-with-locales.min.js');
 
-var hasClass = function (element, cls) {
-    return element.getAttribute('class').then(function (classes) {
-        return classes.split(' ').indexOf(cls) !== -1;
-    });
-};
 
 describe('am.date-picker directive e2e test (datepicker with opt)', function() {
     var selectedDate = moment({year: 2014, month: 0, date: 10}).locale('ru'),
@@ -16,7 +11,7 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
 
 
     beforeEach(function() {
-        browser.get('/test/e2e/html/datepicker.html');
+        browser.get('/test/e2e/datepicker.html');
     });
 
 
@@ -151,6 +146,22 @@ describe('am.date-picker directive e2e test (datepicker with opt)', function() {
         days = $$('.am-date-picker__day');
         expect(days.count()).toEqual(selectedDate.add(2, 'month').daysInMonth());
         selectedDate.subtract(1, 'month'); /* return selectedDate to selected date */
+    });
+
+
+    it('should not select disabled date on month changes', function() {
+        input.click();
+        var monthNav = $$('.am-date-picker__month-year button');
+
+        /* change to previous month */
+        monthNav.get(0).click();
+        var days = $$('.am-date-picker__day'),
+            day = days.get(13),
+            buttons = element.all(by.css('md-dialog-actions button'));
+
+        expect(hasClass(day, 'am-date-picker__day--is-disabled')).toBe(true);
+        expect(buttons.get(2).isEnabled()).toBe(false);
+        days.get(13).click();
     });
 
 

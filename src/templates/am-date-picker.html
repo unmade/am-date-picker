@@ -34,62 +34,62 @@
 
         <!-- Current date -->
         <div layout-align="center" class="am-date-picker__header-current-date">
-            <p>{{ amDatePicker.modelMoment.format('YYYY') }}</p>
-            <h2>{{ amDatePicker.modelMoment.format(amDatePicker.popupDateFormat) }}</h2>
+            <p>{{ dialog.dateMoment.format('YYYY') }}</p>
+            <h2>{{ dialog.dateMoment.format(dialog.popupDateFormat) }}</h2>
         </div>
 
     </div>
 
     <!-- Date picker: content -->
-    <div ng-hide="amDatePicker.yearSelection" class="am-date-picker__content am-date-picker__animate-year-selection">
+    <div ng-hide="dialog.yearSelection" class="am-date-picker__content am-date-picker__animate-year-selection">
         <div layout="row" layout-align="space-between center" class="am-date-picker__month-year">
-            <md-button ng-click="amDatePicker.previousMonth()"
+            <md-button ng-click="dialog.previousMonth()"
                        class="md-icon-button"
                        aria-label="Prev Month Button">
                 <md-icon aria-label="Prev"
                          class="am-date-picker__chevron"
-                         md-svg-icon="{{ amDatePicker.prevIcon }}"></md-icon>
+                         md-svg-icon="{{ dialog.prevIcon }}"></md-icon>
 
             </md-button>
 
-            <md-button ng-click="amDatePicker.displayYearSelection()"
+            <md-button ng-click="dialog.displayYearSelection()"
                        class="am-date-picker__month-year">
-                {{ amDatePicker.modelMoment.format('MMMM YYYY') }}
+                {{ dialog.dateMoment.format('MMMM YYYY') }}
             </md-button>
 
-             <md-button ng-click="amDatePicker.nextMonth()"
+             <md-button ng-click="dialog.nextMonth()"
                         class="md-icon-button"
                         aria-label="Next Month Button">
                 <md-icon aria-label="Next"
                          class="am-date-picker__chevron"
-                         md-svg-icon="{{ amDatePicker.nextIcon }}"></md-icon>
+                         md-svg-icon="{{ dialog.nextIcon }}"></md-icon>
             </md-button>
         </div>
 
         <!-- Calendar -->
         <div class="am-date-picker__calendar am-date-picker__animate-month-change"
-             ng-class="{'next': amDatePicker.next,
-                        'prev': !amDatePicker.next}"
-             ng-if="amDatePicker.monthChanged">
+             ng-class="{'next': dialog.next,
+                        'prev': !dialog.next}"
+             ng-if="dialog.monthChanged">
 
             <!-- Weekdays -->
             <div style="padding-left: 12px; padding-right: 20px;" layout layout-align="space-between">
-                <span ng-repeat="day in amDatePicker.daysOfWeek"
+                <span ng-repeat="day in dialog.daysOfWeek"
                       class="am-date-picker__weekdays">
                     {{ day }}
                 </span>
             </div>
 
             <!-- Days -->
-            <span ng-repeat="x in amDatePicker.emptyFirstDays"
+            <span ng-repeat="x in dialog.emptyFirstDays"
                   class="am-date-picker__days">&nbsp;</span>
 
             <div class="am-date-picker__days am-date-picker__day"
                  ng-class="{ 'am-date-picker__day--is-selected': day.selected,
                              'am-date-picker__day--is-today': day.today && !day.selected,
                              'am-date-picker__day--is-disabled': day.disabled }"
-                 ng-repeat="day in amDatePicker.days">
-                <a ng-click="amDatePicker.select(day)">{{ day ? day.format('D') : '' }}</a>
+                 ng-repeat="day in dialog.days">
+                <a ng-click="dialog.select(day)">{{ day ? day.format('D') : '' }}</a>
             </div>
 
         </div>
@@ -97,33 +97,36 @@
 
     <!-- Year selection -->
     <div class="am-date-picker__year-selector am-date-picker__animate-year-selection"
-         ng-show="amDatePicker.yearSelection">
+         ng-show="dialog.yearSelection">
         <a class="am-date-picker__year"
-           ng-repeat="year in amDatePicker.years"
+           ng-repeat="year in dialog.years"
            ng-class="{ 'am-date-picker__year--is-active':
-                        year == amDatePicker.modelMoment.format('YYYY') }"
-           ng-click="amDatePicker.selectYear(year)">
+                        year == dialog.dateMoment.format('YYYY') }"
+           ng-click="dialog.selectYear(year)">
             <p>{{ year }}</p>
         </a>
     </div>
 
     <!--Actions-->
     <md-dialog-actions layout="row" class="am-date-picker__actions">
-        <md-button ng-click="amDatePicker.today()"
-                   ng-disabled="amDatePicker.isTodayDisabled"
-                   ng-if="amDatePicker.todayButton">
-            {{ amDatePicker.todayButton }}
+        <md-button ng-click="dialog.today()"
+                   ng-disabled="dialog.isTodayDisabled"
+                   ng-if="dialog.todayButton">
+            {{ dialog.todayButton }}
         </md-button>
         <span flex></span>
-        <div ng-if="!amDatePicker.yearSelection">
+        <div ng-if="!dialog.yearSelection">
             <md-button ng-click="dialog.cancel()"
-                       ng-if="amDatePicker.cancelButton">
-                {{ amDatePicker.cancelButton }}
+                       ng-if="dialog.cancelButton">
+                {{ dialog.cancelButton }}
             </md-button>
-            <md-button ng-click="dialog.hide()">OK</md-button>
+            <md-button ng-click="dialog.hide()"
+                       ng-disabled="dialog.dateMoment.disabled">
+                OK
+            </md-button>
         </div>
-        <md-button ng-click="amDatePicker.hideYearSelection()"
-                   ng-if="amDatePicker.yearSelection">{{ amDatePicker.backButtonText }}</md-button>
+        <md-button ng-click="dialog.hideYearSelection()"
+                   ng-if="dialog.yearSelection">{{ dialog.backButtonText }}</md-button>
     </md-dialog-actions>
     </md-dialog>
 </script>

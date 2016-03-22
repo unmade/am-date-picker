@@ -2,12 +2,6 @@
 
 var moment = require('../../bower_components/moment/min/moment-with-locales.min.js');
 
-var hasClass = function (element, cls) {
-    return element.getAttribute('class').then(function (classes) {
-        return classes.split(' ').indexOf(cls) !== -1;
-    });
-};
-
 describe('am.date-picker e2e test. (Linked Datepickers)', function() {
     var firstDate = moment({year: 2014, month: 0, date: 10}),
         secondDate = moment({year: 2014, month: 0, date: 20});
@@ -18,7 +12,7 @@ describe('am.date-picker e2e test. (Linked Datepickers)', function() {
 
 
     beforeEach(function() {
-        browser.get('/test/e2e/html/linked-datepickers.html');
+        browser.get('/test/e2e/linked-datepickers.html');
     });
 
 

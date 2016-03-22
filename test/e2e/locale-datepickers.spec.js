@@ -1,12 +1,6 @@
-'use strict'
+'use strict';
 
 var moment = require('../../bower_components/moment/min/moment-with-locales.min.js');
-
-var hasClass = function (element, cls) {
-    return element.getAttribute('class').then(function (classes) {
-        return classes.split(' ').indexOf(cls) !== -1;
-    });
-};
 
 describe('am.date-picker e2e test. (Two datepickers with different locale)', function() {
     var firstContainer = element.all(by.tagName("md-input-container")).first(),
@@ -16,8 +10,9 @@ describe('am.date-picker e2e test. (Two datepickers with different locale)', fun
 
 
     beforeEach(function() {
-        browser.get('/test/e2e/html/locale-datepickers.html');
+        browser.get('/test/e2e/locale-datepickers.html');
     });
+
 
     it('first picker should have english locale', function() {
         function checkLocale() {
@@ -42,6 +37,7 @@ describe('am.date-picker e2e test. (Two datepickers with different locale)', fun
         $$('md-dialog-actions button').get(0).click();  // Today button
         checkLocale();  // nothing should change
     });
+
 
     it('second picker should have russian locale', function() {
         function checkLocale() {
