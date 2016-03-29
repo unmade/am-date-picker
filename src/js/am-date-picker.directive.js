@@ -121,7 +121,10 @@
                 templateUrl: 'am-date-picker_content.tmpl.html'
             }).then(function(selectedDate) {
                 amDatePicker.ngModelCtrl.$setViewValue(selectedDate);
+                amDatePicker.ngModelCtrl.$setTouched();
                 render();
+            }, function() {
+                amDatePicker.ngModelCtrl.$setTouched();
             });
         }
 
