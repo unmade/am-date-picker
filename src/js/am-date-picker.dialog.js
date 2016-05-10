@@ -54,6 +54,13 @@
             }
 
             generateCalendar();
+			
+			if(dialog.autoExpandYear){
+
+				$timeout(function() {
+					displayYearSelection();
+				});
+            }
         }
 
         function cancel() {
