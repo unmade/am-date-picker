@@ -55,7 +55,7 @@
 
             generateCalendar();
 			
-			if(dialog.autoExpandYear){
+			if(dialog.autoExpandYears){
 
 				$timeout(function() {
 					displayYearSelection();

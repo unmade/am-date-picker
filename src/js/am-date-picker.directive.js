@@ -33,7 +33,7 @@
                 popupDateFormat: '@?amPopupDateFormat',
                 showInputIcon: '=?amShowInputIcon',
                 todayButton: '@?amTodayButton',
-                autoExpandYear: '@?amAutoExpandYear'
+                autoExpandYears: '@?amAutoExpandYears'
             },
             templateUrl: 'am-date-picker.html'
         };
@@ -116,7 +116,7 @@
                     popupDateFormat: amDatePicker.popupDateFormat,
                     prevIcon: amDatePicker.prevIcon,
                     todayButton: amDatePicker.todayButton,
-                    autoExpandYear: amDatePicker.autoExpandYear,
+                    autoExpandYears: amDatePicker.autoExpandYears,
                 },
                 parent: angular.element(document.body),
                 targetEvent: ev,
