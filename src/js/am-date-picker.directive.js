@@ -25,7 +25,7 @@
                 cancelButton: '@?amCancelButton',
                 inputDateFormat: '@?amInputDateFormat',
                 inputLabel: '@?amInputLabel',
-                locale: '@?amLocale',
+                locale: '=?amLocale',
                 maxDate: '=?amMaxDate',
                 minDate: '=?amMinDate',
                 maxYear: '=?amMaxYear',
@@ -72,6 +72,12 @@
                 updateErrorState();
             }
         });
+
+        // shindler change stare
+        $scope.$watch("amDatePicker.locale", function () {
+            render();
+        });
+        // shindler change end
 
         function clearDate() {
             amDatePicker.ngModelCtrl.$setViewValue(undefined);
@@ -129,7 +135,8 @@
         }
 
         function render() {
-            var date = amDatePicker.ngModelCtrl.$viewValue;;
+            var date = amDatePicker.ngModelCtrl.$viewValue;
+
             amDatePicker.modelMomentFormatted = (angular.isDate(date)) ?
                 moment(date).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) :
                     undefined;

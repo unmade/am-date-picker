@@ -28,7 +28,9 @@
 
 
             <am-date-picker ng-model="to"
+                            am-locale="locale"
                             am-input-label="To"
+                            am-input-date-format="L"
                             am-min-date="from">
             </am-date-picker>
 
@@ -38,7 +40,7 @@
                                 ng-change="onChange(date)"
                                 am-min-date="from"
                                 am-max-date="to"
-                                am-locale="ru"
+                                am-locale="locale"
                                 am-cancel-button="Отмена"
                                 am-back-button-text="Назад"
                                 am-input-label="Выберите дату"
@@ -59,6 +61,7 @@
             </form>
 
             <md-button ng-click="change()">change date</md-button>
+            <md-button ng-click="toggleLocale()">toggle locale (to {{locale}})</md-button>
         </div>
     </div>
 
