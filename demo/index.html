@@ -51,12 +51,12 @@
                                 name="dateField"
                                 required>
                 </am-date-picker>
-                <!--<div ng-messages="myForm.dateField.$error" class="validation-messages">-->
-                    <!--<div ng-message="required">The date is required</div>-->
-                    <!--<div ng-message="minDate">Date is too early!</div>-->
-                    <!--<div ng-message="maxDate">Date is too late!</div>-->
-                    <!--<div ng-message="valid">The entered value is not a date!</div>-->
-                <!--</div>-->
+                <div ng-messages="myForm.dateField.$error" class="validation-messages">
+                    <div ng-message="required">The date is required</div>
+                    <div ng-message="minDate">Date is too early!</div>
+                    <div ng-message="maxDate">Date is too late!</div>
+                    <div ng-message="valid">The entered value is not a date!</div>
+                </div>
             </form>
 
             <md-button ng-click="change()">change date</md-button>
