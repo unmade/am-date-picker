@@ -67,10 +67,6 @@ angular
     .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
         amDatePickerConfigProvider.setOptions({
             popupDateFormat: 'Do of MMMM',
-            calendarIcon: '/static/images/icons/ic_today_24px.svg',
-            clearIcon: '/static/images/icons/ic_close_24px.svg',
-            nextIcon: '/static/images/icons/ic_chevron_right_18px.svg',
-            prevIcon: '/static/images/icons/ic_chevron_left_18px.svg'
         })
     }])
     .controller('MainCtrl', ['$scope', function ($scope) {
@@ -137,15 +133,6 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 | `am-show-input-icon`   | `boolean`     | Whether to display the calendar icon (default: `false`). |
 | `am-today-button`      | `String`      | The text for today button. If not provided the button won't be shown. |
 
-
-Specific settings that can be globally configured through the `amDatePickerConfig` only.
-
-| Attribute              | Type          | Description |
-| :--------------------- | :------------ | :---------- |
-| `calendarIcon`         | `String`      | Path to the calendar icon. |
-| `clearIcon`            | `String`      | Path to the clear icon. |
-| `nextIcon`             | `String`      | Path to the chevron right icon. |
-| `prevIcon`             | `String`      | Path to the chevron left icon. |
 
 > Date formats and locale should correspond MomentJS ones.
 
