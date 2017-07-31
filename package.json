@@ -1,7 +1,7 @@
 {
   "version": "0.2.0",
   "private": true,
-  "name": "angular-material-datepicker",
+  "name": "am-date-picker",
   "description": "Simple datepicker based on angular material framework",
   "license": "MIT",
   "devDependencies": {
