@@ -13,7 +13,16 @@
             link: function(scope, element, attr, controllers) {
                 var ngModelCtrl = controllers[0],
                     amDatePickerCtrl = controllers[1];
+
                 amDatePickerCtrl.init(ngModelCtrl);
+
+                scope.$watch("amDatePicker.isDisabled", function(isDisabled) {
+                    if (isDisabled) {
+                        element.attr('disabled', 'disabled');
+                    } else {
+                        element.removeAttr('disabled', 'disabled');
+                    }
+                });
             },
             replace: true,
             require: ['ngModel', 'amDatePicker'],
@@ -23,6 +32,7 @@
                 allowClear: '=?amAllowClear',
                 backButtonText: '@?amBackButtonText',
                 cancelButton: '@?amCancelButton',
+                isDisabled: '=?amDisabled',
                 inputDateFormat: '@?amInputDateFormat',
                 inputLabel: '@?amInputLabel',
                 locale: '=?amLocale',
@@ -73,11 +83,9 @@
             }
         });
 
-        // shindler change stare
         $scope.$watch("amDatePicker.locale", function () {
             render();
         });
-        // shindler change end
 
         function clearDate() {
             amDatePicker.ngModelCtrl.$setViewValue(undefined);
@@ -104,6 +112,11 @@
         }
 
         function openPicker(ev) {
+
+            if (amDatePicker.isDisabled) {
+                return false;
+            }
+
             $mdDialog.show({
                 bindToController: true,
                 controller: 'amDatePickerDialogCtrl',
