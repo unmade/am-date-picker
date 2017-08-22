@@ -13,7 +13,16 @@
             link: function(scope, element, attr, controllers) {
                 var ngModelCtrl = controllers[0],
                     amDatePickerCtrl = controllers[1];
+
                 amDatePickerCtrl.init(ngModelCtrl);
+
+                scope.$watch("amDatePicker.isDisabled", function(isDisabled) {
+                    if (isDisabled) {
+                        element.attr('disabled', 'disabled');
+                    } else {
+                        element.removeAttr('disabled', 'disabled');
+                    }
+                });
             },
             replace: true,
             require: ['ngModel', 'amDatePicker'],
@@ -23,9 +32,10 @@
                 allowClear: '=?amAllowClear',
                 backButtonText: '@?amBackButtonText',
                 cancelButton: '@?amCancelButton',
+                isDisabled: '=?amDisabled',
                 inputDateFormat: '@?amInputDateFormat',
                 inputLabel: '@?amInputLabel',
-                locale: '@?amLocale',
+                locale: '=?amLocale',
                 maxDate: '=?amMaxDate',
                 minDate: '=?amMinDate',
                 maxYear: '=?amMaxYear',
@@ -73,6 +83,10 @@
             }
         });
 
+        $scope.$watch("amDatePicker.locale", function () {
+            render();
+        });
+
         function clearDate() {
             amDatePicker.ngModelCtrl.$setViewValue(undefined);
             render();
@@ -98,6 +112,11 @@
         }
 
         function openPicker(ev) {
+
+            if (amDatePicker.isDisabled) {
+                return false;
+            }
+
             $mdDialog.show({
                 bindToController: true,
                 controller: 'amDatePickerDialogCtrl',
@@ -129,7 +148,8 @@
         }
 
         function render() {
-            var date = amDatePicker.ngModelCtrl.$viewValue;;
+            var date = amDatePicker.ngModelCtrl.$viewValue;
+
             amDatePicker.modelMomentFormatted = (angular.isDate(date)) ?
                 moment(date).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) :
                     undefined;

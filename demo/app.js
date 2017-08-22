@@ -21,5 +21,9 @@ angular
             $scope.change = function() {
                 $scope.date = new Date('2015-10-05');
             };
+
+            $scope.toggleLocale = function() {
+                $scope.locale = $scope.locale === 'en' ? 'de' : 'en';
+            };
         }
     ]);

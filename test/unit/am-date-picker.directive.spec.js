@@ -72,7 +72,7 @@ describe('am.date-picker directive unit tests', function() {
                                '                am-cancel-button="Отмена"' +
                                '                am-input-date-format="L"' +
                                '                am-input-label="Выберите дату"' +
-                               '                am-locale="ru"' +
+                               '                am-locale="\'ru\'"' +
                                '                am-max-date="maxDate"' +
                                '                am-max-year="2015"' +
                                '                am-min-date="minDate"' +
