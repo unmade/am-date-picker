@@ -1,4 +1,4 @@
-# Material Design Date Picker
+# Material Design Date Picker - npm adaptation
 
 ![Date picker image](demo/images/picker.png?raw=true "Title")
 
@@ -36,16 +36,7 @@ This software is provided free of change and without restriction under the [MIT 
 This package is installable through the Bower package manager.
 
 ```
-bower install angular-material-date-picker --save
-```
-
-In your `index.html` file, include the date picker module and style sheet
-
-```html
-<!-- style sheet -->
-<link href="bower_components/angular-material-date-picker/dist/am-date-picker.min.css" rel="stylesheet" type="text/css"/>
-<!-- module -->
-<script type="text/javascript" src="bower_components/angular-material-date-picker/dist/am-date-picker.min.js"></script>
+npm install am-date-picker --save
 ```
 
 Include the `am.date-picker` module as a dependency in your application.
@@ -59,6 +50,10 @@ angular.module('myApp', ['ngMaterial', 'am.date-picker']);
 **controller**
 
 ```javascript
+
+require("am-date-picker");
+require("am-date-picker/dist/am-date-picker.min.css");
+
 angular
     .module('myApp', [
         'ngMaterial',
@@ -67,6 +62,19 @@ angular
     .config(['amDatePickerConfigProvider', function(amDatePickerConfigProvider) {
         amDatePickerConfigProvider.setOptions({
             popupDateFormat: 'Do of MMMM',
+            calendarIcon: '/static/images/icons/ic_today_24px.svg',
+            clearIcon: '/static/images/icons/ic_close_24px.svg',
+            nextIcon: '/static/images/icons/ic_chevron_right_18px.svg',
+            prevIcon: '/static/images/icons/ic_chevron_left_18px.svg',
+            inputPipe: (formatedSstring, date) =>{
+                let daysFromNow = moment().diff(date, 'days');
+
+                if(daysFromNow > -2 && daysFromNow < 2){
+                    return moment().calendar(date);
+                } else {
+                    return formatedSstring;
+                }
+            }
         })
     }])
     .controller('MainCtrl', ['$scope', function ($scope) {
@@ -90,6 +98,7 @@ angular
                 am-min-year="2000"
                 am-popup-date-format="D/M"
                 am-today-button="Today"
+                am-input-filer="functFilter"
                 am-show-input-icon="true">
 </am-date-picker>
 ```
@@ -133,6 +142,15 @@ All settings can be provided as attributes in the `am-date-picker` or globally c
 | `am-show-input-icon`   | `boolean`     | Whether to display the calendar icon (default: `false`). |
 | `am-today-button`      | `String`      | The text for today button. If not provided the button won't be shown. |
 
+Specific settings that can be globally configured through the `amDatePickerConfig` only.
+
+| Attribute              | Type          | Description |
+| :--------------------- | :------------ | :---------- |
+| `calendarIcon`         | `String`      | Path to the calendar icon. |
+| `clearIcon`            | `String`      | Path to the clear icon. |
+| `nextIcon`             | `String`      | Path to the chevron right icon. |
+| `prevIcon`             | `String`      | Path to the chevron left icon. |
+| `inputPipe`            | `Function`    | Can change defaul display view |
 
 > Date formats and locale should correspond MomentJS ones.
 

@@ -15,7 +15,6 @@ angular
             var today = new Date();
             $scope.to = new Date(today.setDate(today.getDate() + 1));
             $scope.from = new Date('2015-11-05');
-            $scope.date = today;
             $scope.onChange = function(date) {
                 console.log('date was changed to %s', date);
             };

@@ -17,6 +17,11 @@ describe('am.date-picker provider unit tests', function() {
         expect(amDatePickerConfig.locale).toBe('en');
         expect(amDatePickerConfig.popupDateFormat).toBe('ddd, MMM D');
         expect(amDatePickerConfig.showInputIcon).toBe(false);
+
+        expect(amDatePickerConfig.calendarIcon).toBe('/dist/images/icons/ic_today_24px.svg');
+        expect(amDatePickerConfig.prevIcon).toBe('/dist/images/icons/ic_chevron_left_18px.svg');
+        expect(amDatePickerConfig.nextIcon).toBe('/dist/images/icons/ic_chevron_right_18px.svg');
+        expect(amDatePickerConfig.clearIcon).toBe('/dist/images/icons/ic_close_24px.svg');
     });
 
 

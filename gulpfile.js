@@ -44,10 +44,10 @@ gulp.task('tmpl:date-picker', function () {
 
 gulp.task('scripts', ['tmpl:date-picker'], function() {
   return gulp.src(paths.scripts)
-    .pipe(sourcemaps.init({loadMaps: true}))
+    /*.pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify().on('error', gulpUtil.log))
         .pipe(concat('am-date-picker.min.js'))
-    .pipe(sourcemaps.write('./'))
+    .pipe(sourcemaps.write('./'))*/
     .pipe(gulp.dest('dist/'));
 });
 
@@ -66,7 +66,7 @@ gulp.task('watch', function() {
 
 
 gulp.task('default', [
-    'watch',
+    //'watch',
     'images',
     'less',
     'scripts',

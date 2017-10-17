@@ -5,49 +5,31 @@
     cursor: pointer;
 }
 
-.am-date-picker__expand-icon {
+.am-date-picker__calendar-icon {
     position: absolute;
     top: -7px;
-    right: 0;
-
-    button {
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 4px solid;
-        min-width: 0;
-        margin: 18px 0 0;
-        padding: 0;
-        font-size: 0;
-    }
+    left: -12px;
+    right: auto;
 }
 
 .am-date-picker__clear-icon {
+    visibility: hidden;
     position: absolute;
-    top: -7px;
-    right: 0;
+    top: -3px;
+    right: -8px;
 
-    button {
-        min-width: 0;
-        min-height: 0;
-        height: 26px;
-        padding: 0;
-        margin: 0;
-
-        &::before {
-            display: block;
-            content: '\D7';
-            position: relative;
-            speak: none;
-            font-size: 13px;
-            transform: none;
-            font-weight: bolder;
-            text-shadow: 1px 0 0 #000;
-        }
+    .md-icon-button {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0
     }
+}
 
-    span {
-        font-size: 0;
-    }
+
+md-input-container:hover .am-date-picker__clear-icon {
+    visibility: visible;
+    outline: none;
 }
 
 .am-date-picker__container {

@@ -4,22 +4,24 @@
         <md-input-container ng-class="{'md-has-icon': amDatePicker.showInputIcon &&
                                                       (amDatePicker.showInputIcon || amDatePicker.allowClear) }">
             <label>{{ amDatePicker.inputLabel }}</label>
+            <div class="am-date-picker__calendar-icon" ng-if="amDatePicker.showInputIcon">
+                <md-button class="md-icon-button"
+                           ng-click="amDatePicker.openPicker($event)"
+                           aria-label="Clear">
+                   <md-icon md-svg-icon="{{ amDatePicker.calendarIcon }}" ng-if="amDatePicker.showInputIcon"></md-icon>
+                </md-button>
+            </div>
 
             <input ng-model="amDatePicker.modelMomentFormatted"
                    ng-click="amDatePicker.openPicker($event)"
                    class="am-date-picker__input"
                    type="text"
                    readonly="readonly">
-            <div class="am-date-picker__expand-icon" ng-if="amDatePicker.showInputIcon">
-                <md-button ng-click="amDatePicker.openPicker($event)"
-                           aria-label="Clear">
-                    <span>btn</span>
-                </md-button>
-            </div>
             <div class="am-date-picker__clear-icon" ng-if="amDatePicker.allowClear">
-                <md-button ng-click="amDatePicker.clearDate()"
+                <md-button class="md-icon-button"
+                           ng-click="amDatePicker.clearDate()"
                            aria-label="Clear">
-                    <span>btn</span>
+                    <md-icon md-svg-icon="{{ amDatePicker.clearIcon }}"></md-icon>
                 </md-button>
             </div>
         </md-input-container>
