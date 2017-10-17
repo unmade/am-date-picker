@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -10,7 +10,7 @@
             bindToController: true,
             controller: AmDatePickerController,
             controllerAs: 'amDatePicker',
-            link: function(scope, element, attr, controllers) {
+            link: function (scope, element, attr, controllers) {
                 var ngModelCtrl = controllers[0],
                     amDatePickerCtrl = controllers[1];
                 amDatePickerCtrl.init(ngModelCtrl);
@@ -32,7 +32,7 @@
                 minYear: '=?amMinYear',
                 popupDateFormat: '@?amPopupDateFormat',
                 showInputIcon: '=?amShowInputIcon',
-                todayButton: '@?amTodayButton'
+                todayButton: '@?amTodayButton',
             },
             templateUrl: 'am-date-picker.html'
         };
@@ -49,7 +49,7 @@
 
         amDatePicker.ngModelCtrl = null;
 
-        $scope.$watch("amDatePicker.minDate", function(newValue, oldValue) {
+        $scope.$watch("amDatePicker.minDate", function (newValue, oldValue) {
             var date = amDatePicker.ngModelCtrl.$viewValue,
                 dateMoment = moment(date);
             if (date && newValue && dateMoment.isBefore(newValue, 'day')) {
@@ -61,7 +61,7 @@
             }
         });
 
-        $scope.$watch("amDatePicker.maxDate", function(newValue, oldValue) {
+        $scope.$watch("amDatePicker.maxDate", function (newValue, oldValue) {
             var date = amDatePicker.ngModelCtrl.$viewValue,
                 dateMoment = moment(date);
             if (date && newValue && dateMoment.isAfter(newValue, 'day')) {
@@ -79,7 +79,7 @@
         }
 
         function clearErrorState() {
-            ['minDate', 'maxDate', 'valid'].forEach(function(field) {
+            ['minDate', 'maxDate', 'valid'].forEach(function (field) {
                 amDatePicker.ngModelCtrl.$setValidity(field, true);
             }, amDatePicker);
         }
@@ -91,7 +91,7 @@
 
             for (var i = 0; i < OPTIONS.length; i++) {
                 if (amDatePickerConfig.hasOwnProperty(OPTIONS[i]) &&
-                        !angular.isDefined(amDatePicker[OPTIONS[i]])) {
+                    !angular.isDefined(amDatePicker[OPTIONS[i]])) {
                     amDatePicker[OPTIONS[i]] = amDatePickerConfig[OPTIONS[i]];
                 }
             }
@@ -118,12 +118,13 @@
                 },
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                templateUrl: 'am-date-picker_content.tmpl.html'
-            }).then(function(selectedDate) {
+                templateUrl: 'am-date-picker_content.tmpl.html',
+                clickOutsideToClose: true
+            }).then(function (selectedDate) {
                 amDatePicker.ngModelCtrl.$setViewValue(selectedDate);
                 amDatePicker.ngModelCtrl.$setTouched();
                 render();
-            }, function() {
+            }, function () {
                 amDatePicker.ngModelCtrl.$setTouched();
             });
         }
@@ -132,7 +133,12 @@
             var date = amDatePicker.ngModelCtrl.$viewValue;;
             amDatePicker.modelMomentFormatted = (angular.isDate(date)) ?
                 moment(date).locale(amDatePicker.locale).format(amDatePicker.inputDateFormat) :
-                    undefined;
+                undefined;
+
+            if (amDatePicker.inputPipe) {
+                amDatePicker.modelMomentFormatted = amDatePicker.inputPipe(amDatePicker.modelMomentFormatted, date);
+            }
+
             updateErrorState();
         }
 
@@ -144,9 +150,9 @@
             if (angular.isDate(date)) {
                 dateMoment = moment(date);
                 isAfter = dateMoment.isAfter(amDatePicker.minDate, 'day') ||
-                          dateMoment.isSame(amDatePicker.minDate, 'day');
+                    dateMoment.isSame(amDatePicker.minDate, 'day');
                 isBefore = dateMoment.isBefore(amDatePicker.maxDate, 'day') ||
-                           dateMoment.isSame(amDatePicker.maxDate, 'day');
+                    dateMoment.isSame(amDatePicker.maxDate, 'day');
                 amDatePicker.ngModelCtrl.$setValidity('minDate', !moment.isDate(amDatePicker.minDate) || isAfter);
                 amDatePicker.ngModelCtrl.$setValidity('maxDate', !moment.isDate(amDatePicker.maxDate) || isBefore);
             }
